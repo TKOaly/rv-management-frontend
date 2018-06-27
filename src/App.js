@@ -46,7 +46,7 @@ const AuthenticatedRoute = ({ component: Component, ...rest }) => (
 );
 
 export class App extends Component {
-    render() {
+    render = () => {
         return (
             <Router>
                 <div className="app">
@@ -68,7 +68,7 @@ export class App extends Component {
                 </div>
             </Router>
         );
-    }
+    };
 }
 
 const mapStateToProps = state => {

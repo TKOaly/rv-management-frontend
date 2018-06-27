@@ -6,18 +6,19 @@ import { logout } from '../../reducers/authenticationReducer';
 import './styles/HeaderUser.css';
 
 export class HeaderUser extends Component {
-    render() {
+    render = () => {
         return (
             <div className="header-user">
-                <DangerBtn small onClick={this.props.logout}>Kirjaudu ulos</DangerBtn>
+                <DangerBtn small onClick={this.props.logout}>
+                    Kirjaudu ulos
+                </DangerBtn>
             </div>
         );
-    }
+    };
 }
 
 const mapDispatchToProps = {
     logout
 };
-
 
 export default connect(null, mapDispatchToProps)(HeaderUser);

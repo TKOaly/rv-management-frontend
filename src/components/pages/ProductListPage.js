@@ -14,14 +14,14 @@ import { getCategories } from '../../reducers/categoryReducer';
 import { Route } from 'react-router-dom';
 
 export class ProductListPage extends Component {
-    componentDidMount() {
+    componentDidMount = () => {
         this.props.getProducts(this.props.token);
         this.props.getGlobalMargin(this.props.token);
         this.props.getBoxes(this.props.token);
         this.props.getCategories(this.props.token);
-    }
+    };
 
-    render() {
+    render = () => {
         const match = this.props.match;
 
         return (
@@ -54,7 +54,7 @@ export class ProductListPage extends Component {
                 </Row>
             </div>
         );
-    }
+    };
 }
 
 const mapDispatchToProps = {

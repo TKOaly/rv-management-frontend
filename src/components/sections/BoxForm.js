@@ -12,13 +12,13 @@ import { getProducts } from '../../reducers/productReducer';
 import { toggleBarcodeVisibility } from '../../reducers/barcodeListenerReducer';
 
 export class BoxForm extends Component {
-    componentDidMount() {
+    componentDidMount = () => {
         this.props.toggleBarcodeVisibility(false);
-    }
+    };
 
-    componentWillUnmount() {
+    componentWillUnmount = () => {
         this.props.toggleBarcodeVisibility(true);
-    }
+    };
 
     formSubmit = async event => {
         event.preventDefault();
@@ -95,7 +95,7 @@ export class BoxForm extends Component {
         return parseInt(buypriceString, 10);
     };
 
-    render() {
+    render = () => {
         return (
             <div className="product-create-form">
                 <form onSubmit={this.formSubmit}>
@@ -222,7 +222,7 @@ export class BoxForm extends Component {
                 </form>
             </div>
         );
-    }
+    };
 }
 
 const mapStateToProps = state => {

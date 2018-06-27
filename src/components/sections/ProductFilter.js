@@ -7,10 +7,10 @@ import {
 } from '../../reducers/productFilterReducer';
 
 export class ProductFilter extends Component {
-    change(event) {
+    change = event => {
         this.props.sortByValue(event.target.value);
-    }
-    render() {
+    };
+    render = () => {
         return (
             <div className="productFilter">
                 <div className="title">Sort</div>
@@ -36,7 +36,7 @@ export class ProductFilter extends Component {
                 </div>
             </div>
         );
-    }
+    };
 }
 
 const mapStateToProps = state => ({

@@ -7,17 +7,17 @@ import { withRouter } from 'react-router-dom';
 import './styles/Header.css';
 
 export class Header extends Component {
-    render() {
+    render = () => {
         return (
             <header className="topheader">
                 <div className="header-title">
                     <h1>RV management</h1>
                 </div>
-                { this.props.isAuthenticated && <HeaderNav/> }
-                { this.props.isAuthenticated && <HeaderUser/> }
+                {this.props.isAuthenticated && <HeaderNav />}
+                {this.props.isAuthenticated && <HeaderUser />}
             </header>
         );
-    }
+    };
 }
 
 const mapStateToProps = state => {

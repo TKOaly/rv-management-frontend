@@ -7,24 +7,19 @@ import { Row, Col } from 'react-flexbox-grid';
 import './styles/LoginPage.css';
 
 export class LoginPage extends Component {
-    constructor(props) {
-        super(props);
-        this.onSubmit = this.onSubmit.bind(this);
-    }
-
-    componentDidMount() {
+    componentDidMount = () => {
         !this.props.isAuthenticated && this.usernameInput.focus();
-    }
+    };
 
-    onSubmit(event) {
+    onSubmit = event => {
         event.preventDefault();
         this.props.authenticate(
             this.usernameInput.value,
             this.passwordInput.value
         );
-    }
+    };
 
-    render() {
+    render = () => {
         if (this.props.isAuthenticated) {
             // redirect to root if referrer isn't set in router
             const redirectPath = this.props.location.state
@@ -66,7 +61,7 @@ export class LoginPage extends Component {
                 </Row>
             </div>
         );
-    }
+    };
 }
 
 const mapDispatchToProps = {

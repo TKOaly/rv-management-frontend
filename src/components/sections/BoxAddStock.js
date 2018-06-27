@@ -9,30 +9,20 @@ import { toggleBarcodeVisibility } from '../../reducers/barcodeListenerReducer';
 import { setUpgradeStock } from '../../reducers/productReducer';
 
 export class BoxAddStock extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.calculateProductSellprice = this.calculateProductSellprice.bind(
-            this
-        );
-        this.calculateProductSellpriceAndBoxcost = this.calculateProductSellpriceAndBoxcost.bind(
-            this
-        );
-        this.formSubmit = this.formSubmit.bind(this);
-    }
-
-    updateFields() {
+    updateFields = () => {
         if (this.props.box) {
             this.barcodeInput.value = this.props.box.box_barcode;
             this.productBarcodeInput.value = this.props.product.product_barcode;
-            this.costInput.value = (this.props.product.buyprice / 100).toFixed(2);
+            this.costInput.value = (this.props.product.buyprice / 100).toFixed(
+                2
+            );
             this.amountInput.value = this.props.box.items_per_box;
             this.marginInput.value = this.props.globalMargin;
             this.calculateProductSellpriceAndBoxcost();
         }
-    }
+    };
 
-    calculateProductSellprice() {
+    calculateProductSellprice = () => {
         const boxcost = parseFloat(this.boxcostInput.value);
         const amount = parseFloat(this.amountInput.value);
         const margin = parseFloat(this.marginInput.value);
@@ -43,9 +33,9 @@ export class BoxAddStock extends React.Component {
             productcost *
             ((100 + margin) / 100)
         ).toFixed(2);
-    }
+    };
 
-    calculateProductSellpriceAndBoxcost() {
+    calculateProductSellpriceAndBoxcost = () => {
         const productcost = parseFloat(this.costInput.value);
         const margin = parseFloat(this.marginInput.value);
         const amount = parseFloat(this.amountInput.value);
@@ -55,27 +45,27 @@ export class BoxAddStock extends React.Component {
             productcost *
             ((100 + margin) / 100)
         ).toFixed(2);
-    }
+    };
 
-    componentDidMount() {
+    componentDidMount = () => {
         this.updateFields();
         this.props.toggleBarcodeVisibility(false);
-    }
+    };
 
-    componentDidUpdate() {
+    componentDidUpdate = () => {
         if (!this.props.upgradeStock) {
             this.updateFields();
         } else {
             const link = '/products/' + this.props.product.product_id;
             this.props.history.push(link);
         }
-    }
+    };
 
-    componentWillUnmount() {
+    componentWillUnmount = () => {
         this.props.toggleBarcodeVisibility(true);
-    }
+    };
 
-    formSubmit(event) {
+    formSubmit = event => {
         event.preventDefault();
 
         const box = {
@@ -86,9 +76,9 @@ export class BoxAddStock extends React.Component {
         };
 
         this.props.addStock(this.props.box.box_barcode, box, this.props.token);
-    }
+    };
 
-    render() {
+    render = () => {
         return (
             <div className="box-stocking-form">
                 <form onSubmit={this.formSubmit}>
@@ -273,7 +263,7 @@ export class BoxAddStock extends React.Component {
                 </form>
             </div>
         );
-    }
+    };
 }
 
 const mapDispatchToProps = {
@@ -291,4 +281,6 @@ const mapStateToProps = state => {
     };
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(BoxAddStock));
+export default withRouter(
+    connect(mapStateToProps, mapDispatchToProps)(BoxAddStock)
+);

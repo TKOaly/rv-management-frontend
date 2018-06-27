@@ -3,55 +3,46 @@ import { Row, Col } from 'react-flexbox-grid';
 import './styles/ProductAddStock.css';
 import { connect } from 'react-redux';
 
-import { addStock , setUpgradeStock } from '../../reducers/productReducer';
+import { addStock, setUpgradeStock } from '../../reducers/productReducer';
 import { toggleBarcodeVisibility } from '../../reducers/barcodeListenerReducer';
 import { withRouter } from 'react-router-dom';
 
 export class ProductAddStock extends React.Component {
-
-    constructor(props) {
-        super(props);
-
-        this.calculateSellprice = this.calculateSellprice.bind(this);
-        this.formSubmit = this.formSubmit.bind(this);
-    }
-
-    updateFields() {
+    updateFields = () => {
         if (this.props.product) {
             this.barcodeInput.value = this.props.product.product_barcode;
             this.marginInput.value = this.props.globalMargin;
             this.calculateSellprice();
         }
-    }
+    };
 
-    calculateSellprice() {
+    calculateSellprice = () => {
         const cost = parseFloat(this.costInput.value);
         const margin = parseFloat(this.marginInput.value);
 
-        this.sellpriceInput.value =
-            (cost * ((100 + margin) / 100)).toFixed(2);
-    }
+        this.sellpriceInput.value = (cost * ((100 + margin) / 100)).toFixed(2);
+    };
 
-    componentDidMount() {
+    componentDidMount = () => {
         this.updateFields();
         this.props.toggleBarcodeVisibility(false);
-    }
+    };
 
-    componentDidUpdate() {
+    componentDidUpdate = () => {
         if (!this.props.upgradeStock) {
             this.updateFields();
         } else {
-            const link = '/products/' + this.props.product.product_id;         
+            const link = '/products/' + this.props.product.product_id;
             this.props.history.push(link);
         }
-    }
+    };
 
-    componentWillUnmount() {
+    componentWillUnmount = () => {
         this.props.setUpgradeStock(false);
         this.props.toggleBarcodeVisibility(true);
-    }
-    
-    formSubmit(event) {
+    };
+
+    formSubmit = event => {
         event.preventDefault();
         const product = {
             id: this.props.product.product_id,
@@ -61,11 +52,10 @@ export class ProductAddStock extends React.Component {
             quantity: this.quantityInput.value
         };
 
-        this.props.addStock(
-            product, this.props.token);
-    }
+        this.props.addStock(product, this.props.token);
+    };
 
-    render() {
+    render = () => {
         return (
             <div className="product-stocking-form">
                 <form onSubmit={this.formSubmit}>
@@ -78,13 +68,17 @@ export class ProductAddStock extends React.Component {
                                 id="barcode"
                                 name="barcode"
                                 type="text"
-                                ref={input => { this.barcodeInput = input; }}
+                                ref={input => {
+                                    this.barcodeInput = input;
+                                }}
                             />
                         </Col>
                     </Row>
                     <Row>
                         <Col xs={3}>
-                            <label htmlFor="cost">Sisäänostohinta (1 tuote)</label>
+                            <label htmlFor="cost">
+                                Sisäänostohinta (1 tuote)
+                            </label>
                         </Col>
                         <Col xs={9}>
                             <input
@@ -94,7 +88,9 @@ export class ProductAddStock extends React.Component {
                                 step="0.01"
                                 min="0"
                                 defaultValue="1.50"
-                                ref={input => { this.costInput = input; }}
+                                ref={input => {
+                                    this.costInput = input;
+                                }}
                                 onChange={this.calculateSellprice}
                             />
                             <span className="unit">&euro;</span>
@@ -112,7 +108,9 @@ export class ProductAddStock extends React.Component {
                                 step="1"
                                 min="0"
                                 defaultValue={this.props.globalMargin}
-                                ref={input => { this.marginInput = input; }}
+                                ref={input => {
+                                    this.marginInput = input;
+                                }}
                                 onChange={this.calculateSellprice}
                             />
                             <span className="unit">%</span>
@@ -120,7 +118,9 @@ export class ProductAddStock extends React.Component {
                     </Row>
                     <Row>
                         <Col xs={3}>
-                            <label htmlFor="sellprice">Myyntihinta (1 tuote)</label>
+                            <label htmlFor="sellprice">
+                                Myyntihinta (1 tuote)
+                            </label>
                         </Col>
                         <Col xs={9}>
                             <input
@@ -128,7 +128,9 @@ export class ProductAddStock extends React.Component {
                                 name="sellprice"
                                 type="number"
                                 step="0.01"
-                                ref={input => { this.sellpriceInput = input; }}
+                                ref={input => {
+                                    this.sellpriceInput = input;
+                                }}
                             />
                             <span className="unit">&euro;</span>
                         </Col>
@@ -145,7 +147,9 @@ export class ProductAddStock extends React.Component {
                                 defaultValue="1"
                                 min="1"
                                 step="1"
-                                ref={input => { this.quantityInput = input; }}
+                                ref={input => {
+                                    this.quantityInput = input;
+                                }}
                             />
                             <span className="unit">kpl</span>
                         </Col>
@@ -162,7 +166,7 @@ export class ProductAddStock extends React.Component {
                 </form>
             </div>
         );
-    }
+    };
 }
 
 const mapDispatchToProps = {
@@ -170,7 +174,6 @@ const mapDispatchToProps = {
     setUpgradeStock,
     toggleBarcodeVisibility
 };
-
 
 const mapStateToProps = state => {
     return {
@@ -181,4 +184,6 @@ const mapStateToProps = state => {
     };
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ProductAddStock));
+export default withRouter(
+    connect(mapStateToProps, mapDispatchToProps)(ProductAddStock)
+);

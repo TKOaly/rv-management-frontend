@@ -49,13 +49,13 @@ const prodMapper = product =>
     });
 
 export class ProductEditForm extends Component {
-    componentDidMount() {
+    componentDidMount = () => {
         this.props.toggleBarcodeVisibility(false);
-    }
-    componentWillUnmount() {
+    };
+    componentWillUnmount = () => {
         this.props.toggleBarcodeVisibility(true);
-    }
-    render() {
+    };
+    render = () => {
         const calculateSellprice = (value, previousValue, allValues) => {
             this.props.change(
                 'sellprice',
@@ -236,10 +236,10 @@ export class ProductEditForm extends Component {
                 </Row>
             </form>
         );
-    }
+    };
 }
 
-ProductEditForm = reduxForm({
+const ProductEditReduxForm = reduxForm({
     form: 'productEditForm',
     enableReinitialize: true
 })(ProductEditForm);
@@ -266,5 +266,5 @@ const mapDispatchToProps = {
 };
 
 export default withRouter(
-    connect(mapStateToProps, mapDispatchToProps)(ProductEditForm)
+    connect(mapStateToProps, mapDispatchToProps)(ProductEditReduxForm)
 );

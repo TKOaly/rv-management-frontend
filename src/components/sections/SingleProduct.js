@@ -20,15 +20,15 @@ export class SingleProduct extends Component {
         };
     }
 
-    componentDidUpdate() {
+    componentDidUpdate = () => {
         if (this.props.selectedProduct === 0 && this.props.product) {
             this.props.setProductSelected(this.props.product.product_id);
         }
-    }
+    };
 
-    componentWillUnmount() {
+    componentWillUnmount = () => {
         this.props.setProductSelected(0);
-    }
+    };
 
     handleProductEdit = values => {
         const product = {
@@ -46,7 +46,7 @@ export class SingleProduct extends Component {
         this.props.updateProduct(product, this.props.token);
     };
 
-    render() {
+    render = () => {
         const product = this.props.product;
         const box = this.props.box;
         if (!product) {
@@ -113,7 +113,7 @@ export class SingleProduct extends Component {
                 </div>
             </React.Fragment>
         );
-    }
+    };
 }
 
 const mapDispatchToProps = {

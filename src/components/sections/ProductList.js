@@ -32,13 +32,13 @@ const sorters = {
 };
 
 export class ProductList extends Component {
-    componentDidUpdate() {
+    componentDidUpdate = () => {
         if (this.active) {
             this.active.scrollIntoView();
             window.scrollTo(0, 0);
         }
-    }
-    render() {
+    };
+    render = () => {
         const prods = this.props.products
             ? this.props.products.sort(sorters[this.props.sortedBy])
             : [];
@@ -85,7 +85,7 @@ export class ProductList extends Component {
                 </div>
             </div>
         );
-    }
+    };
 }
 
 const mapDispatchToProps = {

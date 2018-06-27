@@ -2,35 +2,34 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { SuccessBtn } from './../buttons/Buttons';
 import { setProductSelected } from '../../reducers/productReducer';
-import { setBarcode, toggleBarcodeVisibility, clearBarcode } from '../../reducers/barcodeListenerReducer';
+import {
+    setBarcode,
+    toggleBarcodeVisibility,
+    clearBarcode
+} from '../../reducers/barcodeListenerReducer';
 import { errorMessage } from '../../reducers/notificationReducer';
 import { withRouter } from 'react-router-dom';
 
 export class BarcodeListener extends Component {
-
-    handleInputEvent(event) {
+    handleInputEvent = event => {
         this.props.setBarcode(event.target.value);
-    }
+    };
 
-    handleSubmit(event) {
+    handleSubmit = event => {
         event.preventDefault();
         var product = this.props.products.find(
             prod => prod.product_barcode === this.props.barcode
         );
         if (product) {
             this.props.setProductSelected(product.product_id);
-            this.props.history.push(
-                `/products/${product.product_id}/stock`
-            );
+            this.props.history.push(`/products/${product.product_id}/stock`);
         } else {
             var box = this.props.boxes.find(
                 b => b.box_barcode === this.props.barcode
             );
             if (box) {
                 this.props.setProductSelected(box.product_id);
-                this.props.history.push(
-                    `/products/${box.product_id}/box`
-                );
+                this.props.history.push(`/products/${box.product_id}/box`);
             } else {
                 if (window.confirm('Not found.\nWant to create a new item?')) {
                     if (window.confirm('Create a box?')) {
@@ -44,14 +43,14 @@ export class BarcodeListener extends Component {
             }
         }
         this.props.clearBarcode();
-    }
+    };
 
-    handleOpen(event) {
+    handleOpen = event => {
         this.props.clearBarcode();
         this.props.toggleBarcodeVisibility(true);
-    }
+    };
 
-    render() {
+    render = () => {
         return (
             <React.Fragment>
                 {this.props.barcodeVisible && (
@@ -90,7 +89,7 @@ export class BarcodeListener extends Component {
                 )}
             </React.Fragment>
         );
-    }
+    };
 }
 
 const mapStateToProps = state => {
@@ -110,4 +109,6 @@ const mapDispatchToProps = {
     toggleBarcodeVisibility
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(BarcodeListener));
+export default withRouter(
+    connect(mapStateToProps, mapDispatchToProps)(BarcodeListener)
+);

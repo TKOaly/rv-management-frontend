@@ -5,7 +5,7 @@ import './styles/HeaderNav.css';
 const activeClass = 'header-nav-active';
 
 export class HeaderNav extends Component {
-    render() {
+    render = () => {
         return (
             <div className="header-nav">
                 <ul>
@@ -29,7 +29,7 @@ export class HeaderNav extends Component {
                 </ul>
             </div>
         );
-    }
+    };
 }
 
 export default HeaderNav;

@@ -6,7 +6,7 @@ import ProductForm from './ProductForm';
 import BoxForm from './BoxForm';
 
 export class NewProduct extends Component {
-    render() {
+    render = () => {
         const match = this.props.match;
 
         return (
@@ -41,7 +41,7 @@ export class NewProduct extends Component {
                 </div>
             </React.Fragment>
         );
-    }
+    };
 }
 
 const mapDispatchToProps = {};

@@ -7,38 +7,32 @@ import './styles/ProductForm.css';
 import { toggleBarcodeVisibility } from '../../reducers/barcodeListenerReducer';
 
 export class ProductForm extends Component {
-    constructor(props) {
-        super(props);
-        this.calculateSellprice = this.calculateSellprice.bind(this);
-        this.formSubmit = this.formSubmit.bind(this);
-    }
-
-    updateFields() {
+    updateFields = () => {
         this.marginInput.value = this.props.globalMargin;
         this.calculateSellprice();
-    }
+    };
 
-    calculateSellprice() {
+    calculateSellprice = () => {
         const cost = parseFloat(this.buyInInput.value);
         const margin = parseFloat(this.marginInput.value);
 
         this.sellpriceInput.value = (cost * ((100 + margin) / 100)).toFixed(2);
-    }
+    };
 
-    componentDidMount() {
+    componentDidMount = () => {
         this.updateFields();
         this.props.toggleBarcodeVisibility(false);
-    }
+    };
 
-    componentDidUpdate() {
+    componentDidUpdate = () => {
         this.updateFields();
-    }
+    };
 
-    componentWillUnmount() {
+    componentWillUnmount = () => {
         this.props.toggleBarcodeVisibility(true);
-    }
+    };
 
-    formSubmit(event) {
+    formSubmit = event => {
         event.preventDefault();
         const newProduct = {
             descr: event.target.name.value,
@@ -50,9 +44,9 @@ export class ProductForm extends Component {
             sellprice: parseInt(event.target.sellprice.value * 100, 10)
         };
         this.props.addProduct(newProduct, this.props.token);
-    }
+    };
 
-    render() {
+    render = () => {
         return (
             <div className="product-create-form">
                 <form onSubmit={this.formSubmit}>
@@ -216,7 +210,7 @@ export class ProductForm extends Component {
                 </form>
             </div>
         );
-    }
+    };
 }
 
 const mapStateToProps = state => {
