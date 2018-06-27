@@ -10,7 +10,7 @@ const mockStore = store;
 
 describe('Product list page', () => {
     it('renders without crashing', () => {
-/*        mount(
+        /* mount(
             <Provider store={mockStore}>
                 <ProductListPage />
             </Provider>
@@ -27,7 +27,7 @@ describe('Product list page', () => {
     });
 
     it('renders product list', () => {
-/*        const page = mount(
+        /* const page = mount(
             <Provider store={mockStore}>
                 <ProductListPage />
             </Provider>
