@@ -5,6 +5,7 @@ import { Row, Col } from 'react-flexbox-grid';
 import { Link, withRouter } from 'react-router-dom';
 import { toggleBarcodeVisibility } from './../../reducers/barcodeListenerReducer';
 import './styles/ProductEditForm.css';
+import moneyFormatter from './../../services/moneyFormatter';
 
 // Validators (consider moving these to a global validation module)
 const required = value => (value ? undefined : 'Kenttä ei saa olla tyhjä');
@@ -44,8 +45,8 @@ const renderField = ({
 
 const prodMapper = product =>
     Object.assign({}, product, {
-        buyprice: parseFloat(product.buyprice / 100).toFixed(2),
-        sellprice: parseFloat(product.sellprice / 100).toFixed(2)
+        buyprice: moneyFormatter.centsToString(product.buyprice),
+        sellprice: moneyFormatter.centsToString(product.sellprice)
     });
 
 export class ProductEditForm extends Component {
@@ -59,10 +60,12 @@ export class ProductEditForm extends Component {
         const calculateSellprice = (value, previousValue, allValues) => {
             this.props.change(
                 'sellprice',
-                (
-                    parseFloat(allValues.buyprice) *
-                    ((100 + parseFloat(allValues.margin)) / 100)
-                ).toFixed(2)
+                moneyFormatter.centsToString(
+                    moneyFormatter.applyMarginPercent(
+                        moneyFormatter.stringToCents(allValues.buyprice),
+                        parseFloat(allValues.margin)
+                    )
+                )
             );
             return value;
         };

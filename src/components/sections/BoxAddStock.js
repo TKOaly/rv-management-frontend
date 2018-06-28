@@ -7,14 +7,15 @@ import { withRouter } from 'react-router-dom';
 import { addStock } from '../../reducers/boxReducer';
 import { toggleBarcodeVisibility } from '../../reducers/barcodeListenerReducer';
 import { setUpgradeStock } from '../../reducers/productReducer';
+import moneyFormatter from '../../services/moneyFormatter';
 
 export class BoxAddStock extends React.Component {
     updateFields = () => {
         if (this.props.box) {
             this.barcodeInput.value = this.props.box.box_barcode;
             this.productBarcodeInput.value = this.props.product.product_barcode;
-            this.costInput.value = (this.props.product.buyprice / 100).toFixed(
-                2
+            this.costInput.value = moneyFormatter.centsToString(
+                this.props.product.buyprice
             );
             this.amountInput.value = this.props.box.items_per_box;
             this.marginInput.value = this.props.globalMargin;
@@ -23,28 +24,34 @@ export class BoxAddStock extends React.Component {
     };
 
     calculateProductSellprice = () => {
-        const boxcost = parseFloat(this.boxcostInput.value);
-        const amount = parseFloat(this.amountInput.value);
+        const boxcost = moneyFormatter.stringToCents(this.boxcostInput.value);
         const margin = parseFloat(this.marginInput.value);
-        const productcost = boxcost / amount;
+        const boxSellprice = moneyFormatter.applyMarginPercent(boxcost, margin);
+        const amount = parseInt(this.amountInput.value);
+        const productcost = Math.round(boxcost / amount);
+        const productSellprice = Math.round(boxSellprice / amount);
 
-        this.costInput.value = productcost.toFixed(2);
-        this.sellpriceInput.value = (
-            productcost *
-            ((100 + margin) / 100)
-        ).toFixed(2);
+        this.costInput.value = moneyFormatter.centsToString(productcost);
+        this.sellpriceInput.value = moneyFormatter.centsToString(
+            productSellprice
+        );
     };
 
     calculateProductSellpriceAndBoxcost = () => {
-        const productcost = parseFloat(this.costInput.value);
+        const productcost = moneyFormatter.stringToCents(this.costInput.value);
         const margin = parseFloat(this.marginInput.value);
-        const amount = parseFloat(this.amountInput.value);
+        const productSellprice = moneyFormatter.applyMarginPercent(
+            productcost,
+            margin
+        );
+        const amount = parseInt(this.amountInput.value);
 
-        this.boxcostInput.value = (productcost * amount).toFixed(2);
-        this.sellpriceInput.value = (
-            productcost *
-            ((100 + margin) / 100)
-        ).toFixed(2);
+        this.boxcostInput.value = moneyFormatter.centsToString(
+            productcost * amount
+        );
+        this.sellpriceInput.value = moneyFormatter.centsToString(
+            productSellprice
+        );
     };
 
     componentDidMount = () => {
@@ -70,8 +77,8 @@ export class BoxAddStock extends React.Component {
 
         const box = {
             product_id: this.props.product.product_id,
-            sellprice: this.sellpriceInput.value,
-            buyprice: this.costInput.value,
+            sellprice: moneyFormatter.stringToCents(this.sellpriceInput.value),
+            buyprice: moneyFormatter.stringToCents(this.costInput.value),
             boxes: this.quantityInput.value
         };
 

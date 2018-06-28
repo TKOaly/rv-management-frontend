@@ -11,6 +11,7 @@ import { Route, withRouter, NavLink } from 'react-router-dom';
 import ProductAddStock from './ProductAddStock';
 import BoxAddStock from './BoxAddStock';
 import ProductEditForm from './ProductEditForm';
+import moneyFormatter from '../../services/moneyFormatter';
 
 export class SingleProduct extends Component {
     constructor(props) {
@@ -36,8 +37,8 @@ export class SingleProduct extends Component {
             pgrpid: values.product_group,
             descr: values.product_name,
             weight: values.product_weight || 0,
-            buyprice: parseFloat(values.buyprice) * 100,
-            sellprice: parseFloat(values.sellprice) * 100,
+            buyprice: moneyFormatter.stringToCents(values.buyprice),
+            sellprice: moneyFormatter.stringToCents(values.sellprice),
             quantity: values.quantity
         };
         console.log(product);

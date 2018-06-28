@@ -41,9 +41,9 @@ const addStock = (token, product) => {
                 product.id
             }`,
             {
-                buyprice: product.buyprice * 100,
+                buyprice: product.buyprice,
                 margin: product.margin,
-                sellprice: product.sellprice * 100,
+                sellprice: product.sellprice,
                 quantity: product.quantity
             },
             {
@@ -54,8 +54,8 @@ const addStock = (token, product) => {
             res =>
                 (product = {
                     ...res.data,
-                    buyprice: res.data.buyprice / 100,
-                    sellprice: res.data.sellprice / 100
+                    buyprice: res.data.buyprice,
+                    sellprice: res.data.sellprice
                 })
         );
 };

@@ -15,9 +15,9 @@ const addStock = (barcode, box, token) => {
         .post(
             `${process.env.REACT_APP_BACKEND_URL}/${targetUrl}/${barcode}`,
             {
-                buyprice: box.buyprice * 100,
+                buyprice: box.buyprice,
                 product_id: box.product_id,
-                sellprice: box.sellprice * 100,
+                sellprice: box.sellprice,
                 boxes: box.boxes
             },
             {

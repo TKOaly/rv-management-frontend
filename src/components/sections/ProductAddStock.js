@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { addStock, setUpgradeStock } from '../../reducers/productReducer';
 import { toggleBarcodeVisibility } from '../../reducers/barcodeListenerReducer';
 import { withRouter } from 'react-router-dom';
+import moneyFormatter from '../../services/moneyFormatter';
 
 export class ProductAddStock extends React.Component {
     updateFields = () => {
@@ -17,10 +18,11 @@ export class ProductAddStock extends React.Component {
     };
 
     calculateSellprice = () => {
-        const cost = parseFloat(this.costInput.value);
+        const cost = moneyFormatter.stringToCents(this.costInput.value);
         const margin = parseFloat(this.marginInput.value);
+        const sellprice = moneyFormatter.applyMarginPercent(cost, margin);
 
-        this.sellpriceInput.value = (cost * ((100 + margin) / 100)).toFixed(2);
+        this.sellpriceInput.value = moneyFormatter.centsToString(sellprice);
     };
 
     componentDidMount = () => {
@@ -46,9 +48,9 @@ export class ProductAddStock extends React.Component {
         event.preventDefault();
         const product = {
             id: this.props.product.product_id,
-            buyprice: this.costInput.value,
+            buyprice: moneyFormatter.stringToCents(this.costInput.value),
             margin: this.marginInput.value,
-            sellprice: this.sellpriceInput.value,
+            sellprice: moneyFormatter.stringToCents(this.sellpriceInput.value),
             quantity: this.quantityInput.value
         };
 

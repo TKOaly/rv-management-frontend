@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { addProduct } from '../../reducers/productReducer';
 import './styles/ProductForm.css';
 import { toggleBarcodeVisibility } from '../../reducers/barcodeListenerReducer';
+import moneyFormatter from '../../services/moneyFormatter';
 
 export class ProductForm extends Component {
     updateFields = () => {
@@ -13,10 +14,11 @@ export class ProductForm extends Component {
     };
 
     calculateSellprice = () => {
-        const cost = parseFloat(this.buyInInput.value);
+        const cost = moneyFormatter.stringToCents(this.buyInInput.value);
         const margin = parseFloat(this.marginInput.value);
+        const sellprice = moneyFormatter.applyMarginPercent(cost, margin);
 
-        this.sellpriceInput.value = (cost * ((100 + margin) / 100)).toFixed(2);
+        this.sellpriceInput.value = moneyFormatter.centsToString(sellprice);
     };
 
     componentDidMount = () => {
@@ -40,8 +42,10 @@ export class ProductForm extends Component {
             weight: event.target.weight.value,
             barcode: event.target.barcode.value,
             count: 0,
-            buyprice: parseInt(event.target.buyprice.value * 100, 10),
-            sellprice: parseInt(event.target.sellprice.value * 100, 10)
+            buyprice: moneyFormatter.stringToCents(event.target.buyprice.value),
+            sellprice: moneyFormatter.stringToCents(
+                event.target.sellprice.value
+            )
         };
         this.props.addProduct(newProduct, this.props.token);
     };

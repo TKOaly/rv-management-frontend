@@ -10,6 +10,7 @@ import {
 } from './../../reducers/notificationReducer';
 import { getProducts } from '../../reducers/productReducer';
 import { toggleBarcodeVisibility } from '../../reducers/barcodeListenerReducer';
+import moneyFormatter from '../../services/moneyFormatter';
 
 export class BoxForm extends Component {
     componentDidMount = () => {
@@ -22,10 +23,9 @@ export class BoxForm extends Component {
 
     formSubmit = async event => {
         event.preventDefault();
-        const buyprice = this.getParsedBuyInPrice();
-        const sellprice = Math.round(
-            buyprice * (100 + parseInt(this.marginInput.value, 10)) / 100
-        );
+        const buyprice = moneyFormatter.stringToCents(this.buyInInput.value);
+        const margin = parseFloat(this.marginInput.value, 10);
+        const sellprice = moneyFormatter.applyMarginPercent(buyprice, margin);
         const barcode = this.barcodeInput.value;
         const productCount = parseInt(this.productCountInput.value, 10);
         const boxes = parseInt(this.countInput.value, 10);
@@ -84,15 +84,6 @@ export class BoxForm extends Component {
             product_sellprice: product.sellprice,
             product_buyprice: product.buyprice
         };
-    };
-
-    getParsedBuyInPrice = () => {
-        const buypriceArray =
-            this.buyInInput.value.split('.') ||
-            this.buyInInput.value.split(',');
-        const buypriceString =
-            buypriceArray[0] + (buypriceArray[1] + '00').substring(0, 2);
-        return parseInt(buypriceString, 10);
     };
 
     render = () => {
