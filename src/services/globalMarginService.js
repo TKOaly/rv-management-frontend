@@ -2,12 +2,12 @@ import axios from 'axios';
 
 const targetUrl = 'api/v1/admin/margin';
 
-const getMargin = token => {
+const getMargin = (token) => {
     return axios
         .get(`${process.env.REACT_APP_BACKEND_URL}/${targetUrl}`, {
             headers: { Authorization: 'Bearer ' + token }
         })
-        .then(res => res.data);
+        .then((res) => res.data);
 };
 
 const changeMargin = (newMargin, token) => {
@@ -17,7 +17,7 @@ const changeMargin = (newMargin, token) => {
         data: {
             margin: newMargin
         }
-    }).then(res => res.data);
+    }).then((res) => res.data);
 };
 
 export default { getMargin, changeMargin };

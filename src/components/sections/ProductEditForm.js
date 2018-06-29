@@ -8,21 +8,11 @@ import './styles/ProductEditForm.css';
 import moneyFormatter from './../../services/moneyFormatter';
 
 // Validators (consider moving these to a global validation module)
-const required = value => (value ? undefined : 'Kenttä ei saa olla tyhjä');
-const maxLength = (field, max) => value =>
-    value && value.length > max
-        ? `${field} on oltava lyhyempi kuin ${max} merkki(ä)`
-        : undefined;
+const required = (value) => (value ? undefined : 'Kenttä ei saa olla tyhjä');
+const maxLength = (field, max) => (value) =>
+    value && value.length > max ? `${field} on oltava lyhyempi kuin ${max} merkki(ä)` : undefined;
 
-const renderField = ({
-    input,
-    label,
-    type,
-    className,
-    ref,
-    meta: { touched, error, warning },
-    ...props
-}) => (
+const renderField = ({ input, label, type, className, ref, meta: { touched, error, warning }, ...props }) => (
     <div>
         <label>{label}</label>
         <div>
@@ -36,14 +26,12 @@ const renderField = ({
             />
             {touched &&
                 ((error && <span className="error-msg">{error}</span>) ||
-                    (warning && (
-                        <span className="warning-msg">{warning}</span>
-                    )))}
+                    (warning && <span className="warning-msg">{warning}</span>))}
         </div>
     </div>
 );
 
-const prodMapper = product =>
+const prodMapper = (product) =>
     Object.assign({}, product, {
         buyprice: moneyFormatter.centsToString(product.buyprice),
         sellprice: moneyFormatter.centsToString(product.sellprice)
@@ -70,10 +58,7 @@ export class ProductEditForm extends Component {
             return value;
         };
         return (
-            <form
-                onSubmit={this.props.handleSubmit}
-                className="product-edit-form"
-            >
+            <form onSubmit={this.props.handleSubmit} className="product-edit-form">
                 <Row>
                     <Col xs={3}>
                         <label htmlFor="barcode">Viivakoodi</label>
@@ -100,10 +85,7 @@ export class ProductEditForm extends Component {
                             name="product_name"
                             placeholder="Tuotteen nimi"
                             type="text"
-                            validate={[
-                                required,
-                                maxLength('Tuotteen nimen', 64)
-                            ]}
+                            validate={[required, maxLength('Tuotteen nimen', 64)]}
                         />
                     </Col>
                 </Row>
@@ -112,18 +94,11 @@ export class ProductEditForm extends Component {
                         <label htmlFor="category">Kategoria</label>
                     </Col>
                     <Col xs={8}>
-                        <Field
-                            component="select"
-                            id="category"
-                            name="product_group"
-                        >
+                        <Field component="select" id="category" name="product_group">
                             <option disabled>Valitse kategoria..</option>
                             {this.props.categories &&
-                                this.props.categories.map(category => (
-                                    <option
-                                        key={category.category_id}
-                                        value={category.category_id}
-                                    >
+                                this.props.categories.map((category) => (
+                                    <option key={category.category_id} value={category.category_id}>
                                         {category.category_description}
                                     </option>
                                 ))}
@@ -148,9 +123,7 @@ export class ProductEditForm extends Component {
                 </Row>
                 <Row>
                     <Col xs={3}>
-                        <label htmlFor="buyprice">
-                            Sisäänostohinta (&euro;)
-                        </label>
+                        <label htmlFor="buyprice">Sisäänostohinta (&euro;)</label>
                     </Col>
                     <Col xs={8}>
                         <Field
@@ -218,22 +191,13 @@ export class ProductEditForm extends Component {
                 </Row>
                 <Row>
                     <Col xs={2}>
-                        <Field
-                            component="button"
-                            type="submit"
-                            name="submit"
-                            className="btn btn-success"
-                        >
+                        <Field component="button" type="submit" name="submit" className="btn btn-success">
                             Tallenna muutokset
                         </Field>
                     </Col>
                     <Col xs={4}>
                         <Link to={'/products'}>
-                            <input
-                                type="submit"
-                                className="btn btn-danger"
-                                value="Peruuta"
-                            />
+                            <input type="submit" className="btn btn-danger" value="Peruuta" />
                         </Link>
                     </Col>
                 </Row>
@@ -253,9 +217,7 @@ const mapStateToProps = (state, props) => {
             {},
             prodMapper(
                 state.product.products.find(
-                    product =>
-                        product.product_id ===
-                        parseInt(props.match.params.productid, 10)
+                    (product) => product.product_id === parseInt(props.match.params.productid, 10)
                 )
             ),
             { margin: state.product.globalMargin }
@@ -268,6 +230,4 @@ const mapDispatchToProps = {
     toggleBarcodeVisibility
 };
 
-export default withRouter(
-    connect(mapStateToProps, mapDispatchToProps)(ProductEditReduxForm)
-);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ProductEditReduxForm));

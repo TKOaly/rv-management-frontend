@@ -7,11 +7,11 @@ export const boxActions = {
 };
 
 export const initialState = {
-    boxes: []   
+    boxes: []
 };
 
-export const getBoxes = token => {
-    return async dispatch => {
+export const getBoxes = (token) => {
+    return async (dispatch) => {
         const boxes = await boxService.getAll(token);
         console.log(boxes);
         dispatch({
@@ -21,8 +21,8 @@ export const getBoxes = token => {
     };
 };
 
-export const addStock = (barcode, box, token) => {  
-    return async dispatch => {     
+export const addStock = (barcode, box, token) => {
+    return async (dispatch) => {
         try {
             await boxService.addStock(barcode, box, token);
             dispatch(successMessage('Tuotteen lisäys varastoon onnistui'));
@@ -32,18 +32,15 @@ export const addStock = (barcode, box, token) => {
         } catch (error) {
             dispatch(errorMessage('Virhe tuotteita lisätessä varastoon'));
         }
-        
     };
-    
 };
-
 
 const boxReducer = (state = initialState, action) => {
     switch (action.type) {
-    case boxActions.SET_BOXES:
-        return Object.assign({}, state, { boxes: action.boxes });
-    default:
-        return state;
+        case boxActions.SET_BOXES:
+            return Object.assign({}, state, { boxes: action.boxes });
+        default:
+            return state;
     }
 };
 

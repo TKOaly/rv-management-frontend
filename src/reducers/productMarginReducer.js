@@ -9,14 +9,14 @@ export const initialState = {
     productMargin: null
 };
 
-export const fetchProductMargin = productMargin => {
-    return async dispatch => {
+export const fetchProductMargin = (productMargin) => {
+    return async (dispatch) => {
         const res = await productMarginService.getProductMargin();
         dispatch(setProductMargin(res.productMargin));
     };
 };
 
-export const setProductMargin = productMargin => {
+export const setProductMargin = (productMargin) => {
     return {
         type: productMarginActions.SET_PRODUCT_MARGIN,
         productMargin: productMargin
@@ -25,12 +25,12 @@ export const setProductMargin = productMargin => {
 
 const productMarginReducer = (state = initialState, action) => {
     switch (action.type) {
-    case productMarginActions.SET_PRODUCT_MARGIN:
-        return Object.assign({}, state, {
-            productMargin: action.productMargin
-        });
-    default:
-        return state;
+        case productMarginActions.SET_PRODUCT_MARGIN:
+            return Object.assign({}, state, {
+                productMargin: action.productMargin
+            });
+        default:
+            return state;
     }
 };
 

@@ -14,7 +14,7 @@ export const initialState = {
     sortedBy: productFilterType.NAME_ASC
 };
 
-export const sortByValue = value => {
+export const sortByValue = (value) => {
     return {
         type: productFilterActions.SORT_BY_VALUE,
         value
@@ -23,12 +23,12 @@ export const sortByValue = value => {
 
 const filterReducer = (state = initialState, action) => {
     switch (action.type) {
-    case productFilterActions.SORT_BY_VALUE:
-        return Object.assign({}, state, {
-            sortedBy: action.value
-        });
-    default:
-        return state;
+        case productFilterActions.SORT_BY_VALUE:
+            return Object.assign({}, state, {
+                sortedBy: action.value
+            });
+        default:
+            return state;
     }
 };
 

@@ -20,7 +20,7 @@ export const initialState = {
 };
 
 export const setGlobalMargin = (newMargin, token) => {
-    return async dispatch => {
+    return async (dispatch) => {
         const margin = await marginService.changeMargin(newMargin, token);
         dispatch({
             type: productActions.SET_GLOBAL_MARGIN,
@@ -29,8 +29,8 @@ export const setGlobalMargin = (newMargin, token) => {
     };
 };
 
-export const getGlobalMargin = token => {
-    return async dispatch => {
+export const getGlobalMargin = (token) => {
+    return async (dispatch) => {
         const margin = await marginService.getMargin(token);
         dispatch({
             type: productActions.SET_GLOBAL_MARGIN,
@@ -39,14 +39,14 @@ export const getGlobalMargin = token => {
     };
 };
 
-export const setProductSelected = id => {
+export const setProductSelected = (id) => {
     return {
         type: productActions.SET_PRODUCT_SELECTED,
         selectedProduct: id
     };
 };
 
-const productFilter = product => {
+const productFilter = (product) => {
     return {
         product_id: product.product.itemid,
         product_name: product.product.descr,
@@ -58,7 +58,7 @@ const productFilter = product => {
 };
 
 export const addProduct = (product, token) => {
-    return async dispatch => {
+    return async (dispatch) => {
         try {
             const addedProduct = await productService.addProduct(
                 {
@@ -85,8 +85,8 @@ export const addProduct = (product, token) => {
     };
 };
 
-export const getProducts = token => {
-    return async dispatch => {
+export const getProducts = (token) => {
+    return async (dispatch) => {
         const products = await productService.getAll(token);
         //console.log(products.products);
         dispatch({
@@ -97,7 +97,7 @@ export const getProducts = token => {
 };
 
 //redirects from addStock page to product info tab when value is true
-export const setUpgradeStock = value => {
+export const setUpgradeStock = (value) => {
     return {
         type: productActions.SET_UPGRADESTOCK,
         redirect: value
@@ -105,12 +105,9 @@ export const setUpgradeStock = value => {
 };
 
 export const updateProduct = (product, token) => {
-    return async dispatch => {
+    return async (dispatch) => {
         try {
-            const updatedProduct = await productService.updateProduct(
-                product,
-                token
-            );
+            const updatedProduct = await productService.updateProduct(product, token);
             console.log(updatedProduct);
             dispatch(getProducts(token));
             dispatch(successMessage('Tuotteen päivitys onnistui'));
@@ -122,35 +119,29 @@ export const updateProduct = (product, token) => {
 
 //fix this:now works with updating products by requesting whole productlist from backend
 export const addStock = (product, token) => {
-    return async dispatch => {
+    return async (dispatch) => {
         try {
             await productService.addStock(token, product);
             dispatch(successMessage('Buy in completed'));
             dispatch(setUpgradeStock(true));
             dispatch(getProducts(token));
         } catch (error) {
-            const errorCode = error.response
-                ? error.response.data.error_code
-                : null;
+            const errorCode = error.response ? error.response.data.error_code : null;
             switch (errorCode) {
-            case 'bad_request':
-                error.response.data.errors.forEach(message => {
-                    dispatch(errorMessage(message));
-                });
-                break;
-            case 'product_not_found':
-                dispatch(errorMessage('product_not_found from database'));
-                break;
-            case 'internal_error':
-                dispatch(
-                    errorMessage(
-                        'internal_error / Database is not running or connected'
-                    )
-                );
-                break;
-            default:
-                dispatch(errorMessage('Unknown error has occuered'));
-                break;
+                case 'bad_request':
+                    error.response.data.errors.forEach((message) => {
+                        dispatch(errorMessage(message));
+                    });
+                    break;
+                case 'product_not_found':
+                    dispatch(errorMessage('product_not_found from database'));
+                    break;
+                case 'internal_error':
+                    dispatch(errorMessage('internal_error / Database is not running or connected'));
+                    break;
+                default:
+                    dispatch(errorMessage('Unknown error has occuered'));
+                    break;
             }
         }
     };
@@ -158,26 +149,26 @@ export const addStock = (product, token) => {
 
 const productReducer = (state = initialState, action) => {
     switch (action.type) {
-    case productActions.SET_PRODUCTS:
-        return Object.assign({}, state, { products: action.products });
-    case productActions.SET_GLOBAL_MARGIN:
-        return Object.assign({}, state, {
-            globalMargin: action.globalMargin
-        });
-    case productActions.SET_PRODUCT_SELECTED:
-        return Object.assign({}, state, {
-            selectedProduct: action.selectedProduct
-        });
-    case productActions.ADD_NEW_PRODUCT:
-        return Object.assign({}, state, {
-            products: [...state.products, action.product]
-        });
-    case productActions.SET_UPGRADESTOCK:
-        return Object.assign({}, state, {
-            upgradeStock: action.redirect
-        });
-    default:
-        return state;
+        case productActions.SET_PRODUCTS:
+            return Object.assign({}, state, { products: action.products });
+        case productActions.SET_GLOBAL_MARGIN:
+            return Object.assign({}, state, {
+                globalMargin: action.globalMargin
+            });
+        case productActions.SET_PRODUCT_SELECTED:
+            return Object.assign({}, state, {
+                selectedProduct: action.selectedProduct
+            });
+        case productActions.ADD_NEW_PRODUCT:
+            return Object.assign({}, state, {
+                products: [...state.products, action.product]
+            });
+        case productActions.SET_UPGRADESTOCK:
+            return Object.assign({}, state, {
+                upgradeStock: action.redirect
+            });
+        default:
+            return state;
     }
 };
 

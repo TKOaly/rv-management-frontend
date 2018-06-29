@@ -8,19 +8,12 @@ export class NewGlobalMargin extends Component {
             <div>
                 Set a new global profit margin.
                 <form
-                    onSubmit={e => {
+                    onSubmit={(e) => {
                         e.preventDefault();
-                        this.props.setGlobalMargin(
-                            this.input.value,
-                            this.props.token
-                        );
+                        this.props.setGlobalMargin(this.input.value, this.props.token);
                     }}
                 >
-                    <input
-                        type="number"
-                        placeholder={this.props.globalMargin}
-                        ref={input => (this.input = input)}
-                    />
+                    <input type="number" placeholder={this.props.globalMargin} ref={(input) => (this.input = input)} />
                 </form>
             </div>
         );
@@ -31,7 +24,7 @@ const mapDispatchToProps = {
     setGlobalMargin
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
     return {
         token: state.authentication.accessToken,
         globalMargin: state.product.globalMargin

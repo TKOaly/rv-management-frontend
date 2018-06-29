@@ -2,31 +2,23 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { SuccessBtn } from './../buttons/Buttons';
 import { setProductSelected } from '../../reducers/productReducer';
-import {
-    setBarcode,
-    toggleBarcodeVisibility,
-    clearBarcode
-} from '../../reducers/barcodeListenerReducer';
+import { setBarcode, toggleBarcodeVisibility, clearBarcode } from '../../reducers/barcodeListenerReducer';
 import { errorMessage } from '../../reducers/notificationReducer';
 import { withRouter } from 'react-router-dom';
 
 export class BarcodeListener extends Component {
-    handleInputEvent = event => {
+    handleInputEvent = (event) => {
         this.props.setBarcode(event.target.value);
     };
 
-    handleSubmit = event => {
+    handleSubmit = (event) => {
         event.preventDefault();
-        var product = this.props.products.find(
-            prod => prod.product_barcode === this.props.barcode
-        );
+        var product = this.props.products.find((prod) => prod.product_barcode === this.props.barcode);
         if (product) {
             this.props.setProductSelected(product.product_id);
             this.props.history.push(`/products/${product.product_id}/stock`);
         } else {
-            var box = this.props.boxes.find(
-                b => b.box_barcode === this.props.barcode
-            );
+            var box = this.props.boxes.find((b) => b.box_barcode === this.props.barcode);
             if (box) {
                 this.props.setProductSelected(box.product_id);
                 this.props.history.push(`/products/${box.product_id}/box`);
@@ -45,7 +37,7 @@ export class BarcodeListener extends Component {
         this.props.clearBarcode();
     };
 
-    handleOpen = event => {
+    handleOpen = (event) => {
         this.props.clearBarcode();
         this.props.toggleBarcodeVisibility(true);
     };
@@ -54,7 +46,7 @@ export class BarcodeListener extends Component {
         return (
             <React.Fragment>
                 {this.props.barcodeVisible && (
-                    <form onSubmit={event => this.handleSubmit(event)}>
+                    <form onSubmit={(event) => this.handleSubmit(event)}>
                         <input
                             id="barcodeInput"
                             style={{
@@ -66,33 +58,28 @@ export class BarcodeListener extends Component {
                                 textAlign: 'center',
                                 display: 'inlineBlock'
                             }}
-                            ref={input => {
+                            ref={(input) => {
                                 input && input.focus();
                             }}
                             value={this.props.barcode}
                             placeholder="Lue viivakoodi"
                             pattern="\d*"
-                            onChange={event => this.handleInputEvent(event)}
+                            onChange={(event) => this.handleInputEvent(event)}
                         />
-                        <SuccessBtn
-                            onClick={event => this.handleSubmit(event)}
-                            type="button"
-                        >
+                        <SuccessBtn onClick={(event) => this.handleSubmit(event)} type="button">
                             Hae
                         </SuccessBtn>
                     </form>
                 )}
                 {this.props.barcodeVisible || (
-                    <SuccessBtn onClick={event => this.handleOpen(event)}>
-                        Lue viivakoodi
-                    </SuccessBtn>
+                    <SuccessBtn onClick={(event) => this.handleOpen(event)}>Lue viivakoodi</SuccessBtn>
                 )}
             </React.Fragment>
         );
     };
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
     return {
         products: state.product.products,
         boxes: state.box.boxes,
@@ -109,6 +96,4 @@ const mapDispatchToProps = {
     toggleBarcodeVisibility
 };
 
-export default withRouter(
-    connect(mapStateToProps, mapDispatchToProps)(BarcodeListener)
-);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(BarcodeListener));

@@ -17,27 +17,16 @@ export class NewProduct extends Component {
                 <div className="create-menu">
                     <ul>
                         <li>
-                            <NavLink to={`${match.url}/product`}>
-                                Uusi tuote
-                            </NavLink>
+                            <NavLink to={`${match.url}/product`}>Uusi tuote</NavLink>
                         </li>
                         <li>
-                            <NavLink to={`${match.url}/box`}>
-                                Uusi laatikko
-                            </NavLink>
+                            <NavLink to={`${match.url}/box`}>Uusi laatikko</NavLink>
                         </li>
                     </ul>
                 </div>
                 <div className="form-container">
-                    <Route
-                        exact
-                        path={`${match.path}/product`}
-                        render={() => <ProductForm />}
-                    />
-                    <Route
-                        path={`${match.path}/box`}
-                        render={() => <BoxForm />}
-                    />
+                    <Route exact path={`${match.path}/product`} render={() => <ProductForm />} />
+                    <Route path={`${match.path}/box`} render={() => <BoxForm />} />
                 </div>
             </React.Fragment>
         );

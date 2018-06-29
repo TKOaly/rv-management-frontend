@@ -12,14 +12,14 @@ const localStorageMock = (function() {
         },
         clear: function() {
             store = {};
-        },
+        }
     };
 })();
-  
+
 Object.defineProperty(window, 'localStorage', {
-    value: localStorageMock,
+    value: localStorageMock
 });
 
 Object.defineProperty(window, 'sessionStorage', {
-    value: localStorageMock,
+    value: localStorageMock
 });

@@ -36,20 +36,14 @@ export class ProductListPage extends Component {
                         <Route
                             exact
                             path={`${match.path}`}
-                            component={props => (
+                            component={(props) => (
                                 <div>
                                     <div>Valitse tuote tai lue viivakoodi.</div>
                                 </div>
                             )}
                         />
-                        <Route
-                            path={`${match.path}/:productid(\\d+)`}
-                            component={SingleProduct}
-                        />
-                        <Route
-                            path={`${match.path}/create`}
-                            component={NewProduct}
-                        />
+                        <Route path={`${match.path}/:productid(\\d+)`} component={SingleProduct} />
+                        <Route path={`${match.path}/create`} component={NewProduct} />
                     </Col>
                 </Row>
             </div>
@@ -64,7 +58,7 @@ const mapDispatchToProps = {
     getCategories
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
     return {
         activeProduct: state.product.selectedProduct,
         token: state.authentication.accessToken

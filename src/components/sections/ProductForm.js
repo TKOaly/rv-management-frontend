@@ -34,7 +34,7 @@ export class ProductForm extends Component {
         this.props.toggleBarcodeVisibility(true);
     };
 
-    formSubmit = event => {
+    formSubmit = (event) => {
         event.preventDefault();
         const newProduct = {
             descr: event.target.name.value,
@@ -43,9 +43,7 @@ export class ProductForm extends Component {
             barcode: event.target.barcode.value,
             count: 0,
             buyprice: moneyFormatter.stringToCents(event.target.buyprice.value),
-            sellprice: moneyFormatter.stringToCents(
-                event.target.sellprice.value
-            )
+            sellprice: moneyFormatter.stringToCents(event.target.sellprice.value)
         };
         this.props.addProduct(newProduct, this.props.token);
     };
@@ -63,7 +61,7 @@ export class ProductForm extends Component {
                                 id="barcode"
                                 name="barcode"
                                 type="text"
-                                ref={input => {
+                                ref={(input) => {
                                     this.barcodeInput = input;
                                 }}
                             />
@@ -78,7 +76,7 @@ export class ProductForm extends Component {
                                 id="name"
                                 name="name"
                                 type="text"
-                                ref={input => {
+                                ref={(input) => {
                                     this.nameInput = input;
                                 }}
                             />
@@ -93,7 +91,7 @@ export class ProductForm extends Component {
                                 id="category"
                                 name="category"
                                 type="text"
-                                ref={input => {
+                                ref={(input) => {
                                     this.categoryInput = input;
                                 }}
                             />
@@ -111,7 +109,7 @@ export class ProductForm extends Component {
                                 step="1"
                                 min="0"
                                 defaultValue="42"
-                                ref={input => {
+                                ref={(input) => {
                                     this.weightInput = input;
                                 }}
                             />
@@ -127,7 +125,7 @@ export class ProductForm extends Component {
                                 id="descr"
                                 name="descr"
                                 type="text"
-                                ref={input => {
+                                ref={(input) => {
                                     this.descriptionInput = input;
                                 }}
                             />
@@ -145,7 +143,7 @@ export class ProductForm extends Component {
                                 step="0.01"
                                 min="0"
                                 defaultValue="0"
-                                ref={input => {
+                                ref={(input) => {
                                     this.buyInInput = input;
                                 }}
                                 onChange={this.calculateSellprice}
@@ -165,7 +163,7 @@ export class ProductForm extends Component {
                                 step="1"
                                 min="0"
                                 defaultValue={this.props.globalMargin}
-                                ref={input => {
+                                ref={(input) => {
                                     this.marginInput = input;
                                 }}
                                 onChange={this.calculateSellprice}
@@ -185,7 +183,7 @@ export class ProductForm extends Component {
                                 step="0.01"
                                 min="0"
                                 defaultValue="0"
-                                ref={input => {
+                                ref={(input) => {
                                     this.sellpriceInput = input;
                                 }}
                                 onChange={this.calculateSellprice}
@@ -195,19 +193,11 @@ export class ProductForm extends Component {
                     </Row>
                     <Row>
                         <Col xs={8}>
-                            <input
-                                type="submit"
-                                className="btn btn-success"
-                                value="Luo uusi tuote"
-                            />
+                            <input type="submit" className="btn btn-success" value="Luo uusi tuote" />
                         </Col>
                         <Col xs={4}>
                             <Link to={'/products'}>
-                                <input
-                                    type="submit"
-                                    className="btn btn-danger"
-                                    value="Peruuta"
-                                />
+                                <input type="submit" className="btn btn-danger" value="Peruuta" />
                             </Link>
                         </Col>
                     </Row>
@@ -217,7 +207,7 @@ export class ProductForm extends Component {
     };
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
     return {
         globalMargin: state.product.globalMargin,
         token: state.authentication.accessToken

@@ -12,11 +12,11 @@ export const initialState = {
 export const toggleBarcodeVisibility = (value) => {
     return {
         type: barcodeListenerActions.TOGGLE_BARCODE_VISIBILITY,
-        value: value 
+        value: value
     };
 };
 
-export const setBarcode = barcode => {
+export const setBarcode = (barcode) => {
     return {
         type: barcodeListenerActions.SET_BARCODE,
         barcode: barcode
@@ -31,14 +31,14 @@ export const clearBarcode = () => {
 
 const barcodeListenerReducer = (state = initialState, action) => {
     switch (action.type) {
-    case barcodeListenerActions.SET_BARCODE:
-        return Object.assign({}, state, { barcode: action.barcode });
-    case barcodeListenerActions.CLEAR_BARCODE:
-        return Object.assign({}, state, { barcode: '' });
-    case barcodeListenerActions.TOGGLE_BARCODE_VISIBILITY:
-        return Object.assign({}, state, { visible: action.value });
-    default:
-        return state;
+        case barcodeListenerActions.SET_BARCODE:
+            return Object.assign({}, state, { barcode: action.barcode });
+        case barcodeListenerActions.CLEAR_BARCODE:
+            return Object.assign({}, state, { barcode: '' });
+        case barcodeListenerActions.TOGGLE_BARCODE_VISIBILITY:
+            return Object.assign({}, state, { visible: action.value });
+        default:
+            return state;
     }
 };
 

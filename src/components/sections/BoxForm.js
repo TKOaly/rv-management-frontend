@@ -4,10 +4,7 @@ import { Row, Col } from 'react-flexbox-grid';
 import { Link } from 'react-router-dom';
 import boxService from '../../services/boxService';
 import './styles/ProductForm.css';
-import {
-    successMessage,
-    errorMessage
-} from './../../reducers/notificationReducer';
+import { successMessage, errorMessage } from './../../reducers/notificationReducer';
 import { getProducts } from '../../reducers/productReducer';
 import { toggleBarcodeVisibility } from '../../reducers/barcodeListenerReducer';
 import moneyFormatter from '../../services/moneyFormatter';
@@ -21,7 +18,7 @@ export class BoxForm extends Component {
         this.props.toggleBarcodeVisibility(true);
     };
 
-    formSubmit = async event => {
+    formSubmit = async (event) => {
         event.preventDefault();
         const buyprice = moneyFormatter.stringToCents(this.buyInInput.value);
         const margin = parseFloat(this.marginInput.value, 10);
@@ -32,33 +29,20 @@ export class BoxForm extends Component {
         const singleItemBuyPrice = Math.round(buyprice / productCount);
         const singleItemSellPrice = Math.round(sellprice / productCount);
 
-        const boxProduct = this.props.products.filter(product => {
+        const boxProduct = this.props.products.filter((product) => {
             return product.product_barcode === this.productEANInput.value;
         })[0];
 
         if (!boxProduct) {
-            this.props.errorMessage(
-                'Tuntematon tuotteen viivakoodi. Luo tuote ensin.'
-            );
+            this.props.errorMessage('Tuntematon tuotteen viivakoodi. Luo tuote ensin.');
             return;
         }
 
         const parsedProduct = this.parseBoxProduct(boxProduct);
 
         try {
-            await boxService.createBox(
-                this.props.token,
-                barcode,
-                productCount,
-                parsedProduct
-            );
-            await boxService.buyInBox(
-                this.props.token,
-                barcode,
-                boxes,
-                singleItemBuyPrice,
-                singleItemSellPrice
-            );
+            await boxService.createBox(this.props.token, barcode, productCount, parsedProduct);
+            await boxService.buyInBox(this.props.token, barcode, boxes, singleItemBuyPrice, singleItemSellPrice);
             this.props.getProducts(this.props.token);
             this.barcodeInput.value = '';
             this.countInput.value = 0;
@@ -73,7 +57,7 @@ export class BoxForm extends Component {
         }
     };
 
-    parseBoxProduct = product => {
+    parseBoxProduct = (product) => {
         return {
             product_barcode: product.product_barcode,
             product_group: product.product_group,
@@ -99,7 +83,7 @@ export class BoxForm extends Component {
                                 id="barcode"
                                 name="barcode"
                                 type="text"
-                                ref={input => {
+                                ref={(input) => {
                                     this.barcodeInput = input;
                                 }}
                             />
@@ -115,7 +99,7 @@ export class BoxForm extends Component {
                                 name="count"
                                 type="number"
                                 defaultValue={0}
-                                ref={input => {
+                                ref={(input) => {
                                     this.countInput = input;
                                 }}
                             />
@@ -133,7 +117,7 @@ export class BoxForm extends Component {
                                 step="0.01"
                                 min="0"
                                 defaultValue={0}
-                                ref={input => {
+                                ref={(input) => {
                                     this.buyInInput = input;
                                 }}
                             />
@@ -152,7 +136,7 @@ export class BoxForm extends Component {
                                 step="1"
                                 min="0"
                                 defaultValue={this.props.globalMargin}
-                                ref={input => {
+                                ref={(input) => {
                                     this.marginInput = input;
                                 }}
                             />
@@ -161,16 +145,14 @@ export class BoxForm extends Component {
                     </Row>
                     <Row>
                         <Col xs={3}>
-                            <label htmlFor="productEAN">
-                                Tuotteen viivakoodi
-                            </label>
+                            <label htmlFor="productEAN">Tuotteen viivakoodi</label>
                         </Col>
                         <Col xs={9}>
                             <input
                                 id="productEAN"
                                 name="productEAN"
                                 type="text"
-                                ref={input => {
+                                ref={(input) => {
                                     this.productEANInput = input;
                                 }}
                             />
@@ -186,7 +168,7 @@ export class BoxForm extends Component {
                                 name="productcount"
                                 type="number"
                                 defaultValue={0}
-                                ref={input => {
+                                ref={(input) => {
                                     this.productCountInput = input;
                                 }}
                             />
@@ -194,19 +176,11 @@ export class BoxForm extends Component {
                     </Row>
                     <Row>
                         <Col xs={8}>
-                            <input
-                                type="submit"
-                                className="btn btn-success"
-                                value="Luo uusi laatikko"
-                            />
+                            <input type="submit" className="btn btn-success" value="Luo uusi laatikko" />
                         </Col>
                         <Col xs={4}>
                             <Link to={'/products'}>
-                                <input
-                                    type="submit"
-                                    className="btn btn-danger"
-                                    value="Peruuta"
-                                />
+                                <input type="submit" className="btn btn-danger" value="Peruuta" />
                             </Link>
                         </Col>
                     </Row>
@@ -216,7 +190,7 @@ export class BoxForm extends Component {
     };
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
     return {
         globalMargin: state.product.globalMargin,
         token: state.authentication.accessToken,

@@ -3,10 +3,7 @@ import { connect } from 'react-redux';
 import './styles/SingleProduct.css';
 import noImage from './../../images/no_image.png';
 import { fetchProductMargin } from './../../reducers/productMarginReducer';
-import {
-    setProductSelected,
-    updateProduct
-} from '../../reducers/productReducer';
+import { setProductSelected, updateProduct } from '../../reducers/productReducer';
 import { Route, withRouter, NavLink } from 'react-router-dom';
 import ProductAddStock from './ProductAddStock';
 import BoxAddStock from './BoxAddStock';
@@ -31,7 +28,7 @@ export class SingleProduct extends Component {
         this.props.setProductSelected(0);
     };
 
-    handleProductEdit = values => {
+    handleProductEdit = (values) => {
         const product = {
             itemid: this.props.selectedProduct,
             pgrpid: values.product_group,
@@ -83,9 +80,7 @@ export class SingleProduct extends Component {
                             </NavLink>
                         </li>
                         <li>
-                            <NavLink to={`${match.url}/stock`}>
-                                Tuotteen sisäänosto
-                            </NavLink>
+                            <NavLink to={`${match.url}/stock`}>Tuotteen sisäänosto</NavLink>
                         </li>
                         {linkToBox}
                     </ul>
@@ -94,23 +89,10 @@ export class SingleProduct extends Component {
                     <Route
                         exact
                         path={`${match.path}`}
-                        render={() => (
-                            <ProductEditForm
-                                product={product}
-                                onSubmit={this.handleProductEdit}
-                            />
-                        )}
+                        render={() => <ProductEditForm product={product} onSubmit={this.handleProductEdit} />}
                     />
-                    <Route
-                        path={`${match.path}/stock`}
-                        render={() => <ProductAddStock product={product} />}
-                    />
-                    <Route
-                        path={`${match.path}/box`}
-                        render={() => (
-                            <BoxAddStock product={product} box={box} />
-                        )}
-                    />
+                    <Route path={`${match.path}/stock`} render={() => <ProductAddStock product={product} />} />
+                    <Route path={`${match.path}/box`} render={() => <BoxAddStock product={product} box={box} />} />
                 </div>
             </React.Fragment>
         );
@@ -126,13 +108,9 @@ const mapDispatchToProps = {
 const mapStateToProps = (state, props) => {
     return {
         product: state.product.products.find(
-            product =>
-                product.product_id ===
-                parseInt(props.match.params.productid, 10)
+            (product) => product.product_id === parseInt(props.match.params.productid, 10)
         ),
-        box: state.box.boxes.find(
-            box => box.product_id === parseInt(props.match.params.productid, 10)
-        ),
+        box: state.box.boxes.find((box) => box.product_id === parseInt(props.match.params.productid, 10)),
         productMargin: state.productMargin.productMargin,
         selectedProduct: state.product.selectedProduct,
         globalMargin: state.product.globalMargin,
@@ -140,6 +118,4 @@ const mapStateToProps = (state, props) => {
     };
 };
 
-export default withRouter(
-    connect(mapStateToProps, mapDispatchToProps)(SingleProduct)
-);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SingleProduct));

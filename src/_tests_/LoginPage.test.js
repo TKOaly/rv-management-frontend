@@ -16,12 +16,8 @@ describe('Login page', () => {
     });
 
     it('contains inputs for username and password', () => {
-        expect(mount(<LoginPage />).find('input[name="username"]').length).toBe(
-            1
-        );
-        expect(mount(<LoginPage />).find('input[name="password"]').length).toBe(
-            1
-        );
+        expect(mount(<LoginPage />).find('input[name="username"]').length).toBe(1);
+        expect(mount(<LoginPage />).find('input[name="password"]').length).toBe(1);
     });
 
     it('authentication function is called after submitting form', () => {
@@ -32,10 +28,6 @@ describe('Login page', () => {
     });
 
     it('redirects after successful login', () => {
-        expect(
-            shallow(<LoginPage isAuthenticated={true} location={{}} />).find(
-                Redirect
-            ).length
-        ).toBe(1);
+        expect(shallow(<LoginPage isAuthenticated={true} location={{}} />).find(Redirect).length).toBe(1);
     });
 });

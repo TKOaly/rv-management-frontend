@@ -10,19 +10,12 @@ export class HeaderNav extends Component {
             <div className="header-nav">
                 <ul>
                     <li>
-                        <NavLink
-                            exact
-                            to="/products"
-                            activeClassName={activeClass}
-                        >
+                        <NavLink exact to="/products" activeClassName={activeClass}>
                             Tuotteet
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink
-                            to="/products/create/product"
-                            activeClassName={activeClass}
-                        >
+                        <NavLink to="/products/create/product" activeClassName={activeClass}>
                             Luo uusi tuote
                         </NavLink>
                     </li>

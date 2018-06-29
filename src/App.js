@@ -30,7 +30,7 @@ const isAuthenticated = () => {
 const AuthenticatedRoute = ({ component: Component, ...rest }) => (
     <Route
         {...rest}
-        render={props => {
+        render={(props) => {
             return isAuthenticated() ? (
                 <Component {...props} />
             ) : (
@@ -50,20 +50,10 @@ export class App extends Component {
         return (
             <Router>
                 <div className="app">
-                    <NotificationDrawer
-                        notifications={this.props.notifications}
-                        products={[]}
-                    />
+                    <NotificationDrawer notifications={this.props.notifications} products={[]} />
                     <Header />
-                    <AuthenticatedRoute
-                        exact
-                        path="/"
-                        component={props => <Redirect to="/products" />}
-                    />
-                    <AuthenticatedRoute
-                        path="/products"
-                        component={ProductListPage}
-                    />
+                    <AuthenticatedRoute exact path="/" component={(props) => <Redirect to="/products" />} />
+                    <AuthenticatedRoute path="/products" component={ProductListPage} />
                     <Route path="/login" component={LoginPage} />
                 </div>
             </Router>
@@ -71,7 +61,7 @@ export class App extends Component {
     };
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
     return {
         isAuthenticated: state.authentication.isAuthenticated,
         notifications: state.notification.notifications

@@ -20,73 +20,60 @@ describe('Authentication reducer', () => {
     it('dispatches correct actions when authentication fails', () => {
         const mockStore = configureStore([thunk])(initialState);
 
-        return mockStore.dispatch(authenticate('test', 'test'))
-            .then(() => {
-                const actions = mockStore.getActions();
-                const expectedActions = [
-                    setAuthenticating(true),
-                    setAuthenticating(false),
-                    {
-                        type: notificationActions.MESSAGE,
-                        messageType: notificationTypes.ERROR,
-                        message: 'Väärä käyttäjätunnus tai salasana'
-                    }
-                ];
-    
-                delete actions[2]['id'];
+        return mockStore.dispatch(authenticate('test', 'test')).then(() => {
+            const actions = mockStore.getActions();
+            const expectedActions = [
+                setAuthenticating(true),
+                setAuthenticating(false),
+                {
+                    type: notificationActions.MESSAGE,
+                    messageType: notificationTypes.ERROR,
+                    message: 'Väärä käyttäjätunnus tai salasana'
+                }
+            ];
 
-                expect(actions).toEqual(expectedActions);
-            });
+            delete actions[2]['id'];
+
+            expect(actions).toEqual(expectedActions);
+        });
     });
 
     it('dispatches correct actions when authentication succeeds', () => {
         const mockStore = configureStore([thunk])(initialState);
 
-        return mockStore.dispatch(authenticate('admin', 'admin'))
-            .then(() => {
-                const actions = mockStore.getActions();
-                const expectedActions = [
-                    setAuthenticating(true),
-                    setAuthenticating(false),
-                    authenticationSuccess('access token')
-                ];
-    
-                expect(actions).toEqual(expectedActions);
-            });
+        return mockStore.dispatch(authenticate('admin', 'admin')).then(() => {
+            const actions = mockStore.getActions();
+            const expectedActions = [
+                setAuthenticating(true),
+                setAuthenticating(false),
+                authenticationSuccess('access token')
+            ];
+
+            expect(actions).toEqual(expectedActions);
+        });
     });
 
     it('dispatches correct actions when logging out', () => {
         const mockStore = configureStore([thunk])(initialState);
         mockStore.dispatch(logout());
         const actions = mockStore.getActions();
-        const expectedActions = [
-            logout()
-        ];
+        const expectedActions = [logout()];
 
         expect(actions).toEqual(expectedActions);
     });
 
     it('changes state correctly with setAuthenticating', () => {
-        var newState = authenticationReducer(
-            initialState,
-            setAuthenticating(false)
-        );
+        var newState = authenticationReducer(initialState, setAuthenticating(false));
 
         expect(newState.isAuthenticating).toEqual(false);
 
-        newState = authenticationReducer(
-            initialState,
-            setAuthenticating(true)
-        );
+        newState = authenticationReducer(initialState, setAuthenticating(true));
 
         expect(newState.isAuthenticating).toEqual(true);
     });
 
     it('changes state correctly with authenticationSuccess', () => {
-        var newState = authenticationReducer(
-            initialState,
-            authenticationSuccess('token')
-        );
+        var newState = authenticationReducer(initialState, authenticationSuccess('token'));
 
         expect(newState.isAuthenticated).toEqual(true);
         expect(newState.accessToken).toEqual('token');
@@ -94,10 +81,7 @@ describe('Authentication reducer', () => {
     });
 
     it('changes state correctly with authenticationFailure', () => {
-        var newState = authenticationReducer(
-            initialState,
-            authenticationFailure('error message')
-        );
+        var newState = authenticationReducer(initialState, authenticationFailure('error message'));
 
         expect(newState.isAuthenticated).toEqual(false);
         expect(newState.authenticationError).toEqual('error message');
@@ -105,10 +89,7 @@ describe('Authentication reducer', () => {
     });
 
     it('changes state correctly with logout', () => {
-        var newState = authenticationReducer(
-            initialState,
-            logout()
-        );
+        var newState = authenticationReducer(initialState, logout());
 
         expect(newState.isAuthenticated).toEqual(false);
         expect(newState.authenticationError).toEqual(null);
@@ -116,10 +97,9 @@ describe('Authentication reducer', () => {
     });
 
     it('does not change state with an unknown action', () => {
-        var newState = authenticationReducer(
-            initialState,
-            { type: 'unknown action' }
-        );
+        var newState = authenticationReducer(initialState, {
+            type: 'unknown action'
+        });
 
         expect(newState).toEqual(initialState);
     });

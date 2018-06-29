@@ -3,7 +3,7 @@ const productMargin = {
 };
 
 const getProductMargin = async () => {
-    return new Promise(resolve => resolve(productMargin));
+    return new Promise((resolve) => resolve(productMargin));
 };
 
 export default {

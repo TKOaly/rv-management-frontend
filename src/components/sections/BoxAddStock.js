@@ -14,9 +14,7 @@ export class BoxAddStock extends React.Component {
         if (this.props.box) {
             this.barcodeInput.value = this.props.box.box_barcode;
             this.productBarcodeInput.value = this.props.product.product_barcode;
-            this.costInput.value = moneyFormatter.centsToString(
-                this.props.product.buyprice
-            );
+            this.costInput.value = moneyFormatter.centsToString(this.props.product.buyprice);
             this.amountInput.value = this.props.box.items_per_box;
             this.marginInput.value = this.props.globalMargin;
             this.calculateProductSellpriceAndBoxcost();
@@ -32,26 +30,17 @@ export class BoxAddStock extends React.Component {
         const productSellprice = Math.round(boxSellprice / amount);
 
         this.costInput.value = moneyFormatter.centsToString(productcost);
-        this.sellpriceInput.value = moneyFormatter.centsToString(
-            productSellprice
-        );
+        this.sellpriceInput.value = moneyFormatter.centsToString(productSellprice);
     };
 
     calculateProductSellpriceAndBoxcost = () => {
         const productcost = moneyFormatter.stringToCents(this.costInput.value);
         const margin = parseFloat(this.marginInput.value);
-        const productSellprice = moneyFormatter.applyMarginPercent(
-            productcost,
-            margin
-        );
+        const productSellprice = moneyFormatter.applyMarginPercent(productcost, margin);
         const amount = parseInt(this.amountInput.value);
 
-        this.boxcostInput.value = moneyFormatter.centsToString(
-            productcost * amount
-        );
-        this.sellpriceInput.value = moneyFormatter.centsToString(
-            productSellprice
-        );
+        this.boxcostInput.value = moneyFormatter.centsToString(productcost * amount);
+        this.sellpriceInput.value = moneyFormatter.centsToString(productSellprice);
     };
 
     componentDidMount = () => {
@@ -72,7 +61,7 @@ export class BoxAddStock extends React.Component {
         this.props.toggleBarcodeVisibility(true);
     };
 
-    formSubmit = event => {
+    formSubmit = (event) => {
         event.preventDefault();
 
         const box = {
@@ -98,7 +87,7 @@ export class BoxAddStock extends React.Component {
                                 id="barcode"
                                 name="barcode"
                                 type="text"
-                                ref={input => {
+                                ref={(input) => {
                                     this.barcodeInput = input;
                                 }}
                             />
@@ -106,9 +95,7 @@ export class BoxAddStock extends React.Component {
                     </Row>
                     <Row>
                         <Col xs={3}>
-                            <label htmlFor="cost">
-                                Laatikon sisäänostohinta
-                            </label>
+                            <label htmlFor="cost">Laatikon sisäänostohinta</label>
                         </Col>
                         <Col xs={9}>
                             <input
@@ -118,7 +105,7 @@ export class BoxAddStock extends React.Component {
                                 step="0.01"
                                 min="0"
                                 defaultValue="1.50"
-                                ref={input => {
+                                ref={(input) => {
                                     this.boxcostInput = input;
                                 }}
                                 onChange={this.calculateProductSellprice}
@@ -138,7 +125,7 @@ export class BoxAddStock extends React.Component {
                                 step="1"
                                 min="0"
                                 defaultValue={this.props.globalMargin}
-                                ref={input => {
+                                ref={(input) => {
                                     this.marginInput = input;
                                 }}
                                 onChange={this.calculateProductSellprice}
@@ -157,7 +144,7 @@ export class BoxAddStock extends React.Component {
                                 type="number"
                                 step="1"
                                 defaultValue="10"
-                                ref={input => {
+                                ref={(input) => {
                                     this.amountInput = input;
                                 }}
                                 disabled
@@ -177,7 +164,7 @@ export class BoxAddStock extends React.Component {
                                 defaultValue="1"
                                 min="1"
                                 step="1"
-                                ref={input => {
+                                ref={(input) => {
                                     this.quantityInput = input;
                                 }}
                             />
@@ -187,28 +174,22 @@ export class BoxAddStock extends React.Component {
                     <div className="product-wrapper">
                         <Row>
                             <Col xs={3}>
-                                <label className="product-title">
-                                    Laatikko sisältää:
-                                </label>
+                                <label className="product-title">Laatikko sisältää:</label>
                             </Col>
                             <Col xs={9}>
-                                <label className="product-title">
-                                    {this.props.product.product_name}
-                                </label>
+                                <label className="product-title">{this.props.product.product_name}</label>
                             </Col>
                         </Row>
                         <Row>
                             <Col xs={3}>
-                                <label htmlFor="barcode">
-                                    Tuotteen viivakoodi
-                                </label>
+                                <label htmlFor="barcode">Tuotteen viivakoodi</label>
                             </Col>
                             <Col xs={9}>
                                 <input
                                     id="barcode"
                                     name="barcode"
                                     type="text"
-                                    ref={input => {
+                                    ref={(input) => {
                                         this.productBarcodeInput = input;
                                     }}
                                 />
@@ -216,9 +197,7 @@ export class BoxAddStock extends React.Component {
                         </Row>
                         <Row>
                             <Col xs={3}>
-                                <label htmlFor="cost">
-                                    Tuotteen sisäänostohinta
-                                </label>
+                                <label htmlFor="cost">Tuotteen sisäänostohinta</label>
                             </Col>
                             <Col xs={9}>
                                 <input
@@ -228,21 +207,17 @@ export class BoxAddStock extends React.Component {
                                     step="0.01"
                                     min="0"
                                     defaultValue="1.50"
-                                    ref={input => {
+                                    ref={(input) => {
                                         this.costInput = input;
                                     }}
-                                    onChange={
-                                        this.calculateProductSellpriceAndBoxcost
-                                    }
+                                    onChange={this.calculateProductSellpriceAndBoxcost}
                                 />
                                 <span className="unit">&euro;</span>
                             </Col>
                         </Row>
                         <Row>
                             <Col xs={3}>
-                                <label htmlFor="sellprice">
-                                    Tuotteen myyntihinta
-                                </label>
+                                <label htmlFor="sellprice">Tuotteen myyntihinta</label>
                             </Col>
                             <Col xs={9}>
                                 <input
@@ -250,7 +225,7 @@ export class BoxAddStock extends React.Component {
                                     name="sellprice"
                                     type="number"
                                     step="0.01"
-                                    ref={input => {
+                                    ref={(input) => {
                                         this.sellpriceInput = input;
                                     }}
                                 />
@@ -260,11 +235,7 @@ export class BoxAddStock extends React.Component {
                     </div>
                     <Row>
                         <Col xs={6}>
-                            <input
-                                type="submit"
-                                className="btn btn-success"
-                                value="Osta sisään"
-                            />
+                            <input type="submit" className="btn btn-success" value="Osta sisään" />
                         </Col>
                     </Row>
                 </form>
@@ -279,7 +250,7 @@ const mapDispatchToProps = {
     toggleBarcodeVisibility
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
     return {
         globalMargin: state.product.globalMargin,
         token: state.authentication.accessToken,
@@ -288,6 +259,4 @@ const mapStateToProps = state => {
     };
 };
 
-export default withRouter(
-    connect(mapStateToProps, mapDispatchToProps)(BoxAddStock)
-);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(BoxAddStock));
