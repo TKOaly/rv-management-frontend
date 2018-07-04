@@ -4,9 +4,9 @@ import { Redirect } from 'react-router-dom';
 import { SuccessBtn } from '../buttons/Buttons';
 import { authenticate } from '../../reducers/authenticationReducer';
 import { connect } from 'react-redux';
-import React, { Component } from 'react';
+import React from 'react';
 
-export class LoginPage extends Component {
+class LoginPage extends React.Component {
     componentDidMount = () => {
         !this.props.isAuthenticated && this.usernameInput.focus();
     };

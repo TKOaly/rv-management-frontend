@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import HeaderNav from './HeaderNav';
 import HeaderUser from './HeaderUser';
-import React, { Component } from 'react';
+import React from 'react';
 
-export class Header extends Component {
+class Header extends React.Component {
     render = () => {
         return (
             <header className="topheader">

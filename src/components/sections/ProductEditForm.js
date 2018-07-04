@@ -4,7 +4,7 @@ import { Field, reduxForm } from 'redux-form';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { toggleBarcodeVisibility } from '../../reducers/barcodeListenerReducer';
-import React, { Component } from 'react';
+import React from 'react';
 import moneyFormatter from '../../services/moneyFormatter';
 
 // Validators (consider moving these to a global validation module)
@@ -37,7 +37,7 @@ const prodMapper = (product) =>
         sellprice: moneyFormatter.centsToString(product.sellprice)
     });
 
-export class ProductEditForm extends Component {
+class ProductEditForm extends React.Component {
     componentDidMount = () => {
         this.props.toggleBarcodeVisibility(false);
     };
@@ -206,11 +206,6 @@ export class ProductEditForm extends Component {
     };
 }
 
-const ProductEditReduxForm = reduxForm({
-    form: 'productEditForm',
-    enableReinitialize: true
-})(ProductEditForm);
-
 const mapStateToProps = (state, props) => {
     return {
         initialValues: Object.assign(
@@ -230,4 +225,9 @@ const mapDispatchToProps = {
     toggleBarcodeVisibility
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ProductEditReduxForm));
+export default withRouter(
+    reduxForm({
+        form: 'productEditForm',
+        enableReinitialize: true
+    })(connect(mapStateToProps, mapDispatchToProps)(ProductEditForm))
+);

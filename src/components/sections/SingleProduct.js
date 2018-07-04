@@ -6,11 +6,11 @@ import { setProductSelected, updateProduct } from '../../reducers/productReducer
 import BoxAddStock from './BoxAddStock';
 import ProductAddStock from './ProductAddStock';
 import ProductEditForm from './ProductEditForm';
-import React, { Component } from 'react';
+import React from 'react';
 import moneyFormatter from '../../services/moneyFormatter';
 import noImage from '../../images/no_image.png';
 
-export class SingleProduct extends Component {
+class SingleProduct extends React.Component {
     constructor(props) {
         super(props);
         this.state = {

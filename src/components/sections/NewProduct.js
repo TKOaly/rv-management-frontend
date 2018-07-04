@@ -3,9 +3,9 @@ import { NavLink, Route, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import BoxForm from './BoxForm';
 import ProductForm from './ProductForm';
-import React, { Component } from 'react';
+import React from 'react';
 
-export class NewProduct extends Component {
+class NewProduct extends React.Component {
     render = () => {
         const match = this.props.match;
 

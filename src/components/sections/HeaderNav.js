@@ -1,10 +1,10 @@
 import './styles/HeaderNav.css';
 import { NavLink } from 'react-router-dom';
-import React, { Component } from 'react';
+import React from 'react';
 
 const activeClass = 'header-nav-active';
 
-export class HeaderNav extends Component {
+class HeaderNav extends React.Component {
     render = () => {
         return (
             <div className="header-nav">

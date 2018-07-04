@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import { errorMessage } from '../../reducers/notificationReducer';
 import { setProductSelected } from '../../reducers/productReducer';
 import { withRouter } from 'react-router-dom';
-import React, { Component } from 'react';
+import React from 'react';
 
-export class BarcodeListener extends Component {
+class BarcodeListener extends React.Component {
     handleInputEvent = (event) => {
         this.props.setBarcode(event.target.value);
     };

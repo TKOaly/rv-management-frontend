@@ -10,10 +10,10 @@ import BarcodeListener from '../sections/BarcodeListener';
 import NewProduct from '../sections/NewProduct';
 import ProductFilter from '../sections/ProductFilter';
 import ProductList from '../sections/ProductList';
-import React, { Component } from 'react';
+import React from 'react';
 import SingleProduct from '../sections/SingleProduct';
 
-export class ProductListPage extends Component {
+class ProductListPage extends React.Component {
     componentDidMount = () => {
         this.props.getProducts(this.props.token);
         this.props.getGlobalMargin(this.props.token);

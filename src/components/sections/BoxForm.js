@@ -5,11 +5,11 @@ import { connect } from 'react-redux';
 import { errorMessage, successMessage } from '../../reducers/notificationReducer';
 import { getProducts } from '../../reducers/productReducer';
 import { toggleBarcodeVisibility } from '../../reducers/barcodeListenerReducer';
-import React, { Component } from 'react';
+import React from 'react';
 import boxService from '../../services/boxService';
 import moneyFormatter from '../../services/moneyFormatter';
 
-export class BoxForm extends Component {
+class BoxForm extends React.Component {
     componentDidMount = () => {
         this.props.toggleBarcodeVisibility(false);
     };

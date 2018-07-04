@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { productFilterType } from '../../reducers/productFilterReducer';
 import { setProductSelected } from '../../reducers/productReducer';
-import React, { Component } from 'react';
+import React from 'react';
 
 const sorters = {
     [productFilterType.NONE]: (a, b) => a.product_id - b.product_id,
@@ -22,7 +22,7 @@ const sorters = {
     [productFilterType.STOCK_HIGH]: (a, b) => b.quantity - a.quantity
 };
 
-export class ProductList extends Component {
+class ProductList extends React.Component {
     componentDidUpdate = () => {
         if (this.active) {
             this.active.scrollIntoView();

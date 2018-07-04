@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom';
 import { addProduct } from '../../reducers/productReducer';
 import { connect } from 'react-redux';
 import { toggleBarcodeVisibility } from '../../reducers/barcodeListenerReducer';
-import React, { Component } from 'react';
+import React from 'react';
 import moneyFormatter from '../../services/moneyFormatter';
 
-export class ProductForm extends Component {
+class ProductForm extends React.Component {
     updateFields = () => {
         this.marginInput.value = this.props.globalMargin;
         this.calculateSellprice();

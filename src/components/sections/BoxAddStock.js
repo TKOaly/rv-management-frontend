@@ -8,7 +8,7 @@ import { withRouter } from 'react-router-dom';
 import React from 'react';
 import moneyFormatter from '../../services/moneyFormatter';
 
-export class BoxAddStock extends React.Component {
+class BoxAddStock extends React.Component {
     updateFields = () => {
         if (this.props.box) {
             this.barcodeInput.value = this.props.box.box_barcode;

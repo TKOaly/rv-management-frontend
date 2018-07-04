@@ -2,9 +2,9 @@ import './styles/HeaderUser.css';
 import { DangerBtn } from '../buttons/Buttons';
 import { connect } from 'react-redux';
 import { logout } from '../../reducers/authenticationReducer';
-import React, { Component } from 'react';
+import React from 'react';
 
-export class HeaderUser extends Component {
+class HeaderUser extends React.Component {
     render = () => {
         return (
             <div className="header-user">

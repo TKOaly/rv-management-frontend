@@ -5,7 +5,7 @@ import Header from './components/sections/Header';
 import LoginPage from './components/pages/LoginPage';
 import NotificationDrawer from './components/sections/NotificationDrawer';
 import ProductListPage from './components/pages/ProductListPage';
-import React, { Component } from 'react';
+import React from 'react';
 import store from './store';
 
 const isAuthenticated = () => {
@@ -45,7 +45,7 @@ const AuthenticatedRoute = ({ component: Component, ...rest }) => (
     />
 );
 
-export class App extends Component {
+class App extends React.Component {
     render = () => {
         return (
             <Router>

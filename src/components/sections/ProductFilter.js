@@ -1,9 +1,9 @@
 import './styles/ProductFilter.css';
 import { connect } from 'react-redux';
 import { productFilterType, sortByValue } from '../../reducers/productFilterReducer';
-import React, { Component } from 'react';
+import React from 'react';
 
-export class ProductFilter extends Component {
+class ProductFilter extends React.Component {
     change = (event) => {
         this.props.sortByValue(event.target.value);
     };
