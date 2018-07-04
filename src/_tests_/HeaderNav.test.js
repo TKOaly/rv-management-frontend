@@ -1,6 +1,6 @@
-import React from 'react';
 import { HeaderNav } from '../components/sections/HeaderNav';
 import { mount, shallow } from 'enzyme';
+import React from 'react';
 
 it('renders without crashing', () => {
     shallow(<HeaderNav />);

@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { setGlobalMargin } from '../../reducers/productReducer';
+import React, { Component } from 'react';
 
 export class NewGlobalMargin extends Component {
     render = () => {

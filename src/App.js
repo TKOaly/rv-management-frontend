@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
-import ProductListPage from './components/pages/ProductListPage';
-import LoginPage from './components/pages/LoginPage';
-import Header from './components/sections/Header';
-import store from './store';
+import { Redirect, Route, BrowserRouter as Router } from 'react-router-dom';
 import { authenticationSuccess } from './reducers/authenticationReducer';
+import { connect } from 'react-redux';
+import Header from './components/sections/Header';
+import LoginPage from './components/pages/LoginPage';
 import NotificationDrawer from './components/sections/NotificationDrawer';
+import ProductListPage from './components/pages/ProductListPage';
+import React, { Component } from 'react';
+import store from './store';
 
 const isAuthenticated = () => {
     const loggedIn = store.getState().authentication.isAuthenticated;

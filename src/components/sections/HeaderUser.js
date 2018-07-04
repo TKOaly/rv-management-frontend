@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { DangerBtn } from '../buttons/Buttons';
-import { logout } from '../../reducers/authenticationReducer';
-
 import './styles/HeaderUser.css';
+import { DangerBtn } from '../buttons/Buttons';
+import { connect } from 'react-redux';
+import { logout } from '../../reducers/authenticationReducer';
+import React, { Component } from 'react';
 
 export class HeaderUser extends Component {
     render = () => {

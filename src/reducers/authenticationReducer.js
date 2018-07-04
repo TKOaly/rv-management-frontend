@@ -1,5 +1,5 @@
-import axios from 'axios';
 import { errorMessage } from './notificationReducer';
+import axios from 'axios';
 
 export const authenticationActions = {
     SET_AUTHENTICATING: 'SET_AUTHENTICATING',

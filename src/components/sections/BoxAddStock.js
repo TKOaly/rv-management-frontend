@@ -1,12 +1,11 @@
-import React from 'react';
-import { Row, Col } from 'react-flexbox-grid';
 import './styles/BoxAddStock.css';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-
+import { Col, Row } from 'react-flexbox-grid';
 import { addStock } from '../../reducers/boxReducer';
-import { toggleBarcodeVisibility } from '../../reducers/barcodeListenerReducer';
+import { connect } from 'react-redux';
 import { setUpgradeStock } from '../../reducers/productReducer';
+import { toggleBarcodeVisibility } from '../../reducers/barcodeListenerReducer';
+import { withRouter } from 'react-router-dom';
+import React from 'react';
 import moneyFormatter from '../../services/moneyFormatter';
 
 export class BoxAddStock extends React.Component {

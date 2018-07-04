@@ -1,8 +1,8 @@
-import { productFilterType, initialState, sortByValue } from './../reducers/productFilterReducer';
-import productFilterReducer from './../reducers/productFilterReducer';
-import thunk from 'redux-thunk';
-import configureStore from 'redux-mock-store';
 import './__mocks__/storageMock';
+import { initialState, productFilterType, sortByValue } from '../reducers/productFilterReducer';
+import configureStore from 'redux-mock-store';
+import productFilterReducer from '../reducers/productFilterReducer';
+import thunk from 'redux-thunk';
 
 describe('Productfilter reducer', () => {
     it('sets name ascending as default sorting method', () => {

@@ -1,6 +1,6 @@
-import productService from '../services/productService';
-import marginService from '../services/globalMarginService';
 import { errorMessage, successMessage } from './notificationReducer';
+import marginService from '../services/globalMarginService';
+import productService from '../services/productService';
 
 export const productActions = {
     SET_PRODUCT_SELECTED: 'SET_PRODUCT_SELECTED',

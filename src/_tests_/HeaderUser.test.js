@@ -1,6 +1,6 @@
-import React from 'react';
 import { HeaderUser } from '../components/sections/HeaderUser';
 import { mount, shallow } from 'enzyme';
+import React from 'react';
 import renderer from 'react-test-renderer';
 
 it('renders without crashing', () => {

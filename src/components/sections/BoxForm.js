@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Row, Col } from 'react-flexbox-grid';
-import { Link } from 'react-router-dom';
-import boxService from '../../services/boxService';
 import './styles/ProductForm.css';
-import { successMessage, errorMessage } from './../../reducers/notificationReducer';
+import { Col, Row } from 'react-flexbox-grid';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { errorMessage, successMessage } from '../../reducers/notificationReducer';
 import { getProducts } from '../../reducers/productReducer';
 import { toggleBarcodeVisibility } from '../../reducers/barcodeListenerReducer';
+import React, { Component } from 'react';
+import boxService from '../../services/boxService';
 import moneyFormatter from '../../services/moneyFormatter';
 
 export class BoxForm extends Component {

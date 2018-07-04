@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import './styles/ProductList.css';
-
-import { setProductSelected } from './../../reducers/productReducer';
-import { productFilterType } from './../../reducers/productFilterReducer';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { productFilterType } from '../../reducers/productFilterReducer';
+import { setProductSelected } from '../../reducers/productReducer';
+import React, { Component } from 'react';
 
 const sorters = {
     [productFilterType.NONE]: (a, b) => a.product_id - b.product_id,

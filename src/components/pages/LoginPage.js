@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import { authenticate } from '../../reducers/authenticationReducer';
-import { connect } from 'react-redux';
+import './styles/LoginPage.css';
+import { Col, Row } from 'react-flexbox-grid';
 import { Redirect } from 'react-router-dom';
 import { SuccessBtn } from '../buttons/Buttons';
-import { Row, Col } from 'react-flexbox-grid';
-import './styles/LoginPage.css';
+import { authenticate } from '../../reducers/authenticationReducer';
+import { connect } from 'react-redux';
+import React, { Component } from 'react';
 
 export class LoginPage extends Component {
     componentDidMount = () => {

@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import './styles/NewProduct.css';
-import { Route, withRouter, NavLink } from 'react-router-dom';
-import ProductForm from './ProductForm';
+import { NavLink, Route, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 import BoxForm from './BoxForm';
+import ProductForm from './ProductForm';
+import React, { Component } from 'react';
 
 export class NewProduct extends Component {
     render = () => {

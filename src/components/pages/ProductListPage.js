@@ -1,17 +1,17 @@
-import React, { Component } from 'react';
-import ProductList from './../sections/ProductList';
-import SingleProduct from './../sections/SingleProduct';
-import BarcodeListener from './../sections/BarcodeListener';
-import ProductFilter from './../sections/ProductFilter';
-import NewProduct from './../sections/NewProduct';
-import { connect } from 'react-redux';
-import { Row, Col } from 'react-flexbox-grid';
 import './styles/ProductListPage.css';
-import { getProducts } from '../../reducers/productReducer';
-import { getBoxes } from '../../reducers/boxReducer';
-import { getGlobalMargin } from '../../reducers/productReducer';
-import { getCategories } from '../../reducers/categoryReducer';
+import { Col, Row } from 'react-flexbox-grid';
 import { Route } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { getBoxes } from '../../reducers/boxReducer';
+import { getCategories } from '../../reducers/categoryReducer';
+import { getGlobalMargin } from '../../reducers/productReducer';
+import { getProducts } from '../../reducers/productReducer';
+import BarcodeListener from '../sections/BarcodeListener';
+import NewProduct from '../sections/NewProduct';
+import ProductFilter from '../sections/ProductFilter';
+import ProductList from '../sections/ProductList';
+import React, { Component } from 'react';
+import SingleProduct from '../sections/SingleProduct';
 
 export class ProductListPage extends Component {
     componentDidMount = () => {

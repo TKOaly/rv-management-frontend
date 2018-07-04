@@ -1,8 +1,8 @@
-import React from 'react';
 import { Header } from '../components/sections/Header';
-import { mount, shallow } from 'enzyme';
 import { HeaderNav } from '../components/sections/HeaderNav';
+import { mount, shallow } from 'enzyme';
 import HeaderUser from '../components/sections/HeaderUser';
+import React from 'react';
 import renderer from 'react-test-renderer';
 
 it('renders without crashing', () => {

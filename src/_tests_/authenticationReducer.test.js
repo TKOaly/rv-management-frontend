@@ -1,16 +1,16 @@
-import {
-    initialState,
-    setAuthenticating,
-    authenticationSuccess,
-    authenticationFailure,
-    authenticate,
-    logout
-} from '../reducers/authenticationReducer';
-import authenticationReducer from '../reducers/authenticationReducer';
-import { notificationActions, notificationTypes } from '../reducers/notificationReducer';
-import thunk from 'redux-thunk';
-import configureStore from 'redux-mock-store';
 import './__mocks__/storageMock';
+import {
+    authenticate,
+    authenticationFailure,
+    authenticationSuccess,
+    initialState,
+    logout,
+    setAuthenticating
+} from '../reducers/authenticationReducer';
+import { notificationActions, notificationTypes } from '../reducers/notificationReducer';
+import authenticationReducer from '../reducers/authenticationReducer';
+import configureStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
 
 jest.mock('axios');
 

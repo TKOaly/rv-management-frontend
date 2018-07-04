@@ -1,5 +1,5 @@
-import React from 'react';
 import './styles/Buttons.css';
+import React from 'react';
 
 export const BasicBtn = ({ onClick, children, small, ...props }) => {
     const className = 'btn' + (small ? ' btn-small' : '');

@@ -1,6 +1,6 @@
-import React from 'react';
-import { BasicBtn, SuccessBtn, DangerBtn } from '../components/buttons/Buttons';
+import { BasicBtn, DangerBtn, SuccessBtn } from '../components/buttons/Buttons';
 import { mount } from 'enzyme';
+import React from 'react';
 import renderer from 'react-test-renderer';
 
 it('renders buttons without crashing', () => {

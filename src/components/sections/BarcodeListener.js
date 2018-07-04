@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import { SuccessBtn } from '../buttons/Buttons';
+import { clearBarcode, setBarcode, toggleBarcodeVisibility } from '../../reducers/barcodeListenerReducer';
 import { connect } from 'react-redux';
-import { SuccessBtn } from './../buttons/Buttons';
-import { setProductSelected } from '../../reducers/productReducer';
-import { setBarcode, toggleBarcodeVisibility, clearBarcode } from '../../reducers/barcodeListenerReducer';
 import { errorMessage } from '../../reducers/notificationReducer';
+import { setProductSelected } from '../../reducers/productReducer';
 import { withRouter } from 'react-router-dom';
+import React, { Component } from 'react';
 
 export class BarcodeListener extends Component {
     handleInputEvent = (event) => {

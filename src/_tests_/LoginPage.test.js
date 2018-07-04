@@ -1,8 +1,8 @@
+import { LoginPage } from '../components/pages/LoginPage';
+import { Redirect } from 'react-router';
+import { mount, render, shallow } from 'enzyme';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { LoginPage } from '../components/pages/LoginPage';
-import { shallow, mount, render } from 'enzyme';
-import { Redirect } from 'react-router';
 
 describe('Login page', () => {
     it('renders without crashing', () => {

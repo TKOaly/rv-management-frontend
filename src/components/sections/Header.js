@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
+import './styles/Header.css';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import HeaderNav from './HeaderNav';
 import HeaderUser from './HeaderUser';
-import { withRouter } from 'react-router-dom';
-
-import './styles/Header.css';
+import React, { Component } from 'react';
 
 export class Header extends Component {
     render = () => {

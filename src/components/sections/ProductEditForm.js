@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Field, reduxForm } from 'redux-form';
-import { Row, Col } from 'react-flexbox-grid';
-import { Link, withRouter } from 'react-router-dom';
-import { toggleBarcodeVisibility } from './../../reducers/barcodeListenerReducer';
 import './styles/ProductEditForm.css';
-import moneyFormatter from './../../services/moneyFormatter';
+import { Col, Row } from 'react-flexbox-grid';
+import { Field, reduxForm } from 'redux-form';
+import { Link, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { toggleBarcodeVisibility } from '../../reducers/barcodeListenerReducer';
+import React, { Component } from 'react';
+import moneyFormatter from '../../services/moneyFormatter';
 
 // Validators (consider moving these to a global validation module)
 const required = (value) => (value ? undefined : 'Kenttä ei saa olla tyhjä');

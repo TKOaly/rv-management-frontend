@@ -1,11 +1,11 @@
+import './__mocks__/storageMock';
+import { App } from '../App';
+import { Provider } from 'react-redux';
+import { mount, render, shallow } from 'enzyme';
+import Header from '../components/sections/Header';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { App } from '../App';
-import Header from '../components/sections/Header';
-import { shallow, mount, render } from 'enzyme';
-import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
-import './__mocks__/storageMock';
 
 const mockStore = configureStore([])({
     authentication: {

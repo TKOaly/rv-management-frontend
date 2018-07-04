@@ -1,4 +1,4 @@
-import productMarginService from './../services/productMarginService';
+import productMarginService from '../services/productMarginService';
 
 export const productMarginActions = {
     SET_PRODUCT_MARGIN: 'SET_PRODUCT_MARGIN',

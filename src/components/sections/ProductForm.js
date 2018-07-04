@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Row, Col } from 'react-flexbox-grid';
+import './styles/ProductForm.css';
+import { Col, Row } from 'react-flexbox-grid';
 import { Link } from 'react-router-dom';
 import { addProduct } from '../../reducers/productReducer';
-import './styles/ProductForm.css';
+import { connect } from 'react-redux';
 import { toggleBarcodeVisibility } from '../../reducers/barcodeListenerReducer';
+import React, { Component } from 'react';
 import moneyFormatter from '../../services/moneyFormatter';
 
 export class ProductForm extends Component {

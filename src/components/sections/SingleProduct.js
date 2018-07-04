@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import './styles/SingleProduct.css';
-import noImage from './../../images/no_image.png';
-import { fetchProductMargin } from './../../reducers/productMarginReducer';
+import { NavLink, Route, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { fetchProductMargin } from '../../reducers/productMarginReducer';
 import { setProductSelected, updateProduct } from '../../reducers/productReducer';
-import { Route, withRouter, NavLink } from 'react-router-dom';
-import ProductAddStock from './ProductAddStock';
 import BoxAddStock from './BoxAddStock';
+import ProductAddStock from './ProductAddStock';
 import ProductEditForm from './ProductEditForm';
+import React, { Component } from 'react';
 import moneyFormatter from '../../services/moneyFormatter';
+import noImage from '../../images/no_image.png';
 
 export class SingleProduct extends Component {
     constructor(props) {

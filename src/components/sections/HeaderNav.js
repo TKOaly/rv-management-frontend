@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
 import './styles/HeaderNav.css';
+import { NavLink } from 'react-router-dom';
+import React, { Component } from 'react';
 
 const activeClass = 'header-nav-active';
 

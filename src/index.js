@@ -1,11 +1,9 @@
+import './index.css';
+import './reset.css';
+import { Provider } from 'react-redux';
+import App from './App';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-
-import './reset.css';
-import './index.css';
-
-import App from './App';
 
 // redux store
 import store from './store';
