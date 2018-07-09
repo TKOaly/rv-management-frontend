@@ -20,15 +20,15 @@ class NewGlobalMargin extends React.Component {
     };
 }
 
-const mapDispatchToProps = {
-    setGlobalMargin
-};
-
 const mapStateToProps = (state) => {
     return {
         token: state.authentication.accessToken,
         globalMargin: state.product.globalMargin
     };
+};
+
+const mapDispatchToProps = {
+    setGlobalMargin
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewGlobalMargin);

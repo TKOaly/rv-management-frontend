@@ -19,13 +19,24 @@ class SingleProduct extends React.Component {
     }
 
     componentDidUpdate = () => {
-        if (this.props.selectedProduct === 0 && this.props.product) {
-            this.props.setProductSelected(this.props.product.product_id);
+        const product = this.getCurrentProduct();
+        if (this.props.selectedProduct === 0 && product) {
+            this.props.setProductSelected(product.product_id);
         }
     };
 
     componentWillUnmount = () => {
         this.props.setProductSelected(0);
+    };
+
+    getCurrentProduct = () => {
+        return this.props.products.find(
+            (product) => product.product_id === parseInt(this.props.match.params.productid, 10)
+        );
+    };
+
+    getCurrentBox = () => {
+        return this.props.boxes.find((box) => box.product_id === parseInt(this.props.match.params.productid, 10));
     };
 
     handleProductEdit = (values) => {
@@ -45,8 +56,8 @@ class SingleProduct extends React.Component {
     };
 
     render = () => {
-        const product = this.props.product;
-        const box = this.props.box;
+        const product = this.getCurrentProduct();
+        const box = this.getCurrentBox();
         if (!product) {
             return <div>Valitse tuote tai lue viivakoodi.</div>;
         }
@@ -99,23 +110,21 @@ class SingleProduct extends React.Component {
     };
 }
 
-const mapDispatchToProps = {
-    fetchProductMargin,
-    setProductSelected,
-    updateProduct
-};
-
-const mapStateToProps = (state, props) => {
+const mapStateToProps = (state) => {
     return {
-        product: state.product.products.find(
-            (product) => product.product_id === parseInt(props.match.params.productid, 10)
-        ),
-        box: state.box.boxes.find((box) => box.product_id === parseInt(props.match.params.productid, 10)),
+        products: state.product.products,
+        boxes: state.box.boxes,
         productMargin: state.productMargin.productMargin,
         selectedProduct: state.product.selectedProduct,
         globalMargin: state.product.globalMargin,
         token: state.authentication.accessToken
     };
+};
+
+const mapDispatchToProps = {
+    fetchProductMargin,
+    setProductSelected,
+    updateProduct
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SingleProduct));

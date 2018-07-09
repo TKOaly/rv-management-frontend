@@ -25,9 +25,11 @@ class ProductFilter extends React.Component {
     };
 }
 
-const mapStateToProps = (state) => ({
-    sortedBy: state.productFilter.sortedBy
-});
+const mapStateToProps = (state) => {
+    return {
+        sortedBy: state.productFilter.sortedBy
+    };
+};
 
 const mapDispatchToProps = {
     sortByValue

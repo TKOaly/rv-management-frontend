@@ -162,12 +162,6 @@ class ProductAddStock extends React.Component {
     };
 }
 
-const mapDispatchToProps = {
-    addStock,
-    setUpgradeStock,
-    toggleBarcodeVisibility
-};
-
 const mapStateToProps = (state) => {
     return {
         globalMargin: state.product.globalMargin,
@@ -175,6 +169,12 @@ const mapStateToProps = (state) => {
         upgradeStock: state.product.upgradeStock,
         barcodeVisibile: state.barcodeListener.visible
     };
+};
+
+const mapDispatchToProps = {
+    addStock,
+    setUpgradeStock,
+    toggleBarcodeVisibility
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ProductAddStock));

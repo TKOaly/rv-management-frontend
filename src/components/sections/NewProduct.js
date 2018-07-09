@@ -1,6 +1,5 @@
 import './styles/NewProduct.css';
 import { NavLink, Route, withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
 import BoxForm from './BoxForm';
 import ProductForm from './ProductForm';
 import React from 'react';
@@ -33,6 +32,4 @@ class NewProduct extends React.Component {
     };
 }
 
-const mapDispatchToProps = {};
-
-export default withRouter(connect(null, mapDispatchToProps)(NewProduct));
+export default withRouter(NewProduct);

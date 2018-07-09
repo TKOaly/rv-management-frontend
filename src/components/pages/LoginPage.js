@@ -57,14 +57,14 @@ class LoginPage extends React.Component {
     };
 }
 
-const mapDispatchToProps = {
-    authenticate
-};
-
 const mapStateToProps = (state) => {
     return {
         isAuthenticated: state.authentication.isAuthenticated
     };
+};
+
+const mapDispatchToProps = {
+    authenticate
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

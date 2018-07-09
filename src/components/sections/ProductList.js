@@ -75,16 +75,16 @@ class ProductList extends React.Component {
     };
 }
 
-const mapDispatchToProps = {
-    setProductSelected
-};
-
 const mapStateToProps = (state) => {
     return {
         products: state.product.products,
         sortedBy: state.productFilter.sortedBy,
         margin: state.product.globalMargin
     };
+};
+
+const mapDispatchToProps = {
+    setProductSelected
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductList);

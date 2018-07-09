@@ -51,18 +51,18 @@ class ProductListPage extends React.Component {
     };
 }
 
-const mapDispatchToProps = {
-    getProducts,
-    getGlobalMargin,
-    getBoxes,
-    getCategories
-};
-
 const mapStateToProps = (state) => {
     return {
         activeProduct: state.product.selectedProduct,
         token: state.authentication.accessToken
     };
+};
+
+const mapDispatchToProps = {
+    getProducts,
+    getGlobalMargin,
+    getBoxes,
+    getCategories
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductListPage);
