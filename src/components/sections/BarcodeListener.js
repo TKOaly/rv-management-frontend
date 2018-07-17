@@ -13,12 +13,12 @@ class BarcodeListener extends React.Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        var product = this.props.products.find((prod) => prod.product_barcode === this.props.barcode);
+        const product = this.props.products.find((prod) => prod.product_barcode === this.props.barcode);
         if (product) {
             this.props.setProductSelected(product.product_id);
             this.props.history.push(`/products/${product.product_id}/stock`);
         } else {
-            var box = this.props.boxes.find((b) => b.box_barcode === this.props.barcode);
+            const box = this.props.boxes.find((b) => b.box_barcode === this.props.barcode);
             if (box) {
                 this.props.setProductSelected(box.product_id);
                 this.props.history.push(`/products/${box.product_id}/box`);

@@ -64,7 +64,7 @@ class SingleProduct extends React.Component {
         const match = this.props.match;
 
         //link to box exist only if product has a box
-        let linkToBox = box ? (
+        const linkToBox = box ? (
             <li>
                 <NavLink to={`${match.url}/box`}> Laatikon sisäänosto </NavLink>
             </li>

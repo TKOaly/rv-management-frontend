@@ -10,7 +10,7 @@ describe('Productfilter reducer', () => {
     });
 
     it('changes state correctly with sortByValue', () => {
-        var newState = productFilterReducer(initialState, sortByValue(productFilterType.NAME_ASC));
+        let newState = productFilterReducer(initialState, sortByValue(productFilterType.NAME_ASC));
         expect(newState.sortedBy).toEqual('SORT_NAME_ASC');
 
         newState = productFilterReducer(initialState, sortByValue(productFilterType.NAME_DESC));
@@ -24,7 +24,7 @@ describe('Productfilter reducer', () => {
     });
 
     it('does not change state with an unknown action', () => {
-        var newState = productFilterReducer(initialState, {
+        const newState = productFilterReducer(initialState, {
             type: 'unknown action'
         });
 

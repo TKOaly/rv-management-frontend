@@ -63,7 +63,7 @@ describe('Authentication reducer', () => {
     });
 
     it('changes state correctly with setAuthenticating', () => {
-        var newState = authenticationReducer(initialState, setAuthenticating(false));
+        let newState = authenticationReducer(initialState, setAuthenticating(false));
 
         expect(newState.isAuthenticating).toEqual(false);
 
@@ -73,7 +73,7 @@ describe('Authentication reducer', () => {
     });
 
     it('changes state correctly with authenticationSuccess', () => {
-        var newState = authenticationReducer(initialState, authenticationSuccess('token'));
+        const newState = authenticationReducer(initialState, authenticationSuccess('token'));
 
         expect(newState.isAuthenticated).toEqual(true);
         expect(newState.accessToken).toEqual('token');
@@ -81,7 +81,7 @@ describe('Authentication reducer', () => {
     });
 
     it('changes state correctly with authenticationFailure', () => {
-        var newState = authenticationReducer(initialState, authenticationFailure('error message'));
+        const newState = authenticationReducer(initialState, authenticationFailure('error message'));
 
         expect(newState.isAuthenticated).toEqual(false);
         expect(newState.authenticationError).toEqual('error message');
@@ -89,7 +89,7 @@ describe('Authentication reducer', () => {
     });
 
     it('changes state correctly with logout', () => {
-        var newState = authenticationReducer(initialState, logout());
+        const newState = authenticationReducer(initialState, logout());
 
         expect(newState.isAuthenticated).toEqual(false);
         expect(newState.authenticationError).toEqual(null);
@@ -97,7 +97,7 @@ describe('Authentication reducer', () => {
     });
 
     it('does not change state with an unknown action', () => {
-        var newState = authenticationReducer(initialState, {
+        const newState = authenticationReducer(initialState, {
             type: 'unknown action'
         });
 
