@@ -29,7 +29,7 @@ const updateProduct = (product, token) => {
             product,
             { headers: { Authorization: 'Bearer ' + token } }
         )
-        .then((res) => res.data);
+        .then((res) => res.data.product);
 };
 
 const addStock = (token, product) => {
