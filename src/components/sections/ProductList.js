@@ -22,6 +22,41 @@ const sorters = {
     [productFilterType.STOCK_HIGH]: (a, b) => b.quantity - a.quantity
 };
 
+class ProductListItem extends React.PureComponent {
+    handleClick = () => {
+        this.props.onClick(this.props.product.product_id);
+    }
+
+    render() {
+        const { product_id, product_name, quantity } = this.props.product;
+        return (
+            <Link
+                to={`/products/${product_id}`}
+                className="product"
+                onClick={this.handleClick}
+            >
+                <span>{`${product_name} (${quantity}) `}</span>
+            </Link>
+        );
+    }
+}
+
+class ActiveProductListItem extends React.PureComponent {
+    render() {
+        const { product, innerRef } = this.props;
+        const { product_id, product_name, quantity } = product;
+        return (
+            <Link
+                innerRef={innerRef}
+                to={`/products/${product_id}`}
+                className="product active"
+            >
+                <span>{`${product_name} (${quantity}) `}</span>
+            </Link>
+        );
+    }
+}
+
 class ProductList extends React.Component {
     componentDidUpdate = () => {
         if (this.active) {
@@ -29,6 +64,15 @@ class ProductList extends React.Component {
             window.scrollTo(0, 0);
         }
     };
+
+    handleListItemClick = (productId) => {
+        this.props.setProductSelected(productId);
+    }
+
+    handleActiveItemRef = (activeRef) => {
+        this.active = activeRef;
+    }
+
     render = () => {
         const prods = this.props.products ? this.props.products.sort(sorters[this.props.sortedBy]) : [];
         return (
@@ -40,33 +84,17 @@ class ProductList extends React.Component {
                     {prods.map(
                         (product) =>
                             product.product_id !== this.props.active ? (
-                                <Link
-                                    to={`/products/${product.product_id}`}
+                                <ProductListItem
                                     key={product.product_id}
-                                    className="product"
-                                    onClick={() => {
-                                        this.props.setProductSelected(product.product_id);
-                                    }}
-                                >
-                                    <span>
-                                        {product.product_name} {' ('}
-                                        {product.quantity}
-                                        {') '}
-                                    </span>
-                                </Link>
+                                    product={product}
+                                    onClick={this.handleListItemClick}
+                                />
                             ) : (
-                                <Link
-                                    innerRef={(active) => (this.active = active)}
-                                    to={`/products/${product.product_id}`}
+                                <ActiveProductListItem
                                     key={product.product_id}
-                                    className="product active"
-                                >
-                                    <span>
-                                        {product.product_name} {' ('}
-                                        {product.quantity}
-                                        {') '}
-                                    </span>
-                                </Link>
+                                    product={product}
+                                    innerRef={this.handleActiveItemRef}
+                                />
                             )
                     )}
                 </div>
