@@ -37,6 +37,10 @@ const prodMapper = (product) =>
         sellprice: moneyFormatter.centsToString(product.sellprice)
     });
 
+// Create and re-use validator for name field.
+// See issue #5 on Github
+const productNameMaxLenValidator = maxLength('Tuotteen nimen', 64);
+
 class ProductEditForm extends React.Component {
     componentDidMount = () => {
         this.props.toggleBarcodeVisibility(false);
@@ -57,6 +61,7 @@ class ProductEditForm extends React.Component {
             );
             return value;
         };
+
         return (
             <form onSubmit={this.props.handleSubmit} className="product-edit-form">
                 <Row>
@@ -85,7 +90,7 @@ class ProductEditForm extends React.Component {
                             name="product_name"
                             placeholder="Tuotteen nimi"
                             type="text"
-                            validate={[required, maxLength('Tuotteen nimen', 64)]}
+                            validate={[required, productNameMaxLenValidator]}
                         />
                     </Col>
                 </Row>
