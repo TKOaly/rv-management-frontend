@@ -22,6 +22,14 @@ Production URL for the application is https://rv-management.herokuapp.com, while
 
 Run `yarn build` to build the project. This will create a production-optimized build to `build` folder.
 
+## Building with docker
+
+1. Clone the repo
+2. Run `chmod +x ./build-docker.sh` and then `./build-docker-sh`
+3. Run `chmod +x ./run-docker.sh` and then `./run-docker-sh`
+
+The Dockerfile defaults to `http://localhost:3000` as the back-end URL. You can customize the port of the front-end by starting the container manually with the command `docker run -p PORT:5000 -d --env-file=.env --name rv-management-container rv-management-frontend` (Replace PORT)
+
 ## Documentation
 
 For UI component documentation, please click [this link](http://htmlpreview.github.io/?https://github.com/ohtu2018-rv/rv-management-frontend/blob/develop/styleguide/index.html)
