@@ -1,4 +1,5 @@
 import { applyMiddleware, combineReducers, createStore } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import { reducer as formReducer } from 'redux-form';
 import authenticationReducer from './reducers/authenticationReducer';
 import barcodeListenerReducer from './reducers/barcodeListenerReducer';
@@ -25,10 +26,6 @@ const reducer = combineReducers({
 
 // Create store
 const middleware = [thunk];
-const store = createStore(
-    reducer,
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
-    applyMiddleware(...middleware)
-);
+const store = createStore(reducer, composeWithDevTools(applyMiddleware(...middleware)));
 
 export default store;
