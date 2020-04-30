@@ -72,7 +72,3 @@ New features or fixes must have a branch. Pushing directly to develop or master 
 ## Build pipeline
 
 When code is pushed to GitHub and a pull request is made to either `develop` or `master` branch, Travis CI will run tests for the project and deploy it to Heroku, if all test have passed.
-
-## License
-
-This project is licensed with GNU GPL v2 license.
