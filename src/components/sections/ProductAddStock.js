@@ -1,4 +1,4 @@
-import './styles/ProductAddStock.css';
+import './styles/ProductAddStock.scss';
 import { Col, Row } from 'react-flexbox-grid';
 import { addStock, setUpgradeStock } from '../../reducers/productReducer';
 import { connect } from 'react-redux';

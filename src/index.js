@@ -1,5 +1,5 @@
-import './index.css';
-import './reset.css';
+import './index.scss';
+import './reset.scss';
 import { Provider } from 'react-redux';
 import App from './App';
 import React from 'react';

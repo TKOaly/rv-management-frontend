@@ -1,4 +1,4 @@
-import './styles/ProductFilter.css';
+import './styles/ProductFilter.scss';
 import { connect } from 'react-redux';
 import { productFilterType, sortByValue } from '../../reducers/productFilterReducer';
 import React from 'react';

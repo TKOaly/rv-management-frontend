@@ -1,4 +1,4 @@
-import './styles/ProductListPage.css';
+import './styles/ProductListPage.scss';
 import { Col, Row } from 'react-flexbox-grid';
 import { Route } from 'react-router-dom';
 import { connect } from 'react-redux';

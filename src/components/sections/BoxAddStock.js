@@ -1,4 +1,4 @@
-import './styles/BoxAddStock.css';
+import './styles/BoxAddStock.scss';
 import { Col, Row } from 'react-flexbox-grid';
 import { addStock } from '../../reducers/boxReducer';
 import { connect } from 'react-redux';

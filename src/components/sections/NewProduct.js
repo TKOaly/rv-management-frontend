@@ -1,4 +1,4 @@
-import './styles/NewProduct.css';
+import './styles/NewProduct.scss';
 import { NavLink, Route, withRouter } from 'react-router-dom';
 import BoxForm from './BoxForm';
 import ProductForm from './ProductForm';

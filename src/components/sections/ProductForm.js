@@ -1,4 +1,4 @@
-import './styles/ProductForm.css';
+import './styles/ProductForm.scss';
 import { Col, Row } from 'react-flexbox-grid';
 import { Link } from 'react-router-dom';
 import { addProduct } from '../../reducers/productReducer';

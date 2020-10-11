@@ -1,4 +1,4 @@
-import './styles/ProductEditForm.css';
+import './styles/ProductEditForm.scss';
 import { Col, Row } from 'react-flexbox-grid';
 import { Field, reduxForm } from 'redux-form';
 import { Link, withRouter } from 'react-router-dom';

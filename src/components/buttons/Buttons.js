@@ -1,4 +1,4 @@
-import './styles/Buttons.css';
+import './styles/Buttons.scss';
 import React from 'react';
 
 export const BasicBtn = ({ onClick, children, small, ...props }) => {

@@ -1,4 +1,4 @@
-import './styles/SingleProduct.css';
+import './styles/SingleProduct.scss';
 import { NavLink, Route, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchProductMargin } from '../../reducers/productMarginReducer';

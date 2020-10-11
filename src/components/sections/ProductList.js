@@ -1,4 +1,4 @@
-import './styles/ProductList.css';
+import './styles/ProductList.scss';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { productFilterType } from '../../reducers/productFilterReducer';
