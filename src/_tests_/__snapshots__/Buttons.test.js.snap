@@ -3,20 +3,17 @@
 exports[`renders buttons without crashing 1`] = `
 <button
   className="btn"
-  onClick={undefined}
 />
 `;
 
 exports[`renders buttons without crashing 2`] = `
 <button
   className="btn btn-success"
-  onClick={undefined}
 />
 `;
 
 exports[`renders buttons without crashing 3`] = `
 <button
   className="btn btn-danger"
-  onClick={undefined}
 />
 `;

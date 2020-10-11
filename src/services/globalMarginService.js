@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const targetUrl = 'api/v1/admin/margin';
+const targetUrl = 'api/v1/admin/defaultMargin';
 
 const getMargin = (token) => {
     return axios

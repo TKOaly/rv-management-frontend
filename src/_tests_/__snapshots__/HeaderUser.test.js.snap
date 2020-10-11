@@ -1,25 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`contains user information 1`] = `
+exports[`<HeaderSuser /> renders without crashing 1`] = `
 <div
   className="header-user"
 >
   <button
     className="btn btn-danger btn-small"
-    onClick={undefined}
-  >
-    Kirjaudu ulos
-  </button>
-</div>
-`;
-
-exports[`renders without crashing 1`] = `
-<div
-  className="header-user"
->
-  <button
-    className="btn btn-danger btn-small"
-    onClick={undefined}
+    onClick={[Function]}
   >
     Kirjaudu ulos
   </button>

@@ -1,4 +1,4 @@
-import './styles/ProductListPage.css';
+import './styles/ProductListPage.scss';
 import { Col, Row } from 'react-flexbox-grid';
 import { Route } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -42,7 +42,7 @@ class ProductListPage extends React.Component {
                                 </div>
                             )}
                         />
-                        <Route path={`${match.path}/:productid(\\d+)`} component={SingleProduct} />
+                        <Route path={`${match.path}/:barcode(\\d+)`} component={SingleProduct} />
                         <Route path={`${match.path}/create`} component={NewProduct} />
                     </Col>
                 </Row>

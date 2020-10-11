@@ -6,10 +6,10 @@ function post(url, data = {}) {
             if (data.username === 'admin' && data.password === 'admin') {
                 resolve({
                     data: {
-                        access_token: 'access token',
-                        status: 200,
-                        statusText: 'OK'
-                    }
+                        accessToken: 'access token',
+                    },
+                    status: 200,
+                    statusText: 'OK'
                 });
             } else {
                 reject({

@@ -1,4 +1,4 @@
-import './styles/Header.css';
+import './styles/Header.scss';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import HeaderNav from './HeaderNav';

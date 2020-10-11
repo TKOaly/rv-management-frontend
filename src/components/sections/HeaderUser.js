@@ -1,4 +1,4 @@
-import './styles/HeaderUser.css';
+import './styles/HeaderUser.scss';
 import { DangerBtn } from '../buttons/Buttons';
 import { connect } from 'react-redux';
 import { logout } from '../../reducers/authenticationReducer';

@@ -1,4 +1,5 @@
-import './styles/ProductForm.css';
+import './styles/ProductForm.scss';
+import { useSelector } from 'react-redux';
 import { Col, Row } from 'react-flexbox-grid';
 import { Link } from 'react-router-dom';
 import { addProduct } from '../../reducers/productReducer';
@@ -7,16 +8,32 @@ import { toggleBarcodeVisibility } from '../../reducers/barcodeListenerReducer';
 import React from 'react';
 import moneyFormatter from '../../services/moneyFormatter';
 
+const CategoryChooser = ({ ...props }) => {
+    const categories = useSelector((state) => state.category.categories);
+
+    console.log(categories);
+
+    return (
+        <select { ...props}>
+            {categories.map((category) => (
+                <option value={category.categoryId}>{ category.description }</option>
+            ))}
+        </select>
+    );
+};
+
 class ProductForm extends React.Component {
     updateFields = () => {
-        this.marginInput.value = this.props.globalMargin;
+        this.marginInput.value = Math.round(this.props.globalMargin * 100);
         this.calculateSellprice();
     };
 
     calculateSellprice = () => {
         const cost = moneyFormatter.stringToCents(this.buyInInput.value);
         const margin = parseFloat(this.marginInput.value);
-        const sellprice = moneyFormatter.applyMarginPercent(cost, margin);
+        const sellprice = Math.round(cost * ((margin / 100.0) + 1.0));
+
+        console.log(this.buyInInput.value, cost, margin, sellprice);
 
         this.sellpriceInput.value = moneyFormatter.centsToString(sellprice);
     };
@@ -37,13 +54,14 @@ class ProductForm extends React.Component {
     formSubmit = (event) => {
         event.preventDefault();
         const newProduct = {
-            descr: event.target.name.value,
+            name: event.target.name.value,
             pgrpid: 1,
-            weight: event.target.weight.value,
+            weight: parseInt(event.target.weight.value),
             barcode: event.target.barcode.value,
-            count: 0,
-            buyprice: moneyFormatter.stringToCents(event.target.buyprice.value),
-            sellprice: moneyFormatter.stringToCents(event.target.sellprice.value)
+            categoryId: parseInt(event.target.category.value),
+            stock: 0,
+            buyPrice: moneyFormatter.stringToCents(event.target.buyprice.value),
+            sellPrice: moneyFormatter.stringToCents(event.target.sellprice.value)
         };
         this.props.addProduct(newProduct, this.props.token);
     };
@@ -87,10 +105,9 @@ class ProductForm extends React.Component {
                             <label htmlFor="category">Kategoria</label>
                         </Col>
                         <Col xs={9}>
-                            <input
+                            <CategoryChooser
                                 id="category"
                                 name="category"
-                                type="text"
                                 ref={(input) => {
                                     this.categoryInput = input;
                                 }}
@@ -162,7 +179,7 @@ class ProductForm extends React.Component {
                                 type="number"
                                 step="1"
                                 min="0"
-                                defaultValue={this.props.globalMargin}
+                                defaultValue={Math.round(this.props.globalMargin * 100)}
                                 ref={(input) => {
                                     this.marginInput = input;
                                 }}

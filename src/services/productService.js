@@ -18,13 +18,13 @@ const addProduct = (product, token) => {
             product,
             { headers: { Authorization: 'Bearer ' + token } }
         )
-        .then((res) => res.data);
+        .then((res) => res.data.product);
 };
 
 const updateProduct = (product, token) => {
     return axios
-        .put(
-            `${process.env.REACT_APP_BACKEND_URL}/${targetUrl}/product/${product.itemid}`,
+        .patch(
+            `${process.env.REACT_APP_BACKEND_URL}/${targetUrl}/${product.barcode}`,
 
             product,
             { headers: { Authorization: 'Bearer ' + token } }
@@ -35,25 +35,17 @@ const updateProduct = (product, token) => {
 const addStock = (token, product) => {
     return axios
         .post(
-            `${process.env.REACT_APP_BACKEND_URL}/${targetUrl}/product/${product.id}`,
+            `${process.env.REACT_APP_BACKEND_URL}/${targetUrl}/${product.barcode}/buyIn`,
             {
-                buyprice: product.buyprice,
-                margin: product.margin,
-                sellprice: product.sellprice,
-                quantity: product.quantity
+                buyPrice: product.buyPrice,
+                sellPrice: product.sellPrice,
+                count: product.count
             },
             {
                 headers: { Authorization: 'Bearer ' + token }
             }
         )
-        .then(
-            (res) =>
-                (product = {
-                    ...res.data,
-                    buyprice: res.data.buyprice,
-                    sellprice: res.data.sellprice
-                })
-        );
+        .then((res) => res.data);
 };
 
 export default {

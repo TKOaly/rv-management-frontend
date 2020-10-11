@@ -1,16 +1,30 @@
-import { HeaderUser } from '../components/sections/HeaderUser';
 import { mount, shallow } from 'enzyme';
+import { MemoryRouter } from 'react-router';
+import HeaderUser from '../components/sections/HeaderUser';
 import React from 'react';
 import renderer from 'react-test-renderer';
+import createMockStore from 'redux-mock-store';
 
-it('renders without crashing', () => {
-    shallow(<HeaderUser />);
-    const header = renderer.create(<HeaderUser />).toJSON();
-    expect(header).toMatchSnapshot();
-});
+const withRouter = (child) => <MemoryRouter>{child}</MemoryRouter>;
+const mockStore = createMockStore()();
 
-it('contains user information', () => {
-    expect(shallow(<HeaderUser />).find('.header-user').length).toBe(1);
-    const header = renderer.create(<HeaderUser />).toJSON();
-    expect(header).toMatchSnapshot();
+describe('<HeaderSuser />', () => {
+    let context;
+
+    beforeEach(() => {
+        context = mount(
+            <MemoryRouter>
+                <HeaderUser store={mockStore} />
+            </MemoryRouter>
+        );
+    });
+
+    it('renders without crashing', () => {
+        const header = renderer.create(context).toJSON();
+        expect(header).toMatchSnapshot();
+    });
+
+    it('contains user information', () => {
+        expect(context.find('.header-user').length).toBe(1);
+    });
 });
