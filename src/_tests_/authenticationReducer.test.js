@@ -1,4 +1,5 @@
 import './__mocks__/storageMock';
+import axios from 'axios';
 import {
     authenticate,
     authenticationFailure,

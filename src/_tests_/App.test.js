@@ -1,5 +1,5 @@
 import './__mocks__/storageMock';
-import { App } from '../App';
+import App from '../App';
 import { Provider } from 'react-redux';
 import { mount, render, shallow } from 'enzyme';
 import Header from '../components/sections/Header';
@@ -10,6 +10,9 @@ import configureStore from 'redux-mock-store';
 const mockStore = configureStore([])({
     authentication: {
         isAuthenticated: false
+    },
+    notification: {
+        notifications: []
     }
 });
 

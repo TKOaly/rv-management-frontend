@@ -1,20 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`does not render navigation and user info when not logged in 1`] = `
-<header
-  className="topheader"
->
-  <div
-    className="header-title"
-  >
-    <h1>
-      RV management
-    </h1>
-  </div>
-</header>
-`;
-
-exports[`renders without crashing 1`] = `
+exports[`<Header /> renders without crashing 1`] = `
 <header
   className="topheader"
 >
