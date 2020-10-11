@@ -33,8 +33,9 @@ const renderField = ({ input, label, type, className, ref, meta: { touched, erro
 
 const prodMapper = (product) =>
     Object.assign({}, product, {
-        buyprice: moneyFormatter.centsToString(product.buyprice),
-        sellprice: moneyFormatter.centsToString(product.sellprice)
+        categoryId: product.category.categoryId,
+        buyPrice: moneyFormatter.centsToString(product.buyPrice),
+        sellPrice: moneyFormatter.centsToString(product.sellPrice)
     });
 
 // Create and re-use validator for name field.
@@ -44,17 +45,21 @@ const productNameMaxLenValidator = maxLength('Tuotteen nimen', 64);
 class ProductEditForm extends React.Component {
     componentDidMount = () => {
         this.props.toggleBarcodeVisibility(false);
+
+
     };
+
     componentWillUnmount = () => {
         this.props.toggleBarcodeVisibility(true);
     };
+
     render = () => {
-        const calculateSellprice = (value, previousValue, allValues) => {
+        const calculateSellprice = (value, _previousValue, allValues) => {
             this.props.change(
-                'sellprice',
+                'sellPrice',
                 moneyFormatter.centsToString(
                     moneyFormatter.applyMarginPercent(
-                        moneyFormatter.stringToCents(allValues.buyprice),
+                        moneyFormatter.stringToCents(allValues.buyPrice),
                         parseFloat(allValues.margin)
                     )
                 )
@@ -71,7 +76,7 @@ class ProductEditForm extends React.Component {
                     <Col xs={8}>
                         <Field
                             component={renderField}
-                            name="product_barcode"
+                            name="barcode"
                             type="text"
                             placeholder="Viivakoodi"
                             disabled={true}
@@ -87,7 +92,7 @@ class ProductEditForm extends React.Component {
                         <Field
                             component={renderField}
                             id="name"
-                            name="product_name"
+                            name="name"
                             placeholder="Tuotteen nimi"
                             type="text"
                             validate={[required, productNameMaxLenValidator]}
@@ -99,12 +104,12 @@ class ProductEditForm extends React.Component {
                         <label htmlFor="category">Kategoria</label>
                     </Col>
                     <Col xs={8}>
-                        <Field component="select" id="category" name="product_group">
+                        <Field component="select" id="categoryId" name="categoryId">
                             <option disabled>Valitse kategoria..</option>
                             {this.props.categories &&
                                 this.props.categories.map((category) => (
-                                    <option key={category.category_id} value={category.category_id}>
-                                        {category.category_description}
+                                    <option key={category.categoryId} value={category.categoryId}>
+                                        {category.description}
                                     </option>
                                 ))}
                         </Field>
@@ -117,8 +122,8 @@ class ProductEditForm extends React.Component {
                     <Col xs={8}>
                         <Field
                             component={renderField}
-                            id="product_weight"
-                            name="product_weight"
+                            id="weight"
+                            name="weight"
                             type="number"
                             placeholder="Paino"
                             step="1"
@@ -128,13 +133,13 @@ class ProductEditForm extends React.Component {
                 </Row>
                 <Row>
                     <Col xs={3}>
-                        <label htmlFor="buyprice">Sisäänostohinta (&euro;)</label>
+                        <label htmlFor="buyPrice">Sisäänostohinta (&euro;)</label>
                     </Col>
                     <Col xs={8}>
                         <Field
                             component={renderField}
-                            id="buyprice"
-                            name="buyprice"
+                            id="buyPrice"
+                            name="buyPrice"
                             type="number"
                             placeholder="Sisäänostohinta"
                             step="0.01"
@@ -163,13 +168,13 @@ class ProductEditForm extends React.Component {
                 </Row>
                 <Row>
                     <Col xs={3}>
-                        <label htmlFor="sellprice">Myyntihinta (&euro;)</label>
+                        <label htmlFor="sellPrice">Myyntihinta (&euro;)</label>
                     </Col>
                     <Col xs={8}>
                         <Field
                             component={renderField}
-                            id="sellprice"
-                            name="sellprice"
+                            id="sellPrice"
+                            name="sellPrice"
                             type="number"
                             placeholder="Myyntihinta"
                             step="0.01"
@@ -180,13 +185,13 @@ class ProductEditForm extends React.Component {
                 </Row>
                 <Row>
                     <Col xs={3}>
-                        <label htmlFor="sellprice">Varastosaldo (kpl)</label>
+                        <label htmlFor="stock">Varastosaldo (kpl)</label>
                     </Col>
                     <Col xs={8}>
                         <Field
                             component="input"
-                            id="quantity"
-                            name="quantity"
+                            id="stock"
+                            name="stock"
                             placeholder="Varastosaldo"
                             type="number"
                             step="1"
@@ -217,12 +222,12 @@ const mapStateToProps = (state, props) => {
             {},
             prodMapper(
                 state.product.products.find(
-                    (product) => product.product_id === parseInt(props.match.params.productid, 10)
+                    (product) => product.barcode === props.match.params.barcode
                 )
             ),
-            { margin: state.product.globalMargin }
+            { margin: Math.round(state.product.globalMargin * 100) }
         ),
-        categories: state.category.categories.categories
+        categories: state.category.categories
     };
 };
 
@@ -231,8 +236,10 @@ const mapDispatchToProps = {
 };
 
 export default withRouter(
-    reduxForm({
-        form: 'productEditForm',
-        enableReinitialize: true
-    })(connect(mapStateToProps, mapDispatchToProps)(ProductEditForm))
+    connect(mapStateToProps, mapDispatchToProps)(
+        reduxForm({
+            form: 'productEditForm',
+            enableReinitialize: true
+        })(ProductEditForm)
+    )
 );

@@ -42,7 +42,7 @@ class ProductListPage extends React.Component {
                                 </div>
                             )}
                         />
-                        <Route path={`${match.path}/:productid(\\d+)`} component={SingleProduct} />
+                        <Route path={`${match.path}/:barcode(\\d+)`} component={SingleProduct} />
                         <Route path={`${match.path}/create`} component={NewProduct} />
                     </Col>
                 </Row>

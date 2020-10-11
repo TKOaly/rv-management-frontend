@@ -5,37 +5,35 @@ import { productFilterType } from '../../reducers/productFilterReducer';
 import { setProductSelected } from '../../reducers/productReducer';
 import React from 'react';
 
+const compareStringsNormalized = (a, b) => {
+    a = a.toLowerCase().trim();
+    b = b.toLowerCase().trim();
+
+    return a < b ? -1 : a === b ? 0 : 1;
+}
+
 const sorters = {
-    [productFilterType.NONE]: (a, b) => a.product_id - b.product_id,
-    [productFilterType.NAME_ASC]: (a, b) =>
-        a.product_name.toLowerCase().trim() < b.product_name.toLowerCase().trim()
-            ? -1
-            : b.product_name.toLowerCase().trim() === a.product_name.toLowerCase().trim() ? 0 : 1,
-
-    [productFilterType.NAME_DESC]: (a, b) =>
-        a.product_name.toLowerCase().trim() < b.product_name.toLowerCase().trim()
-            ? 1
-            : b.product_name.toLowerCase().trim() === a.product_name.toLowerCase().trim() ? 0 : -1,
-
+    [productFilterType.NONE]: (a, b) => a.barcode - b.barcode,
+    [productFilterType.NAME_ASC]: (a, b) => compareStringsNormalized(a.name, b.name),
+    [productFilterType.NAME_DESC]: (a, b) => compareStringsNormalized(a.name, b.name) * -1,
     [productFilterType.STOCK_LOW]: (a, b) => a.quantity - b.quantity,
-
     [productFilterType.STOCK_HIGH]: (a, b) => b.quantity - a.quantity
 };
 
 class ProductListItem extends React.PureComponent {
     handleClick = () => {
-        this.props.onClick(this.props.product.product_id);
+        this.props.onClick(this.props.product.barcode);
     }
 
     render() {
-        const { product_id, product_name, quantity } = this.props.product;
+        const { barcode, name, stock } = this.props.product;
         return (
             <Link
-                to={`/products/${product_id}`}
+                to={`/products/${barcode}`}
                 className="product"
                 onClick={this.handleClick}
             >
-                <span>{`${product_name} (${quantity}) `}</span>
+                <span>{`${name} (${stock}) `}</span>
             </Link>
         );
     }
@@ -44,14 +42,14 @@ class ProductListItem extends React.PureComponent {
 class ActiveProductListItem extends React.PureComponent {
     render() {
         const { product, innerRef } = this.props;
-        const { product_id, product_name, quantity } = product;
+        const { barcode, name, stock } = product;
         return (
             <Link
                 innerRef={innerRef}
-                to={`/products/${product_id}`}
+                to={`/products/${barcode}`}
                 className="product active"
             >
-                <span>{`${product_name} (${quantity}) `}</span>
+                <span>{`${name} (${stock}) `}</span>
             </Link>
         );
     }
@@ -65,8 +63,8 @@ class ProductList extends React.Component {
         }
     };
 
-    handleListItemClick = (productId) => {
-        this.props.setProductSelected(productId);
+    handleListItemClick = (barcode) => {
+        this.props.setProductSelected(barcode);
     }
 
     handleActiveItemRef = (activeRef) => {
@@ -83,15 +81,15 @@ class ProductList extends React.Component {
                     </button>
                     {prods.map(
                         (product) =>
-                            product.product_id !== this.props.active ? (
+                            product.barcode !== this.props.active ? (
                                 <ProductListItem
-                                    key={product.product_id}
+                                    key={product.barcode}
                                     product={product}
                                     onClick={this.handleListItemClick}
                                 />
                             ) : (
                                 <ActiveProductListItem
-                                    key={product.product_id}
+                                    key={product.barcode}
                                     product={product}
                                     innerRef={this.handleActiveItemRef}
                                 />

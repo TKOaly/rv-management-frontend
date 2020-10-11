@@ -21,7 +21,7 @@ class SingleProduct extends React.Component {
     componentDidUpdate = () => {
         const product = this.getCurrentProduct();
         if (this.props.selectedProduct === 0 && product) {
-            this.props.setProductSelected(product.product_id);
+            this.props.setProductSelected(product.barcode);
         }
     };
 
@@ -31,25 +31,24 @@ class SingleProduct extends React.Component {
 
     getCurrentProduct = () => {
         return this.props.products.find(
-            (product) => product.product_id === parseInt(this.props.match.params.productid, 10)
+            (product) => product.barcode === this.props.match.params.barcode
         );
     };
 
     getCurrentBox = () => {
-        return this.props.boxes.find((box) => box.product_id === parseInt(this.props.match.params.productid, 10));
+        return this.props.boxes.find((box) => box.product.barcode === this.props.match.params.barcode);
     };
 
     handleProductEdit = (values) => {
         const product = {
-            itemid: this.props.selectedProduct,
-            pgrpid: values.product_group,
-            descr: values.product_name,
+            barcode: this.props.match.params.barcode,
+            name: values.name,
+            categoryId: parseInt(values.categoryId),
             weight: values.product_weight || 0,
-            buyprice: moneyFormatter.stringToCents(values.buyprice),
-            sellprice: moneyFormatter.stringToCents(values.sellprice),
-            quantity: values.quantity
+            buyPrice: moneyFormatter.stringToCents(values.buyPrice),
+            sellPrice: moneyFormatter.stringToCents(values.sellPrice),
+            stock: values.stock
         };
-        console.log(product);
 
         // Back-end call here to /api/v1/admin/boxes/barcode
         this.props.updateProduct(product, this.props.token);
@@ -76,11 +75,11 @@ class SingleProduct extends React.Component {
             <React.Fragment>
                 <div className="product-info">
                     <div className="product-title">
-                        <h1>{product.product_name}</h1>
-                        <h2>{product.quantity} varastossa</h2>
+                        <h1>{product.name}</h1>
+                        <h2>{product.stock} varastossa</h2>
                     </div>
                     <div className="product-image">
-                        <img src={noImage} alt={product.product_name} />
+                        <img src={noImage} alt={product.name} />
                     </div>
                 </div>
                 <div className="product-menu">

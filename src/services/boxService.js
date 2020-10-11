@@ -11,41 +11,42 @@ const getAll = (token) => {
 };
 
 const addStock = (barcode, box, token) => {
-    return axios
+    return Promise.reject('Unimplemented: boxService.addStock');
+    /*return axios
         .post(
-            `${process.env.REACT_APP_BACKEND_URL}/${targetUrl}/${barcode}`,
+            `${process.env.REACT_APP_BACKEND_URL}/${targetUrl}/${barcode}/buyIn`,
             {
-                buyprice: box.buyprice,
-                product_id: box.product_id,
-                sellprice: box.sellprice,
-                boxes: box.boxes
+                productBuyPrice: box.productBuyPrice,
+                productSellPrice: box.productSellPrice,
+                count: box.count
             },
             {
                 headers: { Authorization: 'Bearer ' + token }
             }
         )
-        .then((res) => res.data);
+        .then((res) => res.data);*/
 };
 
 const createBox = (token, barcode, productCount, product) => {
-    return axios(`${process.env.REACT_APP_BACKEND_URL}/${targetUrl}/${barcode}`, {
-        method: 'PUT',
-        headers: { Authorization: 'Bearer ' + token },
-        data: {
-            items_per_box: productCount,
-            product
-        }
-    }).then((res) => res.data);
-};
-
-const buyInBox = (token, barcode, boxes, buyprice, sellprice) => {
-    return axios(`${process.env.REACT_APP_BACKEND_URL}/${targetUrl}/${barcode}`, {
+    return axios(`${process.env.REACT_APP_BACKEND_URL}/${targetUrl}`, {
         method: 'POST',
         headers: { Authorization: 'Bearer ' + token },
         data: {
-            boxes,
-            buyprice,
-            sellprice
+            itemsPerBox: productCount,
+            boxBarcode: barcode,
+            productBarcode: product
+        }
+    }).then((res) => res.data.box);
+};
+
+const buyInBox = (token, barcode, boxCount, productBuyPrice, productSellPrice) => {
+    return axios(`${process.env.REACT_APP_BACKEND_URL}/${targetUrl}/${barcode}/buyIn`, {
+        method: 'POST',
+        headers: { Authorization: 'Bearer ' + token },
+        data: {
+            boxCount,
+            productBuyPrice,
+            productSellPrice
         }
     }).then((res) => res.data);
 };

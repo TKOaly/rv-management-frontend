@@ -7,7 +7,7 @@ const getAll = (token) => {
         .get(`${process.env.REACT_APP_BACKEND_URL}/${targetUrl}`, {
             headers: { Authorization: 'Bearer ' + token }
         })
-        .then((res) => res.data);
+        .then((res) => res.data.categories);
 };
 
 export default {

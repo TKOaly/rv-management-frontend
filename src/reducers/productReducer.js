@@ -46,35 +46,24 @@ export const setProductSelected = (id) => {
     };
 };
 
-const productFilter = (product) => {
-    return {
-        product_id: product.product.itemid,
-        product_name: product.product.descr,
-        product_barcode: product.price.barcode,
-        buyprice: product.price.buyprice,
-        sellprice: product.price.sellprice,
-        quantity: product.price.count
-    };
-};
-
 export const addProduct = (product, token) => {
     return async (dispatch) => {
         try {
             const addedProduct = await productService.addProduct(
                 {
-                    descr: product.descr,
-                    pgrpid: product.pgrpid,
-                    weight: product.weight,
+                    name: product.name,
                     barcode: product.barcode,
-                    count: product.count,
-                    buyprice: product.buyprice,
-                    sellprice: product.sellprice
+                    categoryId: product.categoryId,
+                    weight: product.weight,
+                    buyPrice: product.buyPrice,
+                    sellPrice: product.sellPrice,
+                    stock: product.stock
                 },
                 token
             );
             dispatch({
                 type: productActions.ADD_NEW_PRODUCT,
-                product: productFilter(addedProduct)
+                product: addedProduct
             });
 
             dispatch(successMessage('New product added successfully'));
@@ -88,7 +77,7 @@ export const addProduct = (product, token) => {
 export const getProducts = (token) => {
     return async (dispatch) => {
         const products = await productService.getAll(token);
-        //console.log(products.products);
+
         dispatch({
             type: productActions.SET_PRODUCTS,
             products: products.products

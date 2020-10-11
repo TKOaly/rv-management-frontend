@@ -46,9 +46,9 @@ export const authenticate = (username, password) => {
             });
 
             // store token in session storage
-            window.sessionStorage.setItem('rvadmintoken', res.data.access_token);
+            window.sessionStorage.setItem('rvadmintoken', res.data.accessToken);
             dispatch(setAuthenticating(false));
-            dispatch(authenticationSuccess(res.data.access_token));
+            dispatch(authenticationSuccess(res.data.accessToken));
         } catch (error) {
             dispatch(setAuthenticating(false));
 

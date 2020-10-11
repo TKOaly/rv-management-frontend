@@ -30,7 +30,7 @@ class BoxForm extends React.Component {
         const singleItemSellPrice = Math.round(sellprice / productCount);
 
         const boxProduct = this.props.products.filter((product) => {
-            return product.product_barcode === this.productEANInput.value;
+            return product.barcode === this.productEANInput.value;
         })[0];
 
         if (!boxProduct) {
@@ -38,16 +38,14 @@ class BoxForm extends React.Component {
             return;
         }
 
-        const parsedProduct = this.parseBoxProduct(boxProduct);
-
         try {
-            await boxService.createBox(this.props.token, barcode, productCount, parsedProduct);
+            await boxService.createBox(this.props.token, barcode, productCount, this.productEANInput.value);
             await boxService.buyInBox(this.props.token, barcode, boxes, singleItemBuyPrice, singleItemSellPrice);
             this.props.getProducts(this.props.token);
             this.barcodeInput.value = '';
             this.countInput.value = 0;
             this.buyInInput.value = 0;
-            this.marginInput.value = this.props.globalMargin;
+            this.marginInput.value = Math.round(this.props.globalMargin * 100);
             this.productEANInput.value = '';
             this.productCountInput.value = 0;
             this.props.successMessage('Lisätty uusi laatikko');
@@ -55,19 +53,6 @@ class BoxForm extends React.Component {
             console.error(err);
             this.props.errorMessage('Virhe lisättäessä uutta laatikkoa');
         }
-    };
-
-    parseBoxProduct = (product) => {
-        return {
-            product_barcode: product.product_barcode,
-            product_group: product.product_group,
-            product_id: product.product_id,
-            product_name: product.product_name,
-            quantity: product.quantity,
-            product_weight: 1,
-            product_sellprice: product.sellprice,
-            product_buyprice: product.buyprice
-        };
     };
 
     render = () => {
@@ -135,7 +120,7 @@ class BoxForm extends React.Component {
                                 type="number"
                                 step="1"
                                 min="0"
-                                defaultValue={this.props.globalMargin}
+                                defaultValue={Math.round(this.props.globalMargin * 100)}
                                 ref={(input) => {
                                     this.marginInput = input;
                                 }}

@@ -10,8 +10,8 @@ import moneyFormatter from '../../services/moneyFormatter';
 class ProductAddStock extends React.Component {
     updateFields = () => {
         if (this.props.product) {
-            this.barcodeInput.value = this.props.product.product_barcode;
-            this.marginInput.value = this.props.globalMargin;
+            this.barcodeInput.value = this.props.product.barcode;
+            this.marginInput.value = Math.round(this.props.globalMargin * 100);
             this.calculateSellprice();
         }
     };
@@ -33,7 +33,7 @@ class ProductAddStock extends React.Component {
         if (!this.props.upgradeStock) {
             this.updateFields();
         } else {
-            const link = '/products/' + this.props.product.product_id;
+            const link = '/products/' + this.props.product.barcode;
             this.props.history.push(link);
         }
     };
@@ -46,11 +46,10 @@ class ProductAddStock extends React.Component {
     formSubmit = (event) => {
         event.preventDefault();
         const product = {
-            id: this.props.product.product_id,
-            buyprice: moneyFormatter.stringToCents(this.costInput.value),
-            margin: this.marginInput.value,
-            sellprice: moneyFormatter.stringToCents(this.sellpriceInput.value),
-            quantity: this.quantityInput.value
+            barcode: this.props.product.barcode,
+            buyPrice: moneyFormatter.stringToCents(this.costInput.value),
+            sellPrice: moneyFormatter.stringToCents(this.sellpriceInput.value),
+            count: parseInt(this.quantityInput.value)
         };
 
         this.props.addStock(product, this.props.token);
@@ -106,7 +105,7 @@ class ProductAddStock extends React.Component {
                                 type="number"
                                 step="1"
                                 min="0"
-                                defaultValue={this.props.globalMargin}
+                                defaultValue={Math.round(this.props.globalMargin * 100)}
                                 ref={(input) => {
                                     this.marginInput = input;
                                 }}
