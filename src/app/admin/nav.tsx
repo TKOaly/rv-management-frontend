@@ -48,7 +48,7 @@ export default function AdminNavigation() {
           <Settings2 />
         </NavButton>
       </div>
-      <div className="flex w-full space-x-2 rounded-lg p-3 hover:bg-stone-300">
+      <div className="flex w-full space-x-2 rounded-lg border-2 border-transparent p-3  hover:border-black">
         <LogOut />
         <Link href={"/"}>Logout</Link>
       </div>
@@ -68,7 +68,7 @@ function NavButton({
   return (
     <Link
       href={href}
-      className="flex w-full space-x-2 rounded-lg p-3 hover:bg-stone-300"
+      className="flex w-full space-x-2 rounded-lg border-2 border-transparent p-3  hover:border-black"
     >
       {children}
       <p>{title}</p>
