@@ -10,22 +10,6 @@ const getAll = (token) => {
     .then((res) => res.data.boxes);
 };
 
-const addStock = (barcode, box, token) => {
-  return axios
-    .post(
-      `${process.env.REACT_APP_BACKEND_URL}/${targetUrl}/${barcode}/buyIn`,
-      {
-        productBuyPrice: box.productBuyPrice,
-        productSellPrice: box.productSellPrice,
-        count: box.count,
-      },
-      {
-        headers: { Authorization: "Bearer " + token },
-      },
-    )
-    .then((res) => res.data);
-};
-
 const createBox = (token, barcode, productCount, product) => {
   return axios(`${process.env.REACT_APP_BACKEND_URL}/${targetUrl}`, {
     method: "POST",
@@ -61,7 +45,6 @@ const buyInBox = (
 
 export default {
   getAll,
-  addStock,
   createBox,
   buyInBox,
 };
