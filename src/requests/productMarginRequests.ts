@@ -2,7 +2,11 @@ const productMargin = {
   productMargin: 1.08,
 };
 
-const getProductMargin = async () => {
+type getProductMarginPromise = () => Promise<{
+  productMargin: number;
+}>;
+
+const getProductMargin: getProductMarginPromise = async () => {
   return new Promise((resolve) => resolve(productMargin));
 };
 
