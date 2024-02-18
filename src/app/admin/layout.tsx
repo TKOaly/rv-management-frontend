@@ -1,5 +1,4 @@
-import Image from "next/image";
-import Link from "next/link";
+import AdminNavigation from "./nav";
 
 export default function AdminLayout({
   children,
@@ -7,28 +6,11 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <main className="flex flex-col items-center justify-start">
-      <nav className="flex w-full justify-between border-b border-stone-300 bg-white p-6 drop-shadow-md">
-        <div className="flex flex-row items-center space-x-8">
-          <Image
-            src={"/rv-logo.png"}
-            alt="Ruokavälitys"
-            height={48}
-            width={80}
-          />
-          <Link href={"/admin/stock/add"}>Buy In</Link>
-          <Link href={"/admin/stock"}>Stock</Link>
-          <Link href={"/admin/products"}>Products</Link>
-          <Link href={"/admin/users"}>Users</Link>
-          <Link href={"/admin/history"}>History</Link>
-          <Link href={"/admin/categories"}>Categories</Link>
-          <Link href={"/admin/configuration"}>Config</Link>
-        </div>
-        <div className="flex flex-row items-center">
-          <Link href={"/"}>Logout</Link>
-        </div>
-      </nav>
-      {children}
+    <main className="flex min-h-screen">
+      <AdminNavigation />
+      <div className="min-h-screen w-full rounded-l-2xl border border-stone-300 bg-white px-16 shadow-xl">
+        {children}
+      </div>
     </main>
   );
 }

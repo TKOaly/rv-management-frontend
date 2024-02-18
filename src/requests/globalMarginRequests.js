@@ -4,14 +4,14 @@ const targetUrl = "api/v1/admin/defaultMargin";
 
 const getMargin = (token) => {
   return axios
-    .get(`${process.env.REACT_APP_BACKEND_URL}/${targetUrl}`, {
+    .get(`${process.env.RV_BACKEND_URL}/${targetUrl}`, {
       headers: { Authorization: "Bearer " + token },
     })
     .then((res) => res.data);
 };
 
 const changeMargin = (newMargin, token) => {
-  return axios(`${process.env.REACT_APP_BACKEND_URL}/${targetUrl}`, {
+  return axios(`${process.env.RV_BACKEND_URL}/${targetUrl}`, {
     method: "PUT",
     headers: { Authorization: "Bearer " + token },
     data: {

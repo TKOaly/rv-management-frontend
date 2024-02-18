@@ -4,7 +4,7 @@ const targetUrl = "api/v1/admin/products";
 
 const getAll = (token) => {
   return axios
-    .get(`${process.env.REACT_APP_BACKEND_URL}/${targetUrl}`, {
+    .get(`${process.env.RV_BACKEND_URL}/${targetUrl}`, {
       headers: { Authorization: "Bearer " + token },
     })
     .then((res) => res.data);
@@ -13,7 +13,7 @@ const getAll = (token) => {
 const addProduct = (product, token) => {
   return axios
     .post(
-      `${process.env.REACT_APP_BACKEND_URL}/${targetUrl}`,
+      `${process.env.RV_BACKEND_URL}/${targetUrl}`,
 
       product,
       { headers: { Authorization: "Bearer " + token } },
@@ -24,7 +24,7 @@ const addProduct = (product, token) => {
 const updateProduct = (product, token) => {
   return axios
     .patch(
-      `${process.env.REACT_APP_BACKEND_URL}/${targetUrl}/${product.barcode}`,
+      `${process.env.RV_BACKEND_URL}/${targetUrl}/${product.barcode}`,
 
       product,
       { headers: { Authorization: "Bearer " + token } },
@@ -35,7 +35,7 @@ const updateProduct = (product, token) => {
 const addStock = (token, product) => {
   return axios
     .post(
-      `${process.env.REACT_APP_BACKEND_URL}/${targetUrl}/${product.barcode}/buyIn`,
+      `${process.env.RV_BACKEND_URL}/${targetUrl}/${product.barcode}/buyIn`,
       {
         buyPrice: product.buyPrice,
         sellPrice: product.sellPrice,
