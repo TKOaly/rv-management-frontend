@@ -3,7 +3,7 @@ import { getAll } from "@/requests/productRequests";
 export default async function Products() {
   const products = await getAll();
   return (
-    <div className="h-full w-full py-16">
+    <div className="my-8 h-full w-full">
       {products.map((product) => {
         return (
           <div
@@ -14,7 +14,7 @@ export default async function Products() {
               <h3 className="text-lg font-semibold">{product.name}</h3>
               <p className="text-sm text-gray-500">{product.barcode}</p>
             </div>
-            <div className="w-1/3 truncate">
+            <div className="hidden w-1/3 truncate lg:block">
               <br />
               <p className=" text-stone-500">{product.category.description}</p>
             </div>

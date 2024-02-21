@@ -1,18 +1,19 @@
-import axios from "axios";
+import { authenticated } from "./wrappers";
 
 const targetUrl = "api/v1/categories";
 
-type categoriesRequest = (
-  token: string,
-) => Promise<{ categoryId: number; description: string }[]>;
-
-const getAll: categoriesRequest = (token) => {
-  return axios
-    .get(`${process.env.RV_BACKEND_URL}/${targetUrl}`, {
-      headers: { Authorization: "Bearer " + token },
-    })
-    .then((res) => res.data.categories);
+type categoriesRequest = {
+  categories: { categoryId: number; description: string }[];
 };
+
+export async function getAll() {
+  return await authenticated<categoriesRequest>(
+    `${process.env.RV_BACKEND_URL}/${targetUrl}`,
+    {
+      method: "GET",
+    },
+  ).then((data) => data.categories);
+}
 
 export default {
   getAll,
