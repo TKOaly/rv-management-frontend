@@ -1,9 +1,12 @@
+"use server";
+
 import axios from "axios";
+import { authenticated } from "./wrappers";
 
 const targetUrl = "api/v1/admin/products";
 
-type getAllProductsRequest = (token: string) => Promise<
-  {
+type getAllProductsRequest = {
+  products: {
     barcode: string;
     name: string;
     category: {
@@ -14,16 +17,17 @@ type getAllProductsRequest = (token: string) => Promise<
     sellPrice: number;
     stock: number;
     buyPrice: number;
-  }[]
->;
-
-const getAll: getAllProductsRequest = (token) => {
-  return axios
-    .get(`${process.env.RV_BACKEND_URL}/${targetUrl}`, {
-      headers: { Authorization: "Bearer " + token },
-    })
-    .then((res) => res.data.products);
+  }[];
 };
+
+export async function getAll() {
+  return await authenticated<getAllProductsRequest>(
+    `${process.env.RV_BACKEND_URL}/${targetUrl}`,
+    {
+      method: "GET",
+    },
+  ).then((data) => data.products);
+}
 
 type addProductRequest = (
   product: {
@@ -48,7 +52,7 @@ type addProductRequest = (
   buyPrice: number;
 }>;
 
-const addProduct: addProductRequest = (product, token) => {
+export const addProduct: addProductRequest = (product, token) => {
   return axios
     .post(
       `${process.env.RV_BACKEND_URL}/${targetUrl}`,
@@ -82,7 +86,7 @@ type updateProductRequest = (
   buyPrice: number;
 }>;
 
-const updateProduct: updateProductRequest = (product, token) => {
+export const updateProduct: updateProductRequest = (product, token) => {
   return axios
     .patch(
       `${process.env.RV_BACKEND_URL}/${targetUrl}/${product.barcode}`,
@@ -113,7 +117,7 @@ type addStockRequest = (
   sellPrice: number;
 }>;
 
-const addStock: addStockRequest = (token, product) => {
+export const addStock: addStockRequest = (token, product) => {
   return axios
     .post(
       `${process.env.RV_BACKEND_URL}/${targetUrl}/${product.barcode}/buyIn`,
@@ -127,11 +131,4 @@ const addStock: addStockRequest = (token, product) => {
       },
     )
     .then((res) => res.data);
-};
-
-export default {
-  getAll,
-  addProduct,
-  updateProduct,
-  addStock,
 };

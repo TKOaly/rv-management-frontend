@@ -1,10 +1,21 @@
-import NextAuth, { NextAuthConfig } from "next-auth";
+import { AdapterUser } from "@auth/core/adapters";
+import NextAuth, { NextAuthConfig, User } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { z } from "zod";
+
+declare module "next-auth" {
+  interface User {
+    accessToken: string;
+  }
+}
 
 export const authConfig = {
   pages: {
     signIn: "/",
+  },
+  session: {
+    strategy: "jwt",
+    maxAge: 60 * 60, // 1 hour
   },
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
@@ -18,6 +29,16 @@ export const authConfig = {
       }
       return true;
     },
+    async session({ session, token }) {
+      session.user = token.user as AdapterUser & User;
+      return session;
+    },
+    async jwt({ token, user }) {
+      if (user) {
+        token.user = user;
+      }
+      return token;
+    },
   },
   providers: [
     Credentials({
@@ -27,7 +48,7 @@ export const authConfig = {
       },
       async authorize(credentials) {
         const parsedCredentials = z
-          .object({ username: z.string().min(1), password: z.string() })
+          .object({ username: z.string().min(1), password: z.string().min(1) })
           .safeParse(credentials);
 
         if (parsedCredentials.success) {
@@ -45,11 +66,10 @@ export const authConfig = {
             return null;
           }
 
-          const res = await authResponse.json();
-          return res.accessToken;
+          const user = await authResponse.json();
+          return user;
         }
 
-        console.log("Invalid login");
         return null;
       },
     }),

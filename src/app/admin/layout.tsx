@@ -8,7 +8,7 @@ export default function AdminLayout({
   return (
     <main className="flex min-h-screen">
       <AdminNavigation />
-      <div className="min-h-screen w-full rounded-l-2xl border border-stone-300 bg-white px-16 shadow-xl">
+      <div className="h-screen w-full overflow-y-auto rounded-l-2xl border border-stone-300 bg-white px-16 shadow-xl">
         {children}
       </div>
     </main>
