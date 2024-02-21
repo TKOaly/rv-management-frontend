@@ -5,7 +5,7 @@ import { authenticated } from "./wrappers";
 
 const targetUrl = "api/v1/admin/products";
 
-type getAllProductsRequest = {
+export type getAllProductsRequest = {
   products: {
     barcode: string;
     name: string;

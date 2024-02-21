@@ -22,7 +22,7 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={merge(
-          "min-h-screen font-sans antialiased",
+          "h-screen overflow-hidden font-sans antialiased",
           fontSans.variable,
         )}
       >
