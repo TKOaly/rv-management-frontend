@@ -14,8 +14,9 @@ export default async function Products() {
               <h3 className="text-lg font-semibold">{product.name}</h3>
               <p className="text-sm text-gray-500">{product.barcode}</p>
             </div>
-            <div>
-              <p className="text-lg text-stone-500">{product.weight} g</p>
+            <div className="w-1/3 truncate">
+              <br />
+              <p className=" text-stone-500">{product.category.description}</p>
             </div>
             <div className="flex flex-col items-end">
               <p className="text-lg text-stone-500">
@@ -26,7 +27,7 @@ export default async function Products() {
               </p>
               <p className="text-sm text-stone-500">
                 {(product.buyPrice / 100).toFixed(2)} € →{" "}
-                {(product.sellPrice / 100).toFixed(2)} €
+                {(product.sellPrice / 100).toFixed(2)} € │ {product.weight} g
               </p>
             </div>
           </div>
