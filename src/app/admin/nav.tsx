@@ -1,8 +1,8 @@
+import { signOut } from "@/auth";
 import {
   BookUser,
   FileClock,
   LogOut,
-  PackageCheck,
   PackagePlus,
   PackageSearch,
   Settings2,
@@ -26,11 +26,8 @@ export default function AdminNavigation() {
             <h1 className="text-2xl font-semibold">Ruokavälitys</h1>
           </div>
         </Link>
-        <NavButton href={"/admin/stock/add"} title="Buy In">
+        <NavButton href={"/admin/buy_in"} title="Buy In">
           <PackagePlus />
-        </NavButton>
-        <NavButton href={"/admin/stock"} title="Stock">
-          <PackageCheck />
         </NavButton>
         <NavButton href={"/admin/products"} title="Products">
           <PackageSearch />
@@ -48,12 +45,18 @@ export default function AdminNavigation() {
           <Settings2 />
         </NavButton>
       </div>
-      <Link href={"/"}>
-        <div className="flex w-full space-x-2 rounded-lg border-2 border-transparent p-3  hover:border-black">
+
+      <form
+        action={async () => {
+          "use server";
+          await signOut();
+        }}
+      >
+        <button className="flex w-full space-x-2 rounded-lg border-2 border-transparent p-3  hover:border-black">
           <LogOut />
           <p>Logout</p>
-        </div>
-      </Link>
+        </button>
+      </form>
     </nav>
   );
 }
@@ -70,7 +73,7 @@ function NavButton({
   return (
     <Link
       href={href}
-      className="flex w-full space-x-2 rounded-lg border-2 border-transparent p-3  hover:border-black"
+      className="flex w-full justify-start space-x-2 rounded-lg border-2 border-transparent p-3  hover:border-black"
     >
       {children}
       <p>{title}</p>
