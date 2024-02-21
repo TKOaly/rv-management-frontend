@@ -1,38 +1,15 @@
-import { getAll } from "@/requests/productRequests";
+import { getAll, getAllProductsRequest } from "@/requests/productRequests";
+import { columns } from "./columns";
+import { ProductTable } from "./table";
+
+export type Product = getAllProductsRequest["products"][number];
 
 export default async function Products() {
   const products = await getAll();
+
   return (
-    <div className="my-8 h-full w-full">
-      {products.map((product) => {
-        return (
-          <div
-            key={product.barcode}
-            className="flex items-center justify-between border-b border-gray-200 p-4"
-          >
-            <div className="w-1/3 whitespace-nowrap">
-              <h3 className="text-lg font-semibold">{product.name}</h3>
-              <p className="text-sm text-gray-500">{product.barcode}</p>
-            </div>
-            <div className="hidden w-1/3 truncate lg:block">
-              <br />
-              <p className=" text-stone-500">{product.category.description}</p>
-            </div>
-            <div className="flex flex-col items-end">
-              <p className="text-lg text-stone-500">
-                Stock{" "}
-                <span className="font-semibold text-black">
-                  {product.stock}
-                </span>
-              </p>
-              <p className="text-sm text-stone-500">
-                {(product.buyPrice / 100).toFixed(2)} € →{" "}
-                {(product.sellPrice / 100).toFixed(2)} € │ {product.weight} g
-              </p>
-            </div>
-          </div>
-        );
-      })}
+    <div className="flex w-full flex-col gap-y-4 py-16">
+      <ProductTable columns={columns} data={products} />
     </div>
   );
 }
