@@ -22,9 +22,6 @@ export const columns: ColumnDef<Product>[] = [
   {
     accessorKey: "weight",
     header: "Weight",
-    cell: ({ row }) => {
-      return <div>{row.original.weight} g</div>;
-    },
   },
   {
     accessorKey: "buyPrice",
@@ -34,7 +31,7 @@ export const columns: ColumnDef<Product>[] = [
       const formattedPrice = new Intl.NumberFormat("fi-FI", {
         style: "currency",
         currency: "EUR",
-      }).format(price / 100);
+      }).format(price);
       return <div className="text-right font-medium">{formattedPrice}</div>;
     },
   },
@@ -46,7 +43,7 @@ export const columns: ColumnDef<Product>[] = [
       const formattedPrice = new Intl.NumberFormat("fi-FI", {
         style: "currency",
         currency: "EUR",
-      }).format(price / 100);
+      }).format(price);
       return <div className="text-right font-medium">{formattedPrice}</div>;
     },
   },
@@ -60,7 +57,7 @@ export const columns: ColumnDef<Product>[] = [
             row.original.stock < 0 ? "text-red-500" : ""
           }`}
         >
-          {row.original.stock} pcs
+          {row.original.stock}
         </div>
       );
     },
