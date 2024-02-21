@@ -10,9 +10,11 @@
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.0.2",
+    "@tanstack/react-query": "^5.22.2",
     "axios": "^1.6.7",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
+    "jotai": "^2.6.5",
     "lucide-react": "^0.331.0",
     "next": "14.1.0",
     "next-auth": "^5.0.0-beta.13",
@@ -23,6 +25,7 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@tanstack/eslint-plugin-query": "^5.20.1",
     "@types/eslint": "^8.56.2",
     "@types/node": "^20",
     "@types/react": "^18",

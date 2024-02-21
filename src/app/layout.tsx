@@ -1,6 +1,7 @@
 import { merge } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
+import Providers from "./Providers";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -20,14 +21,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={merge(
-          "h-screen overflow-hidden font-sans antialiased",
-          fontSans.variable,
-        )}
-      >
-        {children}
-      </body>
+      <Providers>
+        <body
+          className={merge(
+            "h-screen overflow-hidden font-sans antialiased",
+            fontSans.variable,
+          )}
+        >
+          {children}
+        </body>
+      </Providers>
     </html>
   );
 }

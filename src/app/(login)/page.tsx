@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { AlertTriangle } from "lucide-react";
 import { useFormState } from "react-dom";
-import { authenticate } from "../../requests/login";
+import { authenticate } from "../../server/login";
 
 export default function Login() {
   const [errorMessage, login] = useFormState(authenticate, undefined);

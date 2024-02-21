@@ -1,4 +1,4 @@
-import { getAll } from "@/requests/categoryRequests";
+import { getAll } from "@/server/categoryRequests";
 
 export default async function Categories() {
   const categories = await getAll();
