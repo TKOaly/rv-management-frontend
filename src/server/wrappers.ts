@@ -5,6 +5,7 @@ import { auth } from "@/auth";
 export async function authenticated<TResponse>(
   url: string,
   config: RequestInit = {},
+  body?: Record<string, unknown>,
 ): Promise<TResponse> {
   const session = await auth();
   if (!session?.user) {
@@ -13,8 +14,10 @@ export async function authenticated<TResponse>(
   const response = await fetch(url, {
     headers: {
       Authorization: `Bearer ${session.user.accessToken}`,
+      "Content-Type": "application/json",
       ...config.headers,
     },
+    body: body && JSON.stringify(body),
     ...config,
   });
   if (!response.ok) {
