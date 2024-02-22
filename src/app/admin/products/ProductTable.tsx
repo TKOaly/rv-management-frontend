@@ -8,7 +8,10 @@ import Link from "next/link";
 import { Product } from "./page";
 
 // Make filters state accessable from the filters page
-export const productFiltersAtom = atomWithReset({ search: "" });
+export const productFiltersAtom = atomWithReset({
+  search: "",
+  onlyInStock: false,
+});
 
 function ProductTable({ products }: { products: Product[] }) {
   // Make product data refetchable and cacheable
@@ -21,15 +24,22 @@ function ProductTable({ products }: { products: Product[] }) {
   const filters = useAtomValue(productFiltersAtom);
 
   // Filter products based on set filters
-  const filteredProducts = productData.filter((product) => {
-    if (filters.search && filters.search.length > 0) {
-      return (
-        product.name.toLowerCase().includes(filters.search.toLowerCase()) ||
-        product.barcode.includes(filters.search)
-      );
-    }
-    return true;
-  });
+  const filteredProducts = productData
+    .filter((product) => {
+      if (filters.search && filters.search.length > 0) {
+        return (
+          product.name.toLowerCase().includes(filters.search.toLowerCase()) ||
+          product.barcode.includes(filters.search)
+        );
+      }
+      return true;
+    })
+    .filter((product) => {
+      if (filters.onlyInStock) {
+        return product.stock > 0;
+      }
+      return true;
+    });
 
   return (
     <div className="flex h-full flex-grow overflow-y-auto rounded-lg border">
@@ -45,6 +55,7 @@ function ProductTable({ products }: { products: Product[] }) {
         {filteredProducts.map((product) => {
           return (
             <Link
+              tabIndex={-1}
               href={`/admin/products/${product.barcode}`}
               key={product.barcode}
             >

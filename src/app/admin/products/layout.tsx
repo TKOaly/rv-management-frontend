@@ -1,5 +1,5 @@
 import { getAll } from "@/server/productRequests";
-import ProductTable from "./productTable";
+import ProductTable from "./ProductTable";
 
 async function ProductsLayout({ children }: { children: React.ReactNode }) {
   const products = await getAll();
