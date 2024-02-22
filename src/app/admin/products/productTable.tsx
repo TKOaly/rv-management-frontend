@@ -4,6 +4,7 @@ import { getAll } from "@/server/productRequests";
 import { useQuery } from "@tanstack/react-query";
 import { useAtomValue } from "jotai";
 import { atomWithReset } from "jotai/utils";
+import Link from "next/link";
 import { Product } from "./page";
 
 // Make filters state accessable from the filters page
@@ -33,39 +34,49 @@ function ProductTable({ products }: { products: Product[] }) {
   return (
     <div className="flex h-full flex-grow overflow-y-auto rounded-lg border">
       <div className="w-full">
+        {
+          // Show a message if no products are found
+          filteredProducts.length === 0 && (
+            <div className="flex h-64 items-center justify-center">
+              <p className="text-stone-500">No products found</p>
+            </div>
+          )
+        }
         {filteredProducts.map((product) => {
           return (
-            <div
+            <Link
+              href={`/admin/products/${product.barcode}`}
               key={product.barcode}
-              className="flex cursor-pointer items-center justify-between border-b border-gray-200 p-4 transition-all hover:bg-stone-100"
             >
-              <div className="w-1/3 whitespace-nowrap">
-                <h3 className="text-lg font-semibold">{product.name}</h3>
-                <p className="text-sm text-stone-500">{product.barcode}</p>
+              <div className="flex cursor-pointer items-center justify-between border-b border-gray-200 p-4 transition-all hover:bg-stone-100">
+                <div className="w-1/3 whitespace-nowrap">
+                  <h3 className="text-lg font-semibold">{product.name}</h3>
+                  <p className="text-sm text-stone-500">{product.barcode}</p>
+                </div>
+                <div className="hidden w-1/3 flex-col items-end truncate xl:flex">
+                  <p className="text-sm text-stone-500">{product.weight} g</p>
+                  <p className=" text-stone-500">
+                    {product.category.description}
+                  </p>
+                </div>
+                <div className="flex flex-col items-end">
+                  <p className="text-lg text-stone-500">
+                    <span
+                      className={`font-semibold ${product.stock < 0 ? "text-red-500" : "text-black"}`}
+                    >
+                      {product.stock}
+                    </span>{" "}
+                    pcs
+                  </p>
+                  <p className="text-lg text-stone-500">
+                    {(product.buyPrice / 100).toFixed(2)} € →{" "}
+                    <span className="font-semibold text-black">
+                      {(product.sellPrice / 100).toFixed(2)} €
+                    </span>
+                  </p>
+                </div>
               </div>
-              <div className="hidden w-1/3 flex-col items-end truncate lg:flex">
-                <p className="text-sm text-stone-500">{product.weight} g</p>
-                <p className=" text-stone-500">
-                  {product.category.description}
-                </p>
-              </div>
-              <div className="flex flex-col items-end">
-                <p className="text-lg text-stone-500">
-                  <span
-                    className={`font-semibold ${product.stock < 0 ? "text-red-500" : "text-black"}`}
-                  >
-                    {product.stock}
-                  </span>{" "}
-                  pcs
-                </p>
-                <p className="text-lg text-stone-500">
-                  {(product.buyPrice / 100).toFixed(2)} € →{" "}
-                  <span className="font-semibold text-black">
-                    {(product.sellPrice / 100).toFixed(2)} €
-                  </span>
-                </p>
-              </div>
-            </div>
+            </Link>
           );
         })}
       </div>

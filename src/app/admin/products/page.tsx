@@ -10,14 +10,14 @@ import { productFiltersAtom } from "./productTable";
 
 export type Product = getAllProductsRequest["products"][0];
 
-export default function Products() {
+export default function ProductFilters() {
   const setFilters = usePartialSetAtom(productFiltersAtom);
   const resetFilters = useResetAtom(productFiltersAtom);
 
   const [search, setSearch] = useState("");
 
   return (
-    <div className="flex flex-col gap-y-4">
+    <div className="flex w-1/4 flex-col gap-y-4">
       <Button
         onClick={() => {
           setSearch("");
