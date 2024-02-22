@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useAtomValue } from "jotai";
 import { atomWithReset } from "jotai/utils";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Product } from "./page";
 
 // Make filters state accessable from the filters page
@@ -41,8 +42,12 @@ function ProductTable({ products }: { products: Product[] }) {
       return true;
     });
 
+  const path = usePathname();
+
   return (
-    <div className="flex h-full flex-grow overflow-y-auto rounded-lg border">
+    <div
+      className={`${/\/products\/\d+/g.test(path) ? "hidden xl:flex" : "flex"} h-full w-full overflow-y-auto rounded-lg border shadow-lg`}
+    >
       <div className="w-full">
         {
           // Show a message if no products are found
@@ -64,12 +69,12 @@ function ProductTable({ products }: { products: Product[] }) {
                   <h3 className="text-lg font-semibold">{product.name}</h3>
                   <p className="text-sm text-stone-500">{product.barcode}</p>
                 </div>
-                <div className="hidden w-1/3 flex-col items-end truncate xl:flex">
+                {/*<div className="hidden w-1/3 flex-col items-end truncate xl:flex">
                   <p className="text-sm text-stone-500">{product.weight} g</p>
                   <p className=" text-stone-500">
                     {product.category.description}
                   </p>
-                </div>
+                </div>*/}
                 <div className="flex flex-col items-end">
                   <p className="text-lg text-stone-500">
                     <span

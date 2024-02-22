@@ -13,7 +13,7 @@ import Link from "next/link";
 
 export default function AdminNavigation() {
   return (
-    <nav className="flex w-72 flex-col justify-between p-8">
+    <nav className="flex w-64 flex-col justify-between p-8">
       <div className="flex flex-col items-start space-y-2">
         <Link href={"/admin"}>
           <div className="mb-4 flex-col space-y-2">
@@ -21,7 +21,7 @@ export default function AdminNavigation() {
               src={"/rv-logo.png"}
               alt="Ruokavälitys"
               height={48}
-              width={160}
+              width={150}
             />
             <h1 className="text-2xl font-semibold">Ruokavälitys</h1>
           </div>
