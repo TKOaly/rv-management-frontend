@@ -1,6 +1,6 @@
 "use client";
 
-import { getAll } from "@/server/productRequests";
+import { getAll } from "@/server/requests/productRequests";
 import { useQuery } from "@tanstack/react-query";
 import { useAtomValue } from "jotai";
 import { atomWithReset } from "jotai/utils";

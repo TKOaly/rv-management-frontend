@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   description: "TKO-äly ry Ruokavälitys",
 };
 
-export const fontSans = FontSans({
+const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
 });

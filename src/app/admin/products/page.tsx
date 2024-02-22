@@ -4,13 +4,13 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { usePartialSetAtom } from "@/lib/utils";
-import { getAllProductsRequest } from "@/server/productRequests";
+import { getAllProductsResponse } from "@/server/requests/productRequests";
 import { useAtomValue } from "jotai";
 import { useResetAtom } from "jotai/utils";
 import Link from "next/link";
 import { productFiltersAtom } from "./ProductTable";
 
-export type Product = getAllProductsRequest["products"][0];
+export type Product = getAllProductsResponse["products"][0];
 
 export default function ProductFilters() {
   const setFilters = usePartialSetAtom(productFiltersAtom);

@@ -1,11 +1,14 @@
 "use client";
 
 import { useToast } from "@/components/ui/use-toast";
-import { getAll, getAllProductsRequest } from "@/server/productRequests";
+import {
+  getAll,
+  getAllProductsResponse,
+} from "@/server/requests/productRequests";
 import { useQuery } from "@tanstack/react-query";
 import Barcode from "react-barcode";
 
-export type Product = getAllProductsRequest["products"][0];
+export type Product = getAllProductsResponse["products"][0];
 
 export default function Product({ params }: { params: { id: string } }) {
   const {
@@ -65,7 +68,6 @@ export default function Product({ params }: { params: { id: string } }) {
         >
           <Barcode
             value={product.barcode}
-            displayValue={false}
             width={3}
             height={125}
             format={
@@ -76,9 +78,6 @@ export default function Product({ params }: { params: { id: string } }) {
                   : undefined
             }
           />
-          <p id="barcode" className="z-10 -mt-2 px-10 font-mono text-2xl">
-            {product.barcode}
-          </p>
         </div>
       </div>
     );

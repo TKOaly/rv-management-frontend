@@ -13,6 +13,7 @@ export const authConfig = {
   pages: {
     signIn: "/",
   },
+  trustHost: true,
   session: {
     strategy: "jwt",
     maxAge: 60 * 60, // 1 hour

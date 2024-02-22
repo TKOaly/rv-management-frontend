@@ -1,4 +1,4 @@
-import { authenticated } from "./wrappers";
+import { authenticated } from "../wrappers";
 
 const targetUrl = "api/v1/categories";
 

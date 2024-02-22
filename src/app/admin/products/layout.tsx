@@ -1,4 +1,4 @@
-import { getAll } from "@/server/productRequests";
+import { getAll } from "@/server/requests/productRequests";
 import ProductTable from "./ProductTable";
 
 async function ProductsLayout({ children }: { children: React.ReactNode }) {
