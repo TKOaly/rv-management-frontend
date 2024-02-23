@@ -5,9 +5,11 @@ import { Input } from "@/components/ui/input";
 import { getMargin } from "@/server/requests/globalMarginRequests";
 import { QueryKey } from "@/server/requests/queryKeys";
 import { useQuery } from "@tanstack/react-query";
+import { Loader } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import Barcode from "react-barcode";
+import { useFormStatus } from "react-dom";
 
 function AddProductFields({
   defaultMargin: initialDefaultMargin,
@@ -26,6 +28,8 @@ function AddProductFields({
   const [sellPrice, setSellPrice] = useState<string>(
     (1 * (1 + defaultMargin)).toFixed(2),
   );
+
+  const { pending } = useFormStatus();
 
   return (
     <>
@@ -164,7 +168,12 @@ function AddProductFields({
         </div>
       </div>
       <div className="flex gap-x-4">
-        <Button type="submit" id="productSubmit">
+        <Button
+          type="submit"
+          id="productSubmit"
+          className="flex items-center gap-x-2"
+        >
+          {pending && <Loader className="animate-spin" />}
           Create Product
         </Button>
         <Link href={`/admin/products`}>

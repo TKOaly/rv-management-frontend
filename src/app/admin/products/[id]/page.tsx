@@ -75,6 +75,18 @@ export default function Product({ params }: { params: { id: string } }) {
             </label>
             <p id="category">{product.category.description}</p>
           </div>
+          <div className="flex flex-col gap-y-2">
+            <label htmlFor="buyPrice" className="text-sm text-stone-500">
+              Buy Price
+            </label>
+            <p id="buyPrice">{(product.buyPrice / 100).toFixed(2)} €</p>
+          </div>
+          <div className="flex flex-col gap-y-2">
+            <label htmlFor="sellPrice" className="text-sm text-stone-500">
+              Sell Price
+            </label>
+            <p id="sellPrice">{(product.sellPrice / 100).toFixed(2)} €</p>
+          </div>
         </div>
         <div>
           <div
@@ -106,8 +118,8 @@ export default function Product({ params }: { params: { id: string } }) {
                 <AlertDialogHeader>
                   <AlertDialogTitle>Delete Product?</AlertDialogTitle>
                   <AlertDialogDescription>
-                    This will delete the listing and stock for this product.
-                    Product data will remain attached to past purchases.
+                    This will delete the listing for this product. Product data
+                    will remain attached to past purchase history.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
@@ -117,18 +129,19 @@ export default function Product({ params }: { params: { id: string } }) {
                       className="bg-red-500 hover:bg-red-600"
                       onClick={async () => {
                         try {
+                          router.replace("/admin/products");
                           const deletedProduct = await deleteProduct(
                             product.barcode,
                           );
                           if (!deletedProduct) {
                             throw new Error("Product not deleted");
                           }
-                          router.push("/admin/products");
                           queryClient.invalidateQueries({
                             queryKey: [QueryKey.products],
                           });
                           toast({ title: "Product deleted", duration: 2000 });
                         } catch (error) {
+                          router.replace("/admin/products/" + product.barcode);
                           toast({
                             title: "Error deleting product",
                             duration: 2000,
