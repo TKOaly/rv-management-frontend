@@ -1,10 +1,18 @@
 import { getMargin } from "@/server/requests/globalMarginRequests";
-import AddProductForm from "./AddProductForm";
+import AddProductFields from "./AddProductFields";
+import { addProductAction } from "./action";
 
 async function NewProduct() {
   const defaultMargin = await getMargin();
 
-  return <AddProductForm defaultMargin={defaultMargin} />;
+  return (
+    <form
+      className="flex h-full flex-col justify-between"
+      action={addProductAction}
+    >
+      <AddProductFields defaultMargin={defaultMargin} />
+    </form>
+  );
 }
 
 export default NewProduct;

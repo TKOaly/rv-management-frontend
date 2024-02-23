@@ -124,3 +124,27 @@ export const addStock = (product: addStockRequest) => {
     },
   ).then((data) => data);
 };
+
+type deleteProductResponse = {
+  deletedProduct: {
+    barcode: string;
+    name: string;
+    category: {
+      categoryId: number;
+      description: string;
+    };
+    weight: number;
+    sellPrice: number;
+    stock: number;
+    buyPrice: number;
+  };
+};
+
+export const deleteProduct = (barcode: string) => {
+  return authenticated<deleteProductResponse>(
+    `${process.env.RV_BACKEND_URL}/${targetUrl}/${barcode}`,
+    {
+      method: "DELETE",
+    },
+  ).then((data) => data.deletedProduct);
+};

@@ -1,5 +1,3 @@
-"use server";
-
 import { ReactNode } from "react";
 
 function NewProductLayout({ children }: { children: ReactNode }) {

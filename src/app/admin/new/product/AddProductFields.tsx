@@ -3,35 +3,44 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { getMargin } from "@/server/requests/globalMarginRequests";
+import { QueryKey } from "@/server/requests/queryKeys";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { useState } from "react";
 import Barcode from "react-barcode";
-import { addProductAction } from "./action";
 
-function AddProductForm({
+function AddProductFields({
   defaultMargin: initialDefaultMargin,
 }: {
   defaultMargin: number;
 }) {
   const { data: defaultMargin } = useQuery({
-    queryKey: ["defaultMargin"],
+    queryKey: [QueryKey.defaultMargin],
     queryFn: () => getMargin(),
     initialData: initialDefaultMargin,
   });
 
   const [barcode, setBarcode] = useState("");
   const [customMargin, setCustomMargin] = useState(false);
+  const [buyPrice, setBuyPrice] = useState<string>("1");
   const [sellPrice, setSellPrice] = useState<string>(
     (1 * (1 + defaultMargin)).toFixed(2),
   );
 
   return (
-    <form
-      className="flex h-full flex-col justify-between"
-      action={addProductAction}
-    >
-      <div className="flex h-5/6 w-fit flex-shrink flex-col flex-wrap gap-4">
+    <>
+      <div
+        className="flex h-5/6 w-fit flex-shrink flex-col flex-wrap gap-4"
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            const next = document.activeElement?.getAttribute("data-next");
+            if (next) {
+              e.preventDefault();
+              document.getElementById(next)?.focus();
+            }
+          }
+        }}
+      >
         <div>
           <label htmlFor="barcode" className="text-sm text-stone-500">
             Barcode
@@ -41,6 +50,7 @@ function AddProductForm({
             name="barcode"
             placeholder="Barcode"
             onChange={({ target }) => setBarcode(target.value)}
+            data-next="name"
             autoFocus
             className="mb-2"
           />
@@ -63,7 +73,12 @@ function AddProductForm({
           <label htmlFor="name" className="text-sm text-stone-500">
             Name
           </label>
-          <Input id="name" name="name" placeholder="Name" />
+          <Input
+            id="name"
+            name="name"
+            placeholder="Name"
+            data-next="categoryId"
+          />
         </div>
         <div>
           <label htmlFor="categoryId" className="text-sm text-stone-500">
@@ -75,6 +90,7 @@ function AddProductForm({
             type="number"
             min={0}
             placeholder="CategoryId"
+            data-next="weight"
             className="[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
           />
         </div>
@@ -87,9 +103,9 @@ function AddProductForm({
             name="weight"
             type="number"
             placeholder="Weight"
+            data-next="buyPrice"
             min={0}
             step={1}
-            defaultValue={0}
             className="[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
           />
         </div>
@@ -102,10 +118,12 @@ function AddProductForm({
             name="buyPrice"
             type="number"
             placeholder="Buy Price"
+            data-next="sellPrice"
             step={0.01}
-            defaultValue={1}
             className="[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+            value={buyPrice}
             onChange={({ target }) => {
+              setBuyPrice(target.value);
               if (sellPrice === "") {
                 setCustomMargin(false);
               }
@@ -120,34 +138,43 @@ function AddProductForm({
         <div>
           <label htmlFor="sellPrice" className="text-sm text-stone-500">
             Sell Price (€){" "}
-            {!customMargin &&
-              "(Default Margin: " + (defaultMargin * 100).toFixed(0) + "%)"}
+            {customMargin
+              ? "(Custom Margin: " +
+                (
+                  (parseFloat(sellPrice) / parseFloat(buyPrice)) * 100 -
+                  100
+                ).toFixed(0) +
+                "%)"
+              : "(Default Margin: " + (defaultMargin * 100).toFixed(0) + "%)"}
           </label>
           <Input
             id="sellPrice"
             name="sellPrice"
             type="number"
             placeholder="Sell Price"
+            data-next="productSubmit"
             step={0.01}
+            value={sellPrice}
             onChange={({ target }) => {
               setCustomMargin(true);
               setSellPrice(target.value);
             }}
-            value={sellPrice}
             className="[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
           />
         </div>
       </div>
       <div className="flex gap-x-4">
-        <Button type="submit">Create Product</Button>
+        <Button type="submit" id="productSubmit">
+          Create Product
+        </Button>
         <Link href={`/admin/products`}>
           <Button tabIndex={-1} variant="outline">
             Back
           </Button>
         </Link>
       </div>
-    </form>
+    </>
   );
 }
 
-export default AddProductForm;
+export default AddProductFields;
