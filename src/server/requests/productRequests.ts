@@ -28,11 +28,12 @@ export async function getAll() {
   ).then((data) => data.products);
 }
 
-type addProductRequest = {
+export type addProductRequest = {
   barcode: string;
   name: string;
   categoryId: number;
   weight: number;
+  buyPrice: number;
   sellPrice: number;
   stock: number;
 };
