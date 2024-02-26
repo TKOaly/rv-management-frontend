@@ -72,13 +72,13 @@ function UserTable({ users }: { users: User[] }) {
           return (
             <div
               key={user.userId}
-              className="inline-grid w-full cursor-pointer grid-cols-3 justify-stretch border-b border-gray-200 p-4 transition-all hover:bg-stone-100"
+              className="inline-grid w-full cursor-pointer grid-cols-3 border-b border-gray-200 p-4 transition-all hover:bg-stone-100"
             >
-              <div className="col-span-1 whitespace-nowrap">
+              <div className="whitespace-nowrap">
                 <h3 className="text-lg font-semibold">{user.username}</h3>
                 <p className="text-sm text-stone-500">{user.fullName}</p>
               </div>
-              <div className="col-span-1">
+              <div className="place-self-center self-center">
                 <p
                   className={
                     user.role === UserRole.USER1
@@ -89,7 +89,7 @@ function UserTable({ users }: { users: User[] }) {
                   {user.role}
                 </p>
               </div>
-              <div className="col-span-1 flex flex-col items-end">
+              <div className="flex flex-col items-end">
                 <p className="text-lg text-stone-500">
                   <span
                     className={`font-semibold ${user.moneyBalance < 0 ? "text-red-500" : "text-black"}`}
