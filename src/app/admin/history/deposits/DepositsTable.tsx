@@ -85,7 +85,7 @@ function DepositsTable({ deposits }: { deposits: Deposit[] }) {
                     €
                   </span>{" "}
                   <span className={`text-lg font-semibold text-black`}>
-                    + {(deposit.amount / 100).toFixed(2)}€
+                    + {(deposit.amount / 100).toFixed(2)} €
                   </span>{" "}
                   ={" "}
                   <span
