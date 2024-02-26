@@ -12,11 +12,13 @@ import { User } from "./page";
 // Make filters state accessable from the filters page
 export const userFiltersAtom = atomWithReset({
   username: "",
+  fullName: "",
   role: {
     admin: true,
     user1: true,
-    user2: true,
+    user2: false,
   },
+  negativeBalanceOnly: false,
 });
 
 function UserTable({ users }: { users: User[] }) {
@@ -36,12 +38,20 @@ function UserTable({ users }: { users: User[] }) {
         ? user.username.toLowerCase().includes(filters.username.toLowerCase())
         : true,
     )
+    .filter((user) =>
+      filters.fullName && filters.fullName.length > 0
+        ? user.fullName.toLowerCase().includes(filters.fullName.toLowerCase())
+        : true,
+    )
     .filter((user) => {
       if (!filters.role.admin && user.role === UserRole.ADMIN) return false;
       if (!filters.role.user1 && user.role === UserRole.USER1) return false;
       if (!filters.role.user2 && user.role === UserRole.USER2) return false;
       return true;
-    });
+    })
+    .filter((user) =>
+      filters.negativeBalanceOnly ? user.moneyBalance < 0 : true,
+    );
 
   const path = usePathname();
 
@@ -62,22 +72,24 @@ function UserTable({ users }: { users: User[] }) {
           return (
             <div
               key={user.userId}
-              className="flex cursor-pointer items-center justify-between border-b border-gray-200 p-4 transition-all hover:bg-stone-100"
+              className="inline-grid w-full cursor-pointer grid-cols-3 justify-stretch border-b border-gray-200 p-4 transition-all hover:bg-stone-100"
             >
-              <div className="w-1/3 whitespace-nowrap">
+              <div className="col-span-1 whitespace-nowrap">
                 <h3 className="text-lg font-semibold">{user.username}</h3>
                 <p className="text-sm text-stone-500">{user.fullName}</p>
               </div>
-              <p
-                className={
-                  user.role === UserRole.USER1
-                    ? "text-stone-500"
-                    : "text-sky-800"
-                }
-              >
-                {user.role}
-              </p>
-              <div className="flex flex-col items-end">
+              <div className="col-span-1">
+                <p
+                  className={
+                    user.role === UserRole.USER1
+                      ? "text-stone-500"
+                      : "text-purple-600"
+                  }
+                >
+                  {user.role}
+                </p>
+              </div>
+              <div className="col-span-1 flex flex-col items-end">
                 <p className="text-lg text-stone-500">
                   <span
                     className={`font-semibold ${user.moneyBalance < 0 ? "text-red-500" : "text-black"}`}

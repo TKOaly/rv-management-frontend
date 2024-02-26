@@ -33,8 +33,13 @@ export default function ProductFilters() {
         placeholder="Search by username"
         onChange={({ target }) => setFilters({ username: target.value })}
       />
-      <div className="flex flex-col gap-y-2 rounded-lg border p-4">
-        <p>Filter by role</p>
+      <Input
+        value={filters.fullName}
+        placeholder="Search by full name"
+        onChange={({ target }) => setFilters({ fullName: target.value })}
+      />
+      <div className="flex flex-col gap-y-2 rounded-lg border p-4 pt-3">
+        <p className="text-stone-500">Filter by role</p>
         <div className="flex items-center gap-x-2">
           <Checkbox
             id="filter_admin"
@@ -86,6 +91,21 @@ export default function ProductFilters() {
             USER2
           </label>
         </div>
+      </div>
+      <div className="flex items-center gap-x-2 rounded-lg border p-4">
+        <Checkbox
+          id="negative_balance_only"
+          checked={filters.negativeBalanceOnly}
+          onClick={() =>
+            setFilters({ negativeBalanceOnly: !filters.negativeBalanceOnly })
+          }
+        />
+        <label
+          htmlFor="negative_balance_only"
+          className="cursor-pointer select-none text-sm"
+        >
+          Negative balance only
+        </label>
       </div>
     </div>
   );
