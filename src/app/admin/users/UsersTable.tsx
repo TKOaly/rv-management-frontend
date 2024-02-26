@@ -2,12 +2,11 @@
 
 import { QueryKey } from "@/server/requests/queryKeys";
 import { UserRole } from "@/server/requests/types";
-import { getAll } from "@/server/requests/userRequests";
+import { User, getAll } from "@/server/requests/userRequests";
 import { useQuery } from "@tanstack/react-query";
 import { useAtomValue } from "jotai";
 import { atomWithReset } from "jotai/utils";
 import { usePathname } from "next/navigation";
-import { User } from "./page";
 
 // Make filters state accessable from the filters page
 export const userFiltersAtom = atomWithReset({

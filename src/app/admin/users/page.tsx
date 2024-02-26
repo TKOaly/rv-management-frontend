@@ -1,8 +1,6 @@
-import { getAll, getAllUsersResponse } from "@/server/requests/userRequests";
+import { getAll } from "@/server/requests/userRequests";
 import UserFilters from "./UserFilters";
 import UsersTable from "./UsersTable";
-
-export type User = getAllUsersResponse["users"][0];
 
 export default async function UsersList() {
   const users = await getAll();

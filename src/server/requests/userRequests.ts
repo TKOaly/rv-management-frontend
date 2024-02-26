@@ -18,6 +18,8 @@ export type getAllUsersResponse = {
   ];
 };
 
+export type User = getAllUsersResponse["users"][number];
+
 export async function getAll() {
   return await authenticated<getAllUsersResponse>(
     `${process.env.RV_BACKEND_URL}/${targetUrl}`,
