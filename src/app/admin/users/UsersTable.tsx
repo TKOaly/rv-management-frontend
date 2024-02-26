@@ -1,7 +1,8 @@
 "use client";
 
 import { QueryKey } from "@/server/requests/queryKeys";
-import { UserRole, getAll } from "@/server/requests/userRequests";
+import { UserRole } from "@/server/requests/types";
+import { getAll } from "@/server/requests/userRequests";
 import { useQuery } from "@tanstack/react-query";
 import { useAtomValue } from "jotai";
 import { atomWithReset } from "jotai/utils";
@@ -21,7 +22,7 @@ export const userFiltersAtom = atomWithReset({
 function UserTable({ users }: { users: User[] }) {
   // Make User data refetchable and cacheable
   const { data: userData } = useQuery({
-    queryKey: [QueryKey.products],
+    queryKey: [QueryKey.users],
     queryFn: () => getAll(),
     initialData: users,
   });
@@ -30,11 +31,10 @@ function UserTable({ users }: { users: User[] }) {
 
   // Filter users based on set filters
   const filteredUsers = userData
-    .filter(
-      (user) =>
-        filters.username &&
-        filters.username.length > 0 &&
-        user.username.toLowerCase().includes(filters.username.toLowerCase()),
+    .filter((user) =>
+      filters.username && filters.username.length > 0
+        ? user.username.toLowerCase().includes(filters.username.toLowerCase())
+        : true,
     )
     .filter((user) => {
       if (!filters.role.admin && user.role === UserRole.ADMIN) return false;

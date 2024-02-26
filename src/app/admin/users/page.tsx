@@ -7,7 +7,6 @@ import { usePartialSetAtom } from "@/lib/utils";
 import { getAllUsersResponse } from "@/server/requests/userRequests";
 import { useAtomValue } from "jotai";
 import { useResetAtom } from "jotai/utils";
-import Link from "next/link";
 import { userFiltersAtom } from "./UsersTable";
 
 export type User = getAllUsersResponse["users"][0];
@@ -19,9 +18,7 @@ export default function ProductFilters() {
 
   return (
     <div className="flex w-1/4 flex-col gap-y-4">
-      <Link tabIndex={-1} href="/admin/new/product">
-        <Button className="w-full bg-green-700">New Product</Button>
-      </Link>
+      <label className="-mb-2 text-sm text-stone-500">Filters</label>
       <Button
         onClick={() => {
           resetFilters();
@@ -31,10 +28,9 @@ export default function ProductFilters() {
       >
         Reset filters
       </Button>
-      <label className="-mb-3 text-sm text-stone-500">Filters</label>
       <Input
         value={filters.username}
-        placeholder="Search products / boxes"
+        placeholder="Search by username"
         onChange={({ target }) => setFilters({ username: target.value })}
       />
       <div className="flex flex-col gap-y-2 rounded-lg border p-4">

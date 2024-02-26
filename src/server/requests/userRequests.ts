@@ -1,14 +1,9 @@
 "use server";
 
 import { authenticated } from "../wrappers";
+import { UserRole } from "./types";
 
 const targetUrl = "api/v1/admin/users";
-
-enum UserRole {
-  ADMIN = "ADMIN",
-  USER1 = "USER1",
-  USER2 = "USER2",
-}
 
 export type getAllUsersResponse = {
   users: [
