@@ -4,12 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { usePartialSetAtom } from "@/lib/utils";
-import { getAllUsersResponse } from "@/server/requests/userRequests";
 import { useAtomValue } from "jotai";
 import { useResetAtom } from "jotai/utils";
 import { userFiltersAtom } from "./UsersTable";
-
-export type User = getAllUsersResponse["users"][0];
 
 export default function UserFilters() {
   const setFilters = usePartialSetAtom(userFiltersAtom);

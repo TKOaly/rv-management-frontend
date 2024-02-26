@@ -35,7 +35,7 @@ export default function AdminNavigation() {
         <NavButton href={"/admin/users"} title="Users">
           <BookUser />
         </NavButton>
-        <NavButton href={"/admin/history"} title="History">
+        <NavButton href={"/admin/history/deposits"} title="History">
           <FileClock />
         </NavButton>
         <NavButton href={"/admin/categories"} title="Categories">
