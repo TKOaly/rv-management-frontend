@@ -2,7 +2,7 @@
 
 Next.js-based management terminal for TKO-äly ruokavälitys (snack kiosk)
 
-### Screenshots
+### [Screenshots]()
 
 [![image](https://github.com/TKOaly/rv-management-frontend/assets/56773501/6a007a0e-31b1-4619-b73f-0504ef298bbd)]()
 
