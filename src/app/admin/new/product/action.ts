@@ -24,7 +24,6 @@ export async function addProductAction(formData: FormData) {
     barcode: formData.get("barcode") as string,
     name: formData.get("name") as string,
     categoryId: parseInt(formData.get("categoryId") as string),
-    weight: parseInt(formData.get("weight") as string),
     buyPrice: Math.round(parseFloat(formData.get("buyPrice") as string) * 100),
     sellPrice: Math.round(
       parseFloat(formData.get("sellPrice") as string) * 100,
@@ -37,7 +36,6 @@ export async function addProductAction(formData: FormData) {
       barcode: z.string().min(1).max(14),
       name: z.string().min(1),
       categoryId: z.union(categoryIdLiterals),
-      weight: z.number().min(0),
       sellPrice: z.number().int(),
       buyPrice: z.number().int(),
       stock: z.number().int(),

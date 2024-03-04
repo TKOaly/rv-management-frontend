@@ -94,23 +94,8 @@ function AddProductFields({
             type="number"
             min={0}
             placeholder="CategoryId"
-            data-next="weight"
-            className="[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-          />
-        </div>
-        <div>
-          <label htmlFor="weight" className="text-sm text-stone-500">
-            Weight (g)
-          </label>
-          <Input
-            id="weight"
-            name="weight"
-            type="number"
-            placeholder="Weight"
             data-next="buyPrice"
-            min={0}
-            step={1}
-            className="[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+            className="input-spin-button-none"
           />
         </div>
         <div>
@@ -124,7 +109,7 @@ function AddProductFields({
             placeholder="Buy Price"
             data-next="sellPrice"
             step={0.01}
-            className="[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+            className="input-spin-button-none"
             value={buyPrice}
             onChange={({ target }) => {
               setBuyPrice(target.value);
@@ -163,7 +148,7 @@ function AddProductFields({
               setCustomMargin(true);
               setSellPrice(target.value);
             }}
-            className="[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+            className="input-spin-button-none"
           />
         </div>
       </div>

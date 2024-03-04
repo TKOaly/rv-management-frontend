@@ -56,12 +56,6 @@ export default function Product({ params }: { params: { id: string } }) {
         <div className="flex w-full flex-col gap-y-4">
           <h1 className="text-2xl font-semibold">{product.name}</h1>
           <div className="flex flex-col gap-y-2">
-            <label htmlFor="weight" className="text-sm text-stone-500">
-              Weight
-            </label>
-            <p id="weight">{product.weight} g</p>
-          </div>
-          <div className="flex flex-col gap-y-2">
             <label htmlFor="stock" className="text-sm text-stone-500">
               Stock
             </label>

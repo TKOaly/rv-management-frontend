@@ -4,19 +4,20 @@ import { authenticated } from "../wrappers";
 
 const targetUrl = "api/v1/admin/products";
 
+export type Product = {
+  barcode: string;
+  name: string;
+  category: {
+    categoryId: number;
+    description: string;
+  };
+  sellPrice: number;
+  stock: number;
+  buyPrice: number;
+};
+
 export type getAllProductsResponse = {
-  products: {
-    barcode: string;
-    name: string;
-    category: {
-      categoryId: number;
-      description: string;
-    };
-    weight: number;
-    sellPrice: number;
-    stock: number;
-    buyPrice: number;
-  }[];
+  products: Product[];
 };
 
 export async function getAll() {
@@ -32,25 +33,13 @@ export type addProductRequest = {
   barcode: string;
   name: string;
   categoryId: number;
-  weight: number;
   buyPrice: number;
   sellPrice: number;
   stock: number;
 };
 
 type addProductResponse = {
-  product: {
-    barcode: string;
-    name: string;
-    category: {
-      categoryId: number;
-      description: string;
-    };
-    weight: number;
-    sellPrice: number;
-    stock: number;
-    buyPrice: number;
-  };
+  product: Product;
 };
 
 export const addProduct = (product: addProductRequest) => {
@@ -67,24 +56,12 @@ type updateProductRequest = {
   barcode: string;
   name: string;
   categoryId: number;
-  weight: number;
   sellPrice: number;
   stock: number;
 };
 
 type updateProductResponse = {
-  product: {
-    barcode: string;
-    name: string;
-    category: {
-      categoryId: number;
-      description: string;
-    };
-    weight: number;
-    sellPrice: number;
-    stock: number;
-    buyPrice: number;
-  };
+  product: Product;
 };
 
 export const updateProduct = (product: updateProductRequest) => {
@@ -126,18 +103,7 @@ export const addStock = (product: addStockRequest) => {
 };
 
 type deleteProductResponse = {
-  deletedProduct: {
-    barcode: string;
-    name: string;
-    category: {
-      categoryId: number;
-      description: string;
-    };
-    weight: number;
-    sellPrice: number;
-    stock: number;
-    buyPrice: number;
-  };
+  deletedProduct: Product;
 };
 
 export const deleteProduct = (barcode: string) => {

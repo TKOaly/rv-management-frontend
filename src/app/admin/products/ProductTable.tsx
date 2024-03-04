@@ -71,7 +71,6 @@ function ProductTable({ products }: { products: Product[] }) {
                   <p className="text-sm text-stone-500">{product.barcode}</p>
                 </div>
                 {/*<div className="hidden w-1/3 flex-col items-end truncate xl:flex">
-                  <p className="text-sm text-stone-500">{product.weight} g</p>
                   <p className=" text-stone-500">
                     {product.category.description}
                   </p>
