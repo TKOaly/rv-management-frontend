@@ -13,7 +13,7 @@ import Link from "next/link";
 
 export default function AdminNavigation() {
   return (
-    <nav className="flex w-64 flex-col justify-between p-8">
+    <nav className="flex max-h-screen w-64 flex-col justify-between overflow-y-auto p-8">
       <div className="flex flex-col items-start space-y-2">
         <Link href={"/admin"}>
           <div className="mb-4 flex-col space-y-2">

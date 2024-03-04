@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { nextFieldOnEnter } from "@/lib/utils";
 import { getMargin } from "@/server/requests/globalMarginRequests";
 import { QueryKey } from "@/server/requests/queryKeys";
 import { useQuery } from "@tanstack/react-query";
@@ -35,15 +36,7 @@ function AddProductFields({
     <>
       <div
         className="flex h-5/6 w-fit flex-shrink flex-col flex-wrap gap-4"
-        onKeyDown={(e) => {
-          if (e.key === "Enter") {
-            const next = document.activeElement?.getAttribute("data-next");
-            if (next) {
-              e.preventDefault();
-              document.getElementById(next)?.focus();
-            }
-          }
-        }}
+        onKeyDown={nextFieldOnEnter}
       >
         <div>
           <label htmlFor="barcode" className="text-sm text-stone-500">
@@ -167,7 +160,7 @@ function AddProductFields({
           />
         </div>
       </div>
-      <div className="flex gap-x-4">
+      <div className="flex w-full flex-row-reverse justify-between gap-x-4">
         <Button
           type="submit"
           id="productSubmit"
