@@ -1,6 +1,6 @@
 import { getMargin } from "@/server/requests/globalMarginRequests";
+import { addProductAction } from "../../../../server/actions/products";
 import AddProductFields from "./AddProductFields";
-import { addProductAction } from "./action";
 
 async function NewProduct() {
   const defaultMargin = await getMargin();

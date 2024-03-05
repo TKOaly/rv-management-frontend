@@ -1,7 +1,7 @@
-import { getAll } from "@/server/requests/categoryRequests";
+import { getAllCategories } from "@/server/requests/categoryRequests";
 
 export default async function Categories() {
-  const categories = await getAll();
+  const categories = await getAllCategories();
   return (
     <div className="flex h-full w-full flex-col gap-y-4 py-12">
       <h1 className="text-3xl font-semibold">Categories</h1>

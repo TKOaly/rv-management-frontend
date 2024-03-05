@@ -22,6 +22,8 @@ export default function AdminNavigation() {
               alt="Ruokavälitys"
               height={48}
               width={150}
+              className="w-auto"
+              priority
             />
             <h1 className="text-2xl font-semibold">Ruokavälitys</h1>
           </div>

@@ -6,7 +6,7 @@ type categoriesRequest = {
   categories: { categoryId: number; description: string }[];
 };
 
-export async function getAll() {
+export async function getAllCategories() {
   return await authenticated<categoriesRequest>(
     `${process.env.RV_BACKEND_URL}/${targetUrl}`,
     {
@@ -14,7 +14,3 @@ export async function getAll() {
     },
   ).then((data) => data.categories);
 }
-
-export default {
-  getAll,
-};

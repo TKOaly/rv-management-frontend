@@ -15,15 +15,12 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import {
   deleteProduct,
-  getAll,
-  getAllProductsResponse,
+  getAllProducts,
 } from "@/server/requests/productRequests";
 import { QueryKey } from "@/server/requests/queryKeys";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import Barcode from "react-barcode";
-
-export type Product = getAllProductsResponse["products"][0];
 
 export default function Product({ params }: { params: { id: string } }) {
   const {
@@ -33,7 +30,7 @@ export default function Product({ params }: { params: { id: string } }) {
     isError,
   } = useQuery({
     queryKey: [QueryKey.products],
-    queryFn: () => getAll(),
+    queryFn: () => getAllProducts(),
   });
 
   const { toast } = useToast();

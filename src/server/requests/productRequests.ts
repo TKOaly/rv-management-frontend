@@ -4,28 +4,39 @@ import { authenticated } from "../wrappers";
 
 const targetUrl = "api/v1/admin/products";
 
-export type getAllProductsResponse = {
-  products: {
-    barcode: string;
-    name: string;
-    category: {
-      categoryId: number;
-      description: string;
-    };
-    weight: number;
-    sellPrice: number;
-    stock: number;
-    buyPrice: number;
-  }[];
+export type Product = {
+  barcode: string;
+  name: string;
+  category: {
+    categoryId: number;
+    description: string;
+  };
+  weight: number;
+  sellPrice: number;
+  stock: number;
+  buyPrice: number;
 };
 
-export async function getAll() {
+export type getAllProductsResponse = {
+  products: Product[];
+};
+
+export async function getAllProducts() {
   return await authenticated<getAllProductsResponse>(
     `${process.env.RV_BACKEND_URL}/${targetUrl}`,
     {
       method: "GET",
     },
   ).then((data) => data.products);
+}
+
+export async function getProduct(barcode: string) {
+  return await authenticated<{ product: Product }>(
+    `${process.env.RV_BACKEND_URL}/${targetUrl}/${barcode}`,
+    {
+      method: "GET",
+    },
+  ).then((data) => data.product);
 }
 
 export type addProductRequest = {
