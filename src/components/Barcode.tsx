@@ -1,6 +1,7 @@
 "use client";
 
 import { default as ReactBarcode } from "react-barcode";
+import validator from "validator";
 
 type OwnProps = {
   barcode: string;
@@ -8,8 +9,10 @@ type OwnProps = {
 } & Omit<React.ComponentProps<typeof ReactBarcode>, "value">;
 
 const Barcode = ({ barcode, displayInvalid = false, ...rest }: OwnProps) => {
+  const { isEAN } = validator;
+
   if (
-    (!displayInvalid && ![8, 13].includes(barcode.length)) ||
+    (!displayInvalid && !isEAN(barcode)) ||
     ["", null, undefined].includes(barcode)
   )
     return null;
@@ -18,9 +21,9 @@ const Barcode = ({ barcode, displayInvalid = false, ...rest }: OwnProps) => {
     <ReactBarcode
       value={barcode}
       format={
-        barcode.length === 13
+        barcode.length === 13 && isEAN(barcode)
           ? "EAN13"
-          : barcode.length === 8
+          : barcode.length === 8 && isEAN(barcode)
             ? ("EAN8" as "EAN13")
             : undefined
       }

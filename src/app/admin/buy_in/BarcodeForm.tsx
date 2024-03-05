@@ -36,7 +36,7 @@ export default function BuyInBarcodeForm({ products, boxes }: OwnProps) {
       <Input
         id="barcode"
         name="barcode"
-        placeholder="Enter / read barcode..."
+        placeholder="Read barcode..."
         required
         autoFocus
       />

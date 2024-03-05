@@ -129,9 +129,9 @@ export const addStock = (product: addStockRequest) => {
       method: "POST",
     },
     {
+      count: product.count,
       buyPrice: product.buyPrice,
       sellPrice: product.sellPrice,
-      count: product.count,
     },
   ).then((data) => data);
 };

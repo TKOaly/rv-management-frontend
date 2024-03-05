@@ -5,20 +5,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { nextFieldOnEnter } from "@/lib/utils";
 import { Product } from "@/server/requests/productRequests";
-import { useRouter } from "next/navigation";
+import { Loader } from "lucide-react";
 import { useState } from "react";
+import { useFormStatus } from "react-dom";
 
 type OwnProps = { product: Product; defaultMargin: number };
 
 export default function BuyInProductForm({ product, defaultMargin }: OwnProps) {
-  const router = useRouter();
-
-  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    //const _formData = new FormData(e.currentTarget);
-    router.push(`/admin/buy_in`);
-  };
-
   const [customMargin, setCustomMargin] = useState(false);
   const [buyPrice, setBuyPrice] = useState<string>(
     (product.buyPrice / 100).toFixed(2),
@@ -29,12 +22,10 @@ export default function BuyInProductForm({ product, defaultMargin }: OwnProps) {
 
   const { barcode } = product;
 
+  const { pending } = useFormStatus();
+
   return (
-    <form
-      className="flex flex-col gap-y-4"
-      onSubmit={onSubmit}
-      autoComplete="off"
-    >
+    <>
       <div
         className="flex flex-col items-center gap-y-4"
         onKeyDown={nextFieldOnEnter}
@@ -43,14 +34,21 @@ export default function BuyInProductForm({ product, defaultMargin }: OwnProps) {
           <p className="text-lg font-semibold">{product.name}</p>
         </div>
         <Barcode barcode={barcode} width={3} height={60} />
+        <Input
+          id="barcode"
+          name="barcode"
+          type="hidden"
+          value={barcode}
+          readOnly
+        />
         <div>
-          <label htmlFor="amount" className="text-sm text-stone-700">
-            Amount
+          <label htmlFor="count" className="text-sm text-stone-700">
+            Count
           </label>
           <Input
-            id="amount"
-            name="amount"
-            placeholder="Enter amount"
+            id="count"
+            name="count"
+            placeholder="Enter Count"
             required
             autoFocus
             data-next="buyPrice"
@@ -110,9 +108,14 @@ export default function BuyInProductForm({ product, defaultMargin }: OwnProps) {
           />
         </div>
       </div>
-      <Button id="buyInSubmit" type="submit" className="mt-3">
+      <Button
+        id="buyInSubmit"
+        type="submit"
+        className="mt-3 flex items-center gap-x-2"
+      >
+        {pending && <Loader className="animate-spin" />}
         Buy In
       </Button>
-    </form>
+    </>
   );
 }
