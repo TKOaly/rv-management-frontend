@@ -1,5 +1,6 @@
 "use client";
 
+import Barcode from "@/components/Barcode";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -20,7 +21,6 @@ import {
 import { QueryKey } from "@/server/requests/queryKeys";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import Barcode from "react-barcode";
 
 export default function Product({ params }: { params: { id: string } }) {
   const {
@@ -94,16 +94,10 @@ export default function Product({ params }: { params: { id: string } }) {
             }}
           >
             <Barcode
-              value={product.barcode}
+              barcode={product.barcode}
               width={3}
               height={125}
-              format={
-                product.barcode.length === 13
-                  ? "EAN13"
-                  : product.barcode.length === 8
-                    ? ("EAN8" as "EAN13")
-                    : undefined
-              }
+              displayInvalid
             />
           </div>
           <div className="flex gap-x-4">

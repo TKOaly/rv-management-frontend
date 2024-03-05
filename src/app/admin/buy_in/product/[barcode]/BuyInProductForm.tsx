@@ -1,12 +1,12 @@
 "use client";
 
+import Barcode from "@/components/Barcode";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { nextFieldOnEnter } from "@/lib/utils";
 import { Product } from "@/server/requests/productRequests";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import Barcode from "react-barcode";
 
 type OwnProps = { product: Product; defaultMargin: number };
 
@@ -30,7 +30,11 @@ export default function BuyInProductForm({ product, defaultMargin }: OwnProps) {
   const { barcode } = product;
 
   return (
-    <form className="flex flex-col gap-y-4" onSubmit={onSubmit}>
+    <form
+      className="flex flex-col gap-y-4"
+      onSubmit={onSubmit}
+      autoComplete="off"
+    >
       <div
         className="flex flex-col items-center gap-y-4"
         onKeyDown={nextFieldOnEnter}
@@ -38,20 +42,7 @@ export default function BuyInProductForm({ product, defaultMargin }: OwnProps) {
         <div>
           <p className="text-lg font-semibold">{product.name}</p>
         </div>
-        {(barcode.length === 13 || barcode.length === 8) && (
-          <Barcode
-            value={barcode}
-            width={3}
-            height={60}
-            format={
-              barcode.length === 13
-                ? "EAN13"
-                : barcode.length === 8
-                  ? ("EAN8" as "EAN13")
-                  : undefined
-            }
-          />
-        )}
+        <Barcode barcode={barcode} width={3} height={60} />
         <div>
           <label htmlFor="amount" className="text-sm text-stone-700">
             Amount

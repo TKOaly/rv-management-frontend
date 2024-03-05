@@ -1,5 +1,6 @@
 "use client";
 
+import Barcode from "@/components/Barcode";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { nextFieldOnEnter } from "@/lib/utils";
@@ -8,8 +9,8 @@ import { QueryKey } from "@/server/requests/queryKeys";
 import { useQuery } from "@tanstack/react-query";
 import { Loader } from "lucide-react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
-import Barcode from "react-barcode";
 import { useFormStatus } from "react-dom";
 
 function AddProductFields({
@@ -23,7 +24,9 @@ function AddProductFields({
     initialData: initialDefaultMargin,
   });
 
-  const [barcode, setBarcode] = useState("");
+  const searchParams = useSearchParams();
+
+  const [barcode, setBarcode] = useState(searchParams.get("barcode") ?? "");
   const [customMargin, setCustomMargin] = useState(false);
   const [buyPrice, setBuyPrice] = useState<string>("1");
   const [sellPrice, setSellPrice] = useState<string>(
@@ -35,10 +38,10 @@ function AddProductFields({
   return (
     <>
       <div
-        className="flex h-5/6 w-fit flex-shrink flex-col flex-wrap gap-4"
+        className="flex h-5/6 w-fit flex-shrink flex-col flex-wrap items-center gap-4"
         onKeyDown={nextFieldOnEnter}
       >
-        <div>
+        <div className={`${searchParams.has("barcode") && "hidden"}`}>
           <label htmlFor="barcode" className="text-sm text-stone-500">
             Barcode
           </label>
@@ -48,24 +51,12 @@ function AddProductFields({
             placeholder="Barcode"
             onChange={({ target }) => setBarcode(target.value)}
             data-next="name"
-            autoFocus
+            defaultValue={barcode}
+            autoFocus={!searchParams.has("barcode")}
             className="mb-2"
           />
-          {(barcode.length === 13 || barcode.length === 8) && (
-            <Barcode
-              value={barcode}
-              width={3}
-              height={30}
-              format={
-                barcode.length === 13
-                  ? "EAN13"
-                  : barcode.length === 8
-                    ? ("EAN8" as "EAN13")
-                    : undefined
-              }
-            />
-          )}
         </div>
+        <Barcode barcode={barcode} width={3} height={50} displayInvalid />
         <div>
           <label htmlFor="name" className="text-sm text-stone-500">
             Name
@@ -75,6 +66,7 @@ function AddProductFields({
             name="name"
             placeholder="Name"
             data-next="categoryId"
+            autoFocus={searchParams.has("barcode")}
           />
         </div>
         <div>

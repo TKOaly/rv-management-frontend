@@ -22,14 +22,14 @@ export default function BuyInBarcodeForm({ products, boxes }: OwnProps) {
       products.every((product) => product.barcode !== barcode) &&
       boxes.every((box) => box.boxBarcode !== barcode)
     ) {
-      router.push(`/admin/new/product`);
+      router.push(`/admin/new/${barcode}`);
       return;
     }
     router.push(`/admin/buy_in/product/${barcode}`);
   };
 
   return (
-    <form className="flex flex-col" onSubmit={onSubmit}>
+    <form className="flex flex-col" onSubmit={onSubmit} autoComplete="off">
       <label htmlFor="username" className="text-sm text-stone-700">
         Barcode
       </label>
