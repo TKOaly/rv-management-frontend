@@ -8,7 +8,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { Product, deleteProduct } from "@/server/requests/productRequests";
-import { QueryKeys } from "@/server/requests/queryKeys";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -18,7 +17,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@radix-ui/react-alert-dialog";
-import { revalidateTag } from "next/cache";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -102,20 +100,19 @@ export const ProductView = ({ product }: { product: Product }) => {
                     className="bg-red-500 hover:bg-red-600"
                     onClick={async () => {
                       try {
-                        router.replace("/admin/products");
                         const deletedProduct = await deleteProduct(
                           product.barcode,
                         );
                         if (!deletedProduct) {
                           throw new Error("Product not deleted");
                         }
-                        revalidateTag(QueryKeys.products);
-                        toast({ title: "Product deleted", duration: 2000 });
+                        toast({ title: "Product deleted", duration: 3000 });
+                        router.replace("/admin/products");
                       } catch (error) {
                         router.replace("/admin/products/" + product.barcode);
                         toast({
                           title: "Error deleting product",
-                          duration: 2000,
+                          duration: 3000,
                         });
                       }
                     }}

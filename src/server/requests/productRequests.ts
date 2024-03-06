@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidateTag } from "next/cache";
 import { authenticated } from "../wrappers";
 import { QueryKeys } from "./queryKeys";
 
@@ -161,5 +162,10 @@ export const deleteProduct = (barcode: string) => {
     {
       method: "DELETE",
     },
-  ).then((data) => data.deletedProduct);
+  )
+    .then((data) => {
+      revalidateTag(QueryKeys.products);
+      return data;
+    })
+    .then((data) => data.deletedProduct);
 };
