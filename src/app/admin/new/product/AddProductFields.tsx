@@ -3,15 +3,15 @@
 import Barcode from "@/components/Barcode";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { SubmitButton } from "@/components/ui/submit-button";
 import { useToast } from "@/components/ui/use-toast";
 import { nextFieldOnEnter } from "@/lib/utils";
 import { addProductAction } from "@/server/actions/products";
 import { Product } from "@/server/requests/productRequests";
-import { Loader } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useFormState, useFormStatus } from "react-dom";
+import { useFormState } from "react-dom";
 
 function AddProductFields() {
   const searchParams = useSearchParams();
@@ -38,8 +38,6 @@ function AddProductFields() {
         : router.push(`/admin/products/${product.barcode}`);
     }
   }, [state.success, state.newProduct]);
-
-  const { pending } = useFormStatus();
 
   return (
     <>
@@ -106,15 +104,13 @@ function AddProductFields() {
         </div>
       </div>
       <div className="flex w-full flex-row-reverse justify-between gap-x-4">
-        <Button
-          type="submit"
+        <SubmitButton
           id="productSubmit"
-          className="flex w-full items-center gap-x-2"
+          className="w-full"
           formAction={addProduct}
         >
-          {pending && <Loader className="animate-spin" />}
           Create Product
-        </Button>
+        </SubmitButton>
         <Button asChild variant="outline" className="w-full">
           <Link href={`/admin/products`}>Back</Link>
         </Button>
