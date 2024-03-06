@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { WritableAtom, atom, useSetAtom } from "jotai";
+import { KeyboardEventHandler } from "react";
 import { twMerge } from "tailwind-merge";
 
 /**
@@ -40,3 +41,13 @@ const partialSetAtom = <T>(
 export const usePartialSetAtom = <T>(
   atom: WritableAtom<T, [T & Partial<T>], unknown>,
 ) => useSetAtom(partialSetAtom(atom));
+
+export const nextFieldOnEnter: KeyboardEventHandler<HTMLDivElement> = (e) => {
+  if (e.key === "Enter") {
+    const next = document.activeElement?.getAttribute("data-next");
+    if (next) {
+      e.preventDefault();
+      document.getElementById(next)?.focus();
+    }
+  }
+};

@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { nextFieldOnEnter } from "@/lib/utils";
 import { AlertTriangle } from "lucide-react";
 import { useFormState } from "react-dom";
 import { authenticate } from "../../server/requests/login";
@@ -11,7 +12,7 @@ export default function Login() {
 
   return (
     <form action={login} className="flex flex-col gap-y-3">
-      <div>
+      <div onKeyDown={nextFieldOnEnter}>
         <label htmlFor="username" className="text-sm text-stone-700">
           Username
         </label>
@@ -20,6 +21,7 @@ export default function Login() {
           name="username"
           placeholder="Enter username..."
           required
+          data-next="password"
         />
       </div>
       <div>
@@ -27,14 +29,14 @@ export default function Login() {
           Password
         </label>
         <Input
-          id="username"
+          id="password"
           name="password"
           type="password"
           placeholder="Enter password..."
           required
         />
       </div>
-      <Button type="submit" className="mt-3">
+      <Button type="submit" id="loginSubmit" className="mt-3">
         Login
       </Button>
       {errorMessage && (

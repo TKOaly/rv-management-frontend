@@ -1,13 +1,12 @@
 "use client";
 
-import { getAll } from "@/server/requests/productRequests";
+import { Product, getAllProducts } from "@/server/requests/productRequests";
 import { QueryKey } from "@/server/requests/queryKeys";
 import { useQuery } from "@tanstack/react-query";
 import { useAtomValue } from "jotai";
 import { atomWithReset } from "jotai/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Product } from "./page";
 
 // Make filters state accessable from the filters page
 export const productFiltersAtom = atomWithReset({
@@ -19,7 +18,7 @@ function ProductTable({ products }: { products: Product[] }) {
   // Make product data refetchable and cacheable
   const { data: productData } = useQuery({
     queryKey: [QueryKey.products],
-    queryFn: () => getAll(),
+    queryFn: () => getAllProducts(),
     initialData: products,
   });
 
