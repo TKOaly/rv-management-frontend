@@ -8,7 +8,7 @@ import {
 } from "@/server/requests/productRequests";
 import { revalidateTag } from "next/cache";
 import { z } from "zod";
-import { QueryKey } from "../requests/queryKeys";
+import { QueryKeys } from "../requests/queryKeys";
 
 const getCategoryIdLiterals = async () =>
   getAllCategories().then(
@@ -62,7 +62,7 @@ export async function addProductAction(
 
   try {
     const newProduct = await addProduct(validatedData.data);
-    revalidateTag(QueryKey.products);
+    revalidateTag(QueryKeys.products);
     return {
       success: true,
       newProduct: newProduct,
@@ -113,6 +113,7 @@ export async function editProductAction(
 
   try {
     await updateProduct(validatedData.data);
+    revalidateTag(QueryKeys.products);
     return { success: true, error: null };
   } catch (error) {
     console.error(error);
@@ -157,7 +158,7 @@ export async function buyInProductAction(
 
   try {
     const newStock = await addStock(validatedData.data);
-    revalidateTag(QueryKey.products);
+    revalidateTag(QueryKeys.products);
     return { success: true, newStock: newStock, error: null };
   } catch (error) {
     console.error(error);

@@ -2,6 +2,7 @@
 
 import Barcode from "@/components/Barcode";
 import { Button } from "@/components/ui/button";
+import { CategorySelect } from "@/components/ui/category-select";
 import { Input } from "@/components/ui/input";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { useToast } from "@/components/ui/use-toast";
@@ -72,6 +73,12 @@ function AddProductFields() {
             data-next="categoryId"
             autoFocus={searchParams.has("barcode")}
           />
+        </div>
+        <div className="flex flex-col gap-y-2">
+          <label htmlFor="category" className="text-sm text-stone-500">
+            Category
+          </label>
+          <CategorySelect id="categoryId" name="categoryId" />
         </div>
         <div className="w-full">
           <label htmlFor="categoryId" className="text-sm text-stone-500">

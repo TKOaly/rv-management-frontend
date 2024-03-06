@@ -1,20 +1,18 @@
 "use client";
 
-import { Input } from "@/components/ui/input";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { RotateCcw } from "lucide-react";
-import { CategorySelect } from "@/components/ui/category-select";
-import { nextFieldOnEnter } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { useFormState } from "react-dom";
-import { editProductAction } from "@/server/actions/products";
+import { CategorySelect } from "@/components/ui/category-select";
+import { Input } from "@/components/ui/input";
 import { SubmitButton } from "@/components/ui/submit-button";
-import Link from "next/link";
-import { Product } from "@/server/requests/productRequests";
-import { useQueryClient } from "@tanstack/react-query";
-import { QueryKey } from "@/server/requests/queryKeys";
-import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
+import { nextFieldOnEnter } from "@/lib/utils";
+import { editProductAction } from "@/server/actions/products";
+import { Product } from "@/server/requests/productRequests";
+import { RotateCcw } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useFormState } from "react-dom";
 
 type ProductEditFormProps = {
   product: Product;
@@ -59,13 +57,11 @@ export const ProductEditForm = ({
     return calculatedMargin.toFixed(0) !== (defaultMargin * 100).toFixed(0);
   });
 
-  const queryClient = useQueryClient();
   const router = useRouter();
   const { toast } = useToast();
 
   useEffect(() => {
     if (state.success) {
-      queryClient.invalidateQueries({ queryKey: [QueryKey.products] });
       toast({ title: "Product updated", duration: 5_000 });
       router.push(`/admin/products/${product.barcode}`);
     } else if (state.error) {

@@ -1,7 +1,7 @@
 "use server";
 
 import { authenticated } from "../wrappers";
-import { QueryKey } from "./queryKeys";
+import { QueryKeys } from "./queryKeys";
 
 const targetUrl = "api/v1/admin/products";
 
@@ -37,7 +37,7 @@ export async function getProduct(barcode: string) {
     {
       method: "GET",
       next: {
-        tags: [QueryKey.products],
+        tags: [QueryKeys.products],
       },
     },
   ).then((data) => data.product);

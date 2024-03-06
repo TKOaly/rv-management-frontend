@@ -2,29 +2,28 @@
 
 import Barcode from "@/components/Barcode";
 import {
-  AlertDialogHeader,
   AlertDialogFooter,
+  AlertDialogHeader,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { Product, deleteProduct } from "@/server/requests/productRequests";
-import { QueryKey } from "@/server/requests/queryKeys";
+import { QueryKeys } from "@/server/requests/queryKeys";
 import {
   AlertDialog,
-  AlertDialogTrigger,
-  AlertDialogContent,
-  AlertDialogTitle,
-  AlertDialogDescription,
-  AlertDialogCancel,
   AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogTitle,
+  AlertDialogTrigger,
 } from "@radix-ui/react-alert-dialog";
-import { useQueryClient } from "@tanstack/react-query";
+import { revalidateTag } from "next/cache";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export const ProductView = ({ product }: { product: Product }) => {
   const { toast } = useToast();
-  const queryClient = useQueryClient();
   const router = useRouter();
 
   return (
@@ -110,9 +109,7 @@ export const ProductView = ({ product }: { product: Product }) => {
                         if (!deletedProduct) {
                           throw new Error("Product not deleted");
                         }
-                        queryClient.invalidateQueries({
-                          queryKey: [QueryKey.products],
-                        });
+                        revalidateTag(QueryKeys.products);
                         toast({ title: "Product deleted", duration: 2000 });
                       } catch (error) {
                         router.replace("/admin/products/" + product.barcode);

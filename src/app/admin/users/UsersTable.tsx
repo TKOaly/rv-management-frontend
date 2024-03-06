@@ -1,6 +1,6 @@
 "use client";
 
-import { QueryKey } from "@/server/requests/queryKeys";
+import { QueryKeys } from "@/server/requests/queryKeys";
 import { UserRole } from "@/server/requests/types";
 import { User, getAllUsers } from "@/server/requests/userRequests";
 import { useQuery } from "@tanstack/react-query";
@@ -23,7 +23,7 @@ export const userFiltersAtom = atomWithReset({
 function UserTable({ users }: { users: User[] }) {
   // Make User data refetchable and cacheable
   const { data: userData } = useQuery({
-    queryKey: [QueryKey.users],
+    queryKey: [QueryKeys.users],
     queryFn: () => getAllUsers(),
     initialData: users,
   });
