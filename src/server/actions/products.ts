@@ -1,7 +1,11 @@
 "use server";
 
 import { getAllCategories } from "@/server/requests/categoryRequests";
-import { addProduct, addStock } from "@/server/requests/productRequests";
+import {
+  addProduct,
+  addStock,
+  updateProduct,
+} from "@/server/requests/productRequests";
 import { z } from "zod";
 
 const getCategoryIdLiterals = async () =>
@@ -66,6 +70,53 @@ export async function addProductAction(
     return {
       success: false,
       error: "Failed to add product",
+    };
+  }
+}
+
+export async function editProductAction(
+  _prevState: unknown,
+  formData: FormData,
+) {
+  "use server";
+
+  const { barcode, name, stock, buyPrice, sellPrice, categoryId } =
+    Object.fromEntries(formData.entries());
+
+  const rawData = {
+    barcode,
+    name,
+    stock: parseInt(stock as string),
+    categoryId: parseInt(categoryId as string),
+    buyPrice: Number(buyPrice) * 100,
+    sellPrice: Number(sellPrice) * 100,
+  };
+
+  console.log(rawData);
+  const validatedData = z
+    .object({
+      barcode: z.string().min(1).max(14),
+      name: z.string().min(1).optional(),
+      categoryId: z.union(await getCategoryIdLiterals()).optional(),
+      buyPrice: z.number().int().optional(),
+      sellPrice: z.number().int().optional(),
+      stock: z.number().int().optional(),
+    })
+    .safeParse(rawData);
+
+  if (!validatedData.success) {
+    console.error(validatedData.error);
+    return { success: false, error: validatedData.error.flatten().fieldErrors };
+  }
+
+  try {
+    await updateProduct(validatedData.data);
+    return { success: true, error: null };
+  } catch (error) {
+    console.error(error);
+    return {
+      success: false,
+      error: "Failed to update product",
     };
   }
 }
