@@ -1,3 +1,5 @@
+"use server";
+
 import { authenticated } from "../wrappers";
 
 const targetUrl = "api/v1/categories";

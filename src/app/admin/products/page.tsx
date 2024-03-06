@@ -16,9 +16,9 @@ export default function ProductFilters() {
 
   return (
     <div className="flex w-1/4 flex-col gap-y-4">
-      <Link tabIndex={-1} href="/admin/new/product">
-        <Button className="w-full bg-green-700">New Product</Button>
-      </Link>
+      <Button asChild variant="green" className="w-full">
+        <Link href="/admin/new/product">New Product</Link>
+      </Button>
       <Button
         onClick={() => {
           resetFilters();

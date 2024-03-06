@@ -76,11 +76,12 @@ export const addProduct = (product: addProductRequest) => {
 
 type updateProductRequest = {
   barcode: string;
-  name: string;
-  categoryId: number;
-  weight: number;
-  sellPrice: number;
-  stock: number;
+  name?: string;
+  categoryId?: number;
+  weight?: number;
+  buyPrice?: number;
+  sellPrice?: number;
+  stock?: number;
 };
 
 type updateProductResponse = {
@@ -104,7 +105,7 @@ export const updateProduct = (product: updateProductRequest) => {
     {
       method: "PATCH",
     },
-    product,
+    { ...product, barcode: undefined },
   ).then((data) => data.product);
 };
 
