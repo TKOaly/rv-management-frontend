@@ -74,40 +74,11 @@ function AddProductFields() {
             autoFocus={searchParams.has("barcode")}
           />
         </div>
-        <div className="flex flex-col gap-y-2">
+        <div className="w-full">
           <label htmlFor="category" className="text-sm text-stone-500">
             Category
           </label>
           <CategorySelect id="categoryId" name="categoryId" />
-        </div>
-        <div className="w-full">
-          <label htmlFor="categoryId" className="text-sm text-stone-500">
-            CategoryId
-          </label>
-          <Input
-            id="categoryId"
-            name="categoryId"
-            type="number"
-            min={0}
-            placeholder="CategoryId"
-            data-next="weight"
-            className="[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-          />
-        </div>
-        <div className="w-full">
-          <label htmlFor="weight" className="text-sm text-stone-500">
-            Weight (g)
-          </label>
-          <Input
-            id="weight"
-            name="weight"
-            type="number"
-            placeholder="Weight"
-            data-next="buyPrice"
-            min={0}
-            step={1}
-            className="[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-          />
         </div>
       </div>
       <div className="flex w-full flex-row-reverse justify-between gap-x-4">

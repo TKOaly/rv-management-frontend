@@ -28,15 +28,13 @@ export async function addProductAction(
 ) {
   "use server";
 
-  const { barcode, name, categoryId, weight } = Object.fromEntries(
-    formData.entries(),
-  );
+  const { barcode, name, categoryId } = Object.fromEntries(formData.entries());
 
   const rawData = {
     barcode,
     name,
     categoryId: parseInt(categoryId as string),
-    weight: parseInt(weight as string),
+    weight: 0,
     buyPrice: 0,
     sellPrice: 0,
     stock: 0,
