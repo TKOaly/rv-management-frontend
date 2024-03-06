@@ -58,9 +58,10 @@ export async function addProductAction(
 
   try {
     const newProduct = await addProduct(validatedData.data);
+    revalidateTag(QueryKey.products);
     return {
       success: true,
-      barcode: newProduct.barcode,
+      newProduct: newProduct,
       error: null,
     };
   } catch (error) {

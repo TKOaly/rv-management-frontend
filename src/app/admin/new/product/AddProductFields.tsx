@@ -3,10 +3,10 @@
 import Barcode from "@/components/Barcode";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
 import { nextFieldOnEnter } from "@/lib/utils";
 import { addProductAction } from "@/server/actions/products";
-import { QueryKey } from "@/server/requests/queryKeys";
-import { useQueryClient } from "@tanstack/react-query";
+import { Product } from "@/server/requests/productRequests";
 import { Loader } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -19,20 +19,25 @@ function AddProductFields() {
 
   const initialState = { success: false };
   const [state, addProduct] = useFormState<
-    { success: boolean; barcode?: string; error?: unknown },
+    { success: boolean; newProduct?: Product; error?: unknown },
     FormData
   >(addProductAction, initialState);
 
-  const queryClient = useQueryClient();
   const router = useRouter();
+  const { toast } = useToast();
   useEffect(() => {
-    if (state.success && state.barcode) {
-      queryClient.invalidateQueries({ queryKey: [QueryKey.products] });
+    if (state.success && state.newProduct) {
+      const { newProduct: product } = state;
+      toast({
+        title: "Product Created",
+        description: `Product ${product.name} has been created`,
+        duration: 6000,
+      });
       searchParams.has("barcode")
-        ? router.push(`/admin/buy_in/product/${state.barcode}`)
-        : router.push(`/admin/products/${state.barcode}`);
+        ? router.push(`/admin/buy_in/product/${product.barcode}`)
+        : router.push(`/admin/products/${product.barcode}`);
     }
-  }, [state.success, state.barcode]);
+  }, [state.success, state.newProduct]);
 
   const { pending } = useFormStatus();
 
@@ -42,7 +47,7 @@ function AddProductFields() {
         className="flex h-5/6 w-fit flex-shrink flex-col flex-wrap items-center gap-4"
         onKeyDown={nextFieldOnEnter}
       >
-        <div className={`${searchParams.has("barcode") && "hidden"}`}>
+        <div className={`${searchParams.has("barcode") && "hidden"} w-full`}>
           <label htmlFor="barcode" className="text-sm text-stone-500">
             Barcode
           </label>
@@ -58,7 +63,7 @@ function AddProductFields() {
           />
         </div>
         <Barcode barcode={barcode} width={3} height={50} displayInvalid />
-        <div>
+        <div className="w-full">
           <label htmlFor="name" className="text-sm text-stone-500">
             Name
           </label>
@@ -70,7 +75,7 @@ function AddProductFields() {
             autoFocus={searchParams.has("barcode")}
           />
         </div>
-        <div>
+        <div className="w-full">
           <label htmlFor="categoryId" className="text-sm text-stone-500">
             CategoryId
           </label>
@@ -84,7 +89,7 @@ function AddProductFields() {
             className="[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
           />
         </div>
-        <div>
+        <div className="w-full">
           <label htmlFor="weight" className="text-sm text-stone-500">
             Weight (g)
           </label>
