@@ -7,6 +7,7 @@ import { nextFieldOnEnter } from "@/lib/utils";
 import { buyInProductAction } from "@/server/actions/products";
 import { Product } from "@/server/requests/productRequests";
 import { Loader } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
@@ -123,15 +124,20 @@ export default function BuyInProductForm({ product, defaultMargin }: OwnProps) {
           />
         </div>
       </div>
-      <Button
-        id="buyInSubmit"
-        formAction={buyInProduct}
-        type="submit"
-        className="mt-3 flex items-center gap-x-2"
-      >
-        {pending && <Loader className="animate-spin" />}
-        Buy In
-      </Button>
+      <div className="mt-3 flex flex-row-reverse justify-between gap-x-4">
+        <Button
+          id="buyInSubmit"
+          formAction={buyInProduct}
+          type="submit"
+          className="flex w-full items-center gap-x-2"
+        >
+          {pending && <Loader className="animate-spin" />}
+          Buy In
+        </Button>
+        <Button asChild variant={"outline"} className="w-full">
+          <Link href={`/admin/buy_in`}>Cancel</Link>
+        </Button>
+      </div>
     </>
   );
 }

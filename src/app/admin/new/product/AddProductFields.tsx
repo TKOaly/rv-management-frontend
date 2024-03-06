@@ -104,17 +104,15 @@ function AddProductFields() {
         <Button
           type="submit"
           id="productSubmit"
-          className="flex items-center gap-x-2"
+          className="flex w-full items-center gap-x-2"
           formAction={addProduct}
         >
           {pending && <Loader className="animate-spin" />}
           Create Product
         </Button>
-        <Link href={`/admin/products`}>
-          <Button tabIndex={-1} variant="outline">
-            Back
-          </Button>
-        </Link>
+        <Button asChild variant="outline" className="w-full">
+          <Link href={`/admin/products`}>Back</Link>
+        </Button>
       </div>
     </>
   );
