@@ -16,6 +16,7 @@ import { useFormState, useFormStatus } from "react-dom";
 type OwnProps = { product: Product; defaultMargin: number };
 
 export default function BuyInProductForm({ product, defaultMargin }: OwnProps) {
+  const [count, setCount] = useState<number | undefined>(undefined);
   const [customMargin, setCustomMargin] = useState(false);
   const [buyPrice, setBuyPrice] = useState<string>(
     (product.buyPrice / 100).toFixed(2),
@@ -38,7 +39,7 @@ export default function BuyInProductForm({ product, defaultMargin }: OwnProps) {
     if (state.success && state.newStock) {
       toast({
         title: "Buy In Successful",
-        description: `Bought in ${state.newStock.stock} pcs of ${product.name}`,
+        description: `Bought in ${count} pcs of ${product.name}`,
         duration: 6000,
       });
       router.push(`/admin/buy_in`);
@@ -72,6 +73,8 @@ export default function BuyInProductForm({ product, defaultMargin }: OwnProps) {
             id="count"
             name="count"
             placeholder="Enter Count"
+            value={count}
+            onChange={({ target }) => setCount(Number(target.value))}
             required
             autoFocus
             data-next="buyPrice"
