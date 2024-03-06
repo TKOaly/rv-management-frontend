@@ -4,34 +4,35 @@ import Barcode from "@/components/Barcode";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { nextFieldOnEnter } from "@/lib/utils";
-import { getMargin } from "@/server/requests/globalMarginRequests";
+import { addProductAction } from "@/server/actions/products";
 import { QueryKey } from "@/server/requests/queryKeys";
-import { useQuery } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { Loader } from "lucide-react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
-import { useState } from "react";
-import { useFormStatus } from "react-dom";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useFormState, useFormStatus } from "react-dom";
 
-function AddProductFields({
-  defaultMargin: initialDefaultMargin,
-}: {
-  defaultMargin: number;
-}) {
-  const { data: defaultMargin } = useQuery({
-    queryKey: [QueryKey.defaultMargin],
-    queryFn: () => getMargin(),
-    initialData: initialDefaultMargin,
-  });
-
+function AddProductFields() {
   const searchParams = useSearchParams();
-
   const [barcode, setBarcode] = useState(searchParams.get("barcode") ?? "");
-  const [customMargin, setCustomMargin] = useState(false);
-  const [buyPrice, setBuyPrice] = useState<string>("1");
-  const [sellPrice, setSellPrice] = useState<string>(
-    (1 * (1 + defaultMargin)).toFixed(2),
-  );
+
+  const initialState = { success: false };
+  const [state, addProduct] = useFormState<
+    { success: boolean; barcode?: string; error?: unknown },
+    FormData
+  >(addProductAction, initialState);
+
+  const queryClient = useQueryClient();
+  const router = useRouter();
+  useEffect(() => {
+    if (state.success && state.barcode) {
+      queryClient.invalidateQueries({ queryKey: [QueryKey.products] });
+      searchParams.has("barcode")
+        ? router.push(`/admin/buy_in/product/${state.barcode}`)
+        : router.push(`/admin/products/${state.barcode}`);
+    }
+  }, [state.success, state.barcode]);
 
   const { pending } = useFormStatus();
 
@@ -98,65 +99,13 @@ function AddProductFields({
             className="[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
           />
         </div>
-        <div>
-          <label htmlFor="buyPrice" className="text-sm text-stone-500">
-            Buy Price (€)
-          </label>
-          <Input
-            id="buyPrice"
-            name="buyPrice"
-            type="number"
-            placeholder="Buy Price"
-            data-next="sellPrice"
-            step={0.01}
-            className="[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-            value={buyPrice}
-            onChange={({ target }) => {
-              setBuyPrice(target.value);
-              if (sellPrice === "") {
-                setCustomMargin(false);
-              }
-              if (!customMargin) {
-                setSellPrice(
-                  (Number(target.value) * (1 + defaultMargin)).toFixed(2),
-                );
-              }
-            }}
-          />
-        </div>
-        <div>
-          <label htmlFor="sellPrice" className="text-sm text-stone-500">
-            Sell Price (€){" "}
-            {customMargin
-              ? "(Custom Margin: " +
-                (
-                  (parseFloat(sellPrice) / parseFloat(buyPrice)) * 100 -
-                  100
-                ).toFixed(0) +
-                "%)"
-              : "(Default Margin: " + (defaultMargin * 100).toFixed(0) + "%)"}
-          </label>
-          <Input
-            id="sellPrice"
-            name="sellPrice"
-            type="number"
-            placeholder="Sell Price"
-            data-next="productSubmit"
-            step={0.01}
-            value={sellPrice}
-            onChange={({ target }) => {
-              setCustomMargin(true);
-              setSellPrice(target.value);
-            }}
-            className="[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-          />
-        </div>
       </div>
       <div className="flex w-full flex-row-reverse justify-between gap-x-4">
         <Button
           type="submit"
           id="productSubmit"
           className="flex items-center gap-x-2"
+          formAction={addProduct}
         >
           {pending && <Loader className="animate-spin" />}
           Create Product

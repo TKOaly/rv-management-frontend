@@ -4,10 +4,12 @@ import Barcode from "@/components/Barcode";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { nextFieldOnEnter } from "@/lib/utils";
+import { buyInProductAction } from "@/server/actions/products";
 import { Product } from "@/server/requests/productRequests";
 import { Loader } from "lucide-react";
-import { useState } from "react";
-import { useFormStatus } from "react-dom";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useFormState, useFormStatus } from "react-dom";
 
 type OwnProps = { product: Product; defaultMargin: number };
 
@@ -21,6 +23,19 @@ export default function BuyInProductForm({ product, defaultMargin }: OwnProps) {
   );
 
   const { barcode } = product;
+
+  const initialState = { success: false };
+  const [state, buyInProduct] = useFormState<
+    { success: boolean; error?: unknown },
+    FormData
+  >(buyInProductAction, initialState);
+
+  const router = useRouter();
+  useEffect(() => {
+    if (state.success) {
+      router.push(`/admin/buy_in`);
+    }
+  }, [state.success]);
 
   const { pending } = useFormStatus();
 
@@ -110,6 +125,7 @@ export default function BuyInProductForm({ product, defaultMargin }: OwnProps) {
       </div>
       <Button
         id="buyInSubmit"
+        formAction={buyInProduct}
         type="submit"
         className="mt-3 flex items-center gap-x-2"
       >

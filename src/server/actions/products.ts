@@ -16,19 +16,23 @@ const getCategoryIdLiterals = async () =>
       ],
   );
 
-export async function addProductAction(formData: FormData) {
+export async function addProductAction(
+  _prevState: unknown,
+  formData: FormData,
+) {
   "use server";
 
-  const { barcode, name, categoryId, weight, buyPrice, sellPrice } =
-    Object.fromEntries(formData.entries());
+  const { barcode, name, categoryId, weight } = Object.fromEntries(
+    formData.entries(),
+  );
 
   const rawData = {
     barcode,
     name,
     categoryId: parseInt(categoryId as string),
     weight: parseInt(weight as string),
-    buyPrice: Math.round(parseFloat(buyPrice as string) * 100),
-    sellPrice: Math.round(parseFloat(sellPrice as string) * 100),
+    buyPrice: 0,
+    sellPrice: 0,
     stock: 0,
   };
 
@@ -47,13 +51,29 @@ export async function addProductAction(formData: FormData) {
 
   if (!validatedData.success) {
     console.error(validatedData.error);
-    throw new Error("Invalid form data");
+    return { success: false, error: validatedData.error.flatten().fieldErrors };
   }
 
-  return await addProduct(validatedData.data);
+  try {
+    const newProduct = await addProduct(validatedData.data);
+    return {
+      success: true,
+      barcode: newProduct.barcode,
+      error: null,
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      success: false,
+      error: "Failed to add product",
+    };
+  }
 }
 
-export async function buyInProductAction(formData: FormData) {
+export async function buyInProductAction(
+  _prevState: unknown,
+  formData: FormData,
+) {
   "use server";
 
   const { barcode, count, buyPrice, sellPrice } = Object.fromEntries(
@@ -79,8 +99,14 @@ export async function buyInProductAction(formData: FormData) {
 
   if (!validatedData.success) {
     console.error(validatedData.error);
-    return validatedData.error.flatten().fieldErrors;
+    return { success: false, error: validatedData.error.flatten().fieldErrors };
   }
 
-  return await addStock(validatedData.data);
+  try {
+    await addStock(validatedData.data);
+    return { success: true, error: null };
+  } catch (error) {
+    console.error(error);
+    return { success: false, error: "Failed to add stock" };
+  }
 }
