@@ -1,6 +1,7 @@
 "use server";
 
 import { authenticated } from "../wrappers";
+import { QueryKey } from "./queryKeys";
 
 const targetUrl = "api/v1/admin/products";
 
@@ -35,6 +36,9 @@ export async function getProduct(barcode: string) {
     `${process.env.RV_BACKEND_URL}/${targetUrl}/${barcode}`,
     {
       method: "GET",
+      next: {
+        tags: [QueryKey.products],
+      },
     },
   ).then((data) => data.product);
 }
@@ -115,8 +119,7 @@ type addStockRequest = {
   count: number;
 };
 
-type addStockResponse = {
-  barcode: string;
+export type addStockResponse = {
   stock: number;
   buyPrice: number;
   sellPrice: number;

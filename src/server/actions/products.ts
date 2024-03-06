@@ -2,7 +2,9 @@
 
 import { getAllCategories } from "@/server/requests/categoryRequests";
 import { addProduct, addStock } from "@/server/requests/productRequests";
+import { revalidateTag } from "next/cache";
 import { z } from "zod";
+import { QueryKey } from "../requests/queryKeys";
 
 const getCategoryIdLiterals = async () =>
   getAllCategories().then(
@@ -103,8 +105,9 @@ export async function buyInProductAction(
   }
 
   try {
-    await addStock(validatedData.data);
-    return { success: true, error: null };
+    const newStock = await addStock(validatedData.data);
+    revalidateTag(QueryKey.products);
+    return { success: true, newStock: newStock, error: null };
   } catch (error) {
     console.error(error);
     return { success: false, error: "Failed to add stock" };

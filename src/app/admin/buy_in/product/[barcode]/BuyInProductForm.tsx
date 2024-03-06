@@ -3,9 +3,10 @@
 import Barcode from "@/components/Barcode";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
 import { nextFieldOnEnter } from "@/lib/utils";
 import { buyInProductAction } from "@/server/actions/products";
-import { Product } from "@/server/requests/productRequests";
+import { Product, addStockResponse } from "@/server/requests/productRequests";
 import { Loader } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -27,16 +28,22 @@ export default function BuyInProductForm({ product, defaultMargin }: OwnProps) {
 
   const initialState = { success: false };
   const [state, buyInProduct] = useFormState<
-    { success: boolean; error?: unknown },
+    { success: boolean; newStock?: addStockResponse; error?: unknown },
     FormData
   >(buyInProductAction, initialState);
 
   const router = useRouter();
+  const { toast } = useToast();
   useEffect(() => {
-    if (state.success) {
+    if (state.success && state.newStock) {
+      toast({
+        title: "Buy In Successful",
+        description: `Bought in ${state.newStock.stock} pcs of ${product.name}`,
+        duration: 8000,
+      });
       router.push(`/admin/buy_in`);
     }
-  }, [state.success]);
+  }, [state.success, state.newStock]);
 
   const { pending } = useFormStatus();
 
