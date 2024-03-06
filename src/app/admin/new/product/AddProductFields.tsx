@@ -3,6 +3,7 @@
 import Barcode from "@/components/Barcode";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { SubmitButton } from "@/components/ui/submit-button";
 import { nextFieldOnEnter } from "@/lib/utils";
 import { addProductAction } from "@/server/actions/products";
 import { QueryKey } from "@/server/requests/queryKeys";
@@ -101,15 +102,13 @@ function AddProductFields() {
         </div>
       </div>
       <div className="flex w-full flex-row-reverse justify-between gap-x-4">
-        <Button
-          type="submit"
+        <SubmitButton
           id="productSubmit"
-          className="flex w-full items-center gap-x-2"
+          className="w-full"
           formAction={addProduct}
         >
-          {pending && <Loader className="animate-spin" />}
           Create Product
-        </Button>
+        </SubmitButton>
         <Button asChild variant="outline" className="w-full">
           <Link href={`/admin/products`}>Back</Link>
         </Button>
