@@ -15,7 +15,8 @@ export const userFiltersAtom = atomWithReset({
   role: {
     admin: true,
     user1: true,
-    user2: false,
+    user2: true,
+    inactive: false,
   },
   negativeBalanceOnly: false,
 });
@@ -46,6 +47,8 @@ function UserTable({ users }: { users: User[] }) {
       if (!filters.role.admin && user.role === UserRole.ADMIN) return false;
       if (!filters.role.user1 && user.role === UserRole.USER1) return false;
       if (!filters.role.user2 && user.role === UserRole.USER2) return false;
+      if (!filters.role.inactive && user.role === UserRole.INACTIVE)
+        return false;
       return true;
     })
     .filter((user) =>
