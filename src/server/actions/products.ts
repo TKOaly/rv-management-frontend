@@ -4,6 +4,7 @@ import { getAllCategories } from "@/server/requests/categoryRequests";
 import {
   addProduct,
   addStock,
+  deleteProduct,
   updateProduct,
 } from "@/server/requests/productRequests";
 import { revalidateTag } from "next/cache";
@@ -161,5 +162,16 @@ export async function buyInProductAction(
   } catch (error) {
     console.error(error);
     return { success: false, error: "Failed to add stock" };
+  }
+}
+
+export async function DeleteProductAction(barcode: string) {
+  "use server";
+  try {
+    await deleteProduct(barcode);
+    revalidateTag(QueryKeys.products);
+  } catch (error) {
+    console.error(error);
+    throw new Error("Failed to delete product");
   }
 }
