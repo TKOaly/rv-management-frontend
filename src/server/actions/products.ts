@@ -92,7 +92,6 @@ export async function editProductAction(
     sellPrice: Number(sellPrice) * 100,
   };
 
-  console.log(rawData);
   const validatedData = z
     .object({
       barcode: z.string().min(1).max(14),
