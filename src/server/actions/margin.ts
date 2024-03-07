@@ -31,7 +31,6 @@ export async function changeMarginAction(
       error: validatedData.error.flatten().fieldErrors,
     };
   }
-  console.log(validatedData);
 
   try {
     const changedMargin = await changeMargin(validatedData.data.margin);

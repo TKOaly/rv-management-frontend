@@ -53,7 +53,6 @@ export const MarginEditForm = ({ defaultMargin = 0.05 }) => {
 
   useEffect(() => {
     if (state.error) {
-      console.log(state.error);
       toast({
         title: "Failed to update margin",
         /* state.error might be an object with a key 'margin' that has an array of errors. It might be something else as well.
