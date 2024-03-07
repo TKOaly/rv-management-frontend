@@ -1,6 +1,6 @@
 "use server";
 
-import { getAll } from "@/server/requests/categoryRequests";
+import { getAllCategories } from "@/server/requests/categoryRequests";
 import {
   addProduct,
   addProductRequest,
@@ -10,7 +10,7 @@ import { z } from "zod";
 export async function addProductAction(formData: FormData) {
   "use server";
 
-  const categories = await getAll();
+  const categories = await getAllCategories();
 
   const categoryIdLiterals = categories.map((category) =>
     z.literal(category.categoryId),

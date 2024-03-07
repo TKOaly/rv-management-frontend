@@ -1,14 +1,27 @@
 import axios from "axios";
+import { authenticated } from "../wrappers";
+import { Product } from "./productRequests";
 
 const targetUrl = "api/v1/admin/boxes";
 
-const getAll = (token: string) => {
-  return axios
-    .get(`${process.env.RV_BACKEND_URL}/${targetUrl}`, {
-      headers: { Authorization: "Bearer " + token },
-    })
-    .then((res) => res.data.boxes);
+export type Box = {
+  boxBarcode: string;
+  itemsPerBox: number;
+  product: Omit<Product, "buyPrice">;
 };
+
+export type getAllBoxesResponse = {
+  boxes: Box[];
+};
+
+export async function getAllBoxes() {
+  return await authenticated<getAllBoxesResponse>(
+    `${process.env.RV_BACKEND_URL}/${targetUrl}`,
+    {
+      method: "GET",
+    },
+  ).then((data) => data.boxes);
+}
 
 type createBoxRequest = (
   token: string,
@@ -87,7 +100,7 @@ const buyInBox: buyInBoxRequest = (
 };
 
 export default {
-  getAll,
+  getAll: getAllBoxes,
   createBox,
   buyInBox,
 };

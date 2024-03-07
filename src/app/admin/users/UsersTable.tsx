@@ -2,7 +2,7 @@
 
 import { QueryKey } from "@/server/requests/queryKeys";
 import { UserRole } from "@/server/requests/types";
-import { User, getAll } from "@/server/requests/userRequests";
+import { User, getAllUsers } from "@/server/requests/userRequests";
 import { useQuery } from "@tanstack/react-query";
 import { useAtomValue } from "jotai";
 import { atomWithReset } from "jotai/utils";
@@ -24,7 +24,7 @@ function UserTable({ users }: { users: User[] }) {
   // Make User data refetchable and cacheable
   const { data: userData } = useQuery({
     queryKey: [QueryKey.users],
-    queryFn: () => getAll(),
+    queryFn: () => getAllUsers(),
     initialData: users,
   });
 

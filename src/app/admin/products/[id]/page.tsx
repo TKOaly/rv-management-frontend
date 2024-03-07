@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import {
   deleteProduct,
-  getAll,
+  getAllProducts,
   getAllProductsResponse,
 } from "@/server/requests/productRequests";
 import { QueryKey } from "@/server/requests/queryKeys";
@@ -33,7 +33,7 @@ export default function Product({ params }: { params: { id: string } }) {
     isError,
   } = useQuery({
     queryKey: [QueryKey.products],
-    queryFn: () => getAll(),
+    queryFn: () => getAllProducts(),
   });
 
   const { toast } = useToast();

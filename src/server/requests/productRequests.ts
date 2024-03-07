@@ -11,6 +11,7 @@ export type Product = {
     categoryId: number;
     description: string;
   };
+  weight: number;
   sellPrice: number;
   stock: number;
   buyPrice: number;
@@ -20,13 +21,22 @@ export type getAllProductsResponse = {
   products: Product[];
 };
 
-export async function getAll() {
+export async function getAllProducts() {
   return await authenticated<getAllProductsResponse>(
     `${process.env.RV_BACKEND_URL}/${targetUrl}`,
     {
       method: "GET",
     },
   ).then((data) => data.products);
+}
+
+export async function getProduct(barcode: string) {
+  return await authenticated<{ product: Product }>(
+    `${process.env.RV_BACKEND_URL}/${targetUrl}/${barcode}`,
+    {
+      method: "GET",
+    },
+  ).then((data) => data.product);
 }
 
 export type addProductRequest = {
@@ -54,10 +64,11 @@ export const addProduct = (product: addProductRequest) => {
 
 type updateProductRequest = {
   barcode: string;
-  name: string;
-  categoryId: number;
-  sellPrice: number;
-  stock: number;
+  name?: string;
+  categoryId?: number;
+  buyPrice?: number;
+  sellPrice?: number;
+  stock?: number;
 };
 
 type updateProductResponse = {
@@ -70,7 +81,7 @@ export const updateProduct = (product: updateProductRequest) => {
     {
       method: "PATCH",
     },
-    product,
+    { ...product, barcode: undefined },
   ).then((data) => data.product);
 };
 
@@ -95,9 +106,9 @@ export const addStock = (product: addStockRequest) => {
       method: "POST",
     },
     {
+      count: product.count,
       buyPrice: product.buyPrice,
       sellPrice: product.sellPrice,
-      count: product.count,
     },
   ).then((data) => data);
 };
