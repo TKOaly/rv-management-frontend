@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { SubmitButton } from "@/components/ui/submit-button";
 import { Input } from "@/components/ui/input";
 import { nextFieldOnEnter } from "@/lib/utils";
 import { AlertTriangle } from "lucide-react";
@@ -36,9 +36,9 @@ export default function Login() {
           required
         />
       </div>
-      <Button type="submit" id="loginSubmit" className="mt-3">
-        Login
-      </Button>
+      <SubmitButton id="loginSubmit" className="mt-3">
+        Log in
+      </SubmitButton>
       {errorMessage && (
         <div className="mt-3 flex space-x-2">
           <AlertTriangle className="text-red-500" />
