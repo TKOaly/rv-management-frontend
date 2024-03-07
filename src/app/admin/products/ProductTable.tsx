@@ -1,8 +1,6 @@
 "use client";
 
-import { Product, getAllProducts } from "@/server/requests/productRequests";
-import { QueryKey } from "@/server/requests/queryKeys";
-import { useQuery } from "@tanstack/react-query";
+import { Product } from "@/server/requests/productRequests";
 import { useAtomValue } from "jotai";
 import { atomWithReset } from "jotai/utils";
 import Link from "next/link";
@@ -15,17 +13,10 @@ export const productFiltersAtom = atomWithReset({
 });
 
 function ProductTable({ products }: { products: Product[] }) {
-  // Make product data refetchable and cacheable
-  const { data: productData } = useQuery({
-    queryKey: [QueryKey.products],
-    queryFn: () => getAllProducts(),
-    initialData: products,
-  });
-
   const filters = useAtomValue(productFiltersAtom);
 
   // Filter products based on set filters
-  const filteredProducts = productData
+  const filteredProducts = products
     .filter((product) => {
       if (filters.search && filters.search.length > 0) {
         return (
@@ -70,7 +61,6 @@ function ProductTable({ products }: { products: Product[] }) {
                   <p className="text-sm text-stone-500">{product.barcode}</p>
                 </div>
                 {/*<div className="hidden w-1/3 flex-col items-end truncate xl:flex">
-                  <p className="text-sm text-stone-500">{product.weight} g</p>
                   <p className=" text-stone-500">
                     {product.category.description}
                   </p>

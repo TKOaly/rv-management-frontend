@@ -1,7 +1,7 @@
 "use client";
 
 import { Deposit, getAllDeposits } from "@/server/requests/historyRequests";
-import { QueryKey } from "@/server/requests/queryKeys";
+import { QueryKeys } from "@/server/requests/queryKeys";
 import { useQuery } from "@tanstack/react-query";
 import { useAtomValue } from "jotai";
 import { atomWithReset } from "jotai/utils";
@@ -16,7 +16,7 @@ export const depositFiltersAtom = atomWithReset({
 function DepositsTable({ deposits }: { deposits: Deposit[] }) {
   // Make Deposit data refetchable and cacheable
   const { data: depositData } = useQuery({
-    queryKey: [QueryKey.deposits],
+    queryKey: [QueryKeys.deposits],
     queryFn: () => getAllDeposits(),
     initialData: deposits,
   });

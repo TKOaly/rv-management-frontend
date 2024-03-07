@@ -3,9 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Box } from "@/server/requests/boxRequests";
-import { Product, getAllProducts } from "@/server/requests/productRequests";
-import { QueryKey } from "@/server/requests/queryKeys";
-import { useQuery } from "@tanstack/react-query";
+import { Product } from "@/server/requests/productRequests";
 import { useRouter } from "next/navigation";
 
 type OwnProps = {
@@ -13,17 +11,8 @@ type OwnProps = {
   boxes: Box[];
 };
 
-export default function BuyInBarcodeForm({
-  products: initialProducts,
-  boxes,
-}: OwnProps) {
+export default function BuyInBarcodeForm({ products, boxes }: OwnProps) {
   const router = useRouter();
-
-  const { data: products } = useQuery({
-    queryKey: [QueryKey.products],
-    queryFn: () => getAllProducts(),
-    initialData: initialProducts,
-  });
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

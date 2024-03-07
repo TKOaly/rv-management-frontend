@@ -7,7 +7,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { getAllCategories } from "@/server/requests/categoryRequests";
-import { QueryKey } from "@/server/requests/queryKeys";
+import { QueryKeys } from "@/server/requests/queryKeys";
 import { useQuery } from "@tanstack/react-query";
 import { ComponentProps } from "react";
 
@@ -23,7 +23,7 @@ export function CategorySelect({
   ...props
 }: CategorySelectProps) {
   const { data: categories } = useQuery({
-    queryKey: [QueryKey.categories],
+    queryKey: [QueryKeys.categories],
     queryFn: () => getAllCategories(),
   });
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { QueryKey } from "@/server/requests/queryKeys";
+import { QueryKeys } from "@/server/requests/queryKeys";
 import { UserRole } from "@/server/requests/types";
 import { User, getAllUsers } from "@/server/requests/userRequests";
 import { useQuery } from "@tanstack/react-query";
@@ -15,7 +15,8 @@ export const userFiltersAtom = atomWithReset({
   role: {
     admin: true,
     user1: true,
-    user2: false,
+    user2: true,
+    inactive: false,
   },
   negativeBalanceOnly: false,
 });
@@ -23,7 +24,7 @@ export const userFiltersAtom = atomWithReset({
 function UserTable({ users }: { users: User[] }) {
   // Make User data refetchable and cacheable
   const { data: userData } = useQuery({
-    queryKey: [QueryKey.users],
+    queryKey: [QueryKeys.users],
     queryFn: () => getAllUsers(),
     initialData: users,
   });
@@ -46,6 +47,8 @@ function UserTable({ users }: { users: User[] }) {
       if (!filters.role.admin && user.role === UserRole.ADMIN) return false;
       if (!filters.role.user1 && user.role === UserRole.USER1) return false;
       if (!filters.role.user2 && user.role === UserRole.USER2) return false;
+      if (!filters.role.inactive && user.role === UserRole.INACTIVE)
+        return false;
       return true;
     })
     .filter((user) =>
@@ -80,22 +83,19 @@ function UserTable({ users }: { users: User[] }) {
               <div className="place-self-center self-center">
                 <p
                   className={
-                    user.role === UserRole.USER1
-                      ? "text-stone-500"
-                      : "text-purple-600"
+                    user.role === UserRole.ADMIN
+                      ? "text-purple-600"
+                      : "text-stone-500"
                   }
                 >
                   {user.role}
                 </p>
               </div>
               <div className="flex flex-col items-end">
-                <p className="text-lg text-stone-500">
-                  <span
-                    className={`font-semibold ${user.moneyBalance < 0 ? "text-red-500" : "text-black"}`}
-                  >
-                    {(user.moneyBalance / 100).toFixed(2)}
-                  </span>{" "}
-                  €
+                <p
+                  className={`font-semibold ${user.moneyBalance < 0 ? "text-red-500" : "text-black"}`}
+                >
+                  {(user.moneyBalance / 100).toFixed(2)} €
                 </p>
                 <p className="text-lg text-stone-500">{user.email}</p>
               </div>

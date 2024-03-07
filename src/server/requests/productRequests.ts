@@ -1,6 +1,7 @@
 "use server";
 
 import { authenticated } from "../wrappers";
+import { QueryKeys } from "./queryKeys";
 
 const targetUrl = "api/v1/admin/products";
 
@@ -11,7 +12,6 @@ export type Product = {
     categoryId: number;
     description: string;
   };
-  weight: number;
   sellPrice: number;
   stock: number;
   buyPrice: number;
@@ -35,6 +35,9 @@ export async function getProduct(barcode: string) {
     `${process.env.RV_BACKEND_URL}/${targetUrl}/${barcode}`,
     {
       method: "GET",
+      next: {
+        tags: [QueryKeys.products],
+      },
     },
   ).then((data) => data.product);
 }
@@ -43,25 +46,13 @@ export type addProductRequest = {
   barcode: string;
   name: string;
   categoryId: number;
-  weight: number;
   buyPrice: number;
   sellPrice: number;
   stock: number;
 };
 
 type addProductResponse = {
-  product: {
-    barcode: string;
-    name: string;
-    category: {
-      categoryId: number;
-      description: string;
-    };
-    weight: number;
-    sellPrice: number;
-    stock: number;
-    buyPrice: number;
-  };
+  product: Product;
 };
 
 export const addProduct = (product: addProductRequest) => {
@@ -78,25 +69,13 @@ type updateProductRequest = {
   barcode: string;
   name?: string;
   categoryId?: number;
-  weight?: number;
   buyPrice?: number;
   sellPrice?: number;
   stock?: number;
 };
 
 type updateProductResponse = {
-  product: {
-    barcode: string;
-    name: string;
-    category: {
-      categoryId: number;
-      description: string;
-    };
-    weight: number;
-    sellPrice: number;
-    stock: number;
-    buyPrice: number;
-  };
+  product: Product;
 };
 
 export const updateProduct = (product: updateProductRequest) => {
@@ -116,12 +95,7 @@ type addStockRequest = {
   count: number;
 };
 
-type addStockResponse = {
-  barcode: string;
-  stock: number;
-  buyPrice: number;
-  sellPrice: number;
-};
+export type addStockResponse = Omit<Product, "category" | "name">;
 
 export const addStock = (product: addStockRequest) => {
   return authenticated<addStockResponse>(
@@ -138,18 +112,7 @@ export const addStock = (product: addStockRequest) => {
 };
 
 type deleteProductResponse = {
-  deletedProduct: {
-    barcode: string;
-    name: string;
-    category: {
-      categoryId: number;
-      description: string;
-    };
-    weight: number;
-    sellPrice: number;
-    stock: number;
-    buyPrice: number;
-  };
+  deletedProduct: Product;
 };
 
 export const deleteProduct = (barcode: string) => {

@@ -38,7 +38,6 @@ type createBoxRequest = (
       categoryId: number;
       description: string;
     };
-    weight: number;
     sellPrice: number;
     stock: number;
   };
@@ -77,7 +76,6 @@ type buyInBoxRequest = (
       categoryId: number;
       description: string;
     };
-    weight: number;
     sellPrice: number;
     stock: number;
   };
