@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useAtomValue } from "jotai";
 import { atomWithReset } from "jotai/utils";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 // Make filters state accessable from the filters page
 export const userFiltersAtom = atomWithReset({
@@ -59,7 +60,7 @@ function UserTable({ users }: { users: User[] }) {
 
   return (
     <div
-      className={`${/\/users\/\d+/g.test(path) ? "hidden xl:flex" : "flex"} h-full w-full overflow-y-auto rounded-lg border shadow-lg`}
+      className={`${/\/users\/\d+/g.test(path) ? "hidden md:flex" : "flex"} h-full w-full overflow-y-auto rounded-lg border shadow-lg`}
     >
       <div className="w-full">
         {
@@ -70,38 +71,37 @@ function UserTable({ users }: { users: User[] }) {
             </div>
           )
         }
-        {filteredUsers.map((user) => {
-          return (
-            <div
-              key={user.userId}
-              className="inline-grid w-full cursor-pointer grid-cols-3 border-b border-gray-200 p-4 transition-all hover:bg-stone-100"
-            >
-              <div className="whitespace-nowrap">
-                <h3 className="text-lg font-semibold">{user.username}</h3>
-                <p className="text-sm text-stone-500">{user.fullName}</p>
-              </div>
-              <div className="place-self-center self-center">
-                <p
-                  className={
-                    user.role === UserRole.ADMIN
-                      ? "text-purple-600"
-                      : "text-stone-500"
-                  }
-                >
-                  {user.role}
-                </p>
-              </div>
-              <div className="flex flex-col items-end">
-                <p
-                  className={`font-semibold ${user.moneyBalance < 0 ? "text-red-500" : "text-black"}`}
-                >
-                  {(user.moneyBalance / 100).toFixed(2)} €
-                </p>
-                <p className="text-lg text-stone-500">{user.email}</p>
-              </div>
+        {filteredUsers.map((user) => (
+          <Link
+            href={`/admin/users/${user.userId}`}
+            key={user.userId}
+            className="inline-grid w-full cursor-pointer grid-cols-3 border-b border-gray-200 p-4 transition-all hover:bg-stone-100"
+          >
+            <div className="whitespace-nowrap">
+              <h3 className="text-lg font-semibold">{user.username}</h3>
+              <p className="text-sm text-stone-500">{user.fullName}</p>
             </div>
-          );
-        })}
+            <div className="place-self-center self-center">
+              <p
+                className={
+                  user.role === UserRole.ADMIN
+                    ? "text-purple-600"
+                    : "text-stone-500"
+                }
+              >
+                {user.role}
+              </p>
+            </div>
+            <div className="flex flex-col items-end">
+              <p
+                className={`font-semibold ${user.moneyBalance < 0 ? "text-red-500" : "text-black"}`}
+              >
+                {(user.moneyBalance / 100).toFixed(2)} €
+              </p>
+              <p className="text-lg text-stone-500">{user.email}</p>
+            </div>
+          </Link>
+        ))}
       </div>
     </div>
   );
