@@ -3,9 +3,10 @@
 import Barcode from "@/components/Barcode";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
 import { nextFieldOnEnter } from "@/lib/utils";
 import { buyInProductAction } from "@/server/actions/products";
-import { Product } from "@/server/requests/productRequests";
+import { Product, addStockResponse } from "@/server/requests/productRequests";
 import { Loader } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -15,6 +16,7 @@ import { useFormState, useFormStatus } from "react-dom";
 type OwnProps = { product: Product; defaultMargin: number };
 
 export default function BuyInProductForm({ product, defaultMargin }: OwnProps) {
+  const [count, setCount] = useState<number | undefined>(undefined);
   const [customMargin, setCustomMargin] = useState(false);
   const [buyPrice, setBuyPrice] = useState<string>(
     (product.buyPrice / 100).toFixed(2),
@@ -27,16 +29,22 @@ export default function BuyInProductForm({ product, defaultMargin }: OwnProps) {
 
   const initialState = { success: false };
   const [state, buyInProduct] = useFormState<
-    { success: boolean; error?: unknown },
+    { success: boolean; newStock?: addStockResponse; error?: unknown },
     FormData
   >(buyInProductAction, initialState);
 
   const router = useRouter();
+  const { toast } = useToast();
   useEffect(() => {
-    if (state.success) {
+    if (state.success && state.newStock) {
+      toast({
+        title: "Buy In Successful",
+        description: `Bought in ${count} pcs of ${product.name}`,
+        duration: 6000,
+      });
       router.push(`/admin/buy_in`);
     }
-  }, [state.success]);
+  }, [state.success, state.newStock]);
 
   const { pending } = useFormStatus();
 
@@ -65,6 +73,8 @@ export default function BuyInProductForm({ product, defaultMargin }: OwnProps) {
             id="count"
             name="count"
             placeholder="Enter Count"
+            value={count}
+            onChange={({ target }) => setCount(Number(target.value))}
             required
             autoFocus
             data-next="buyPrice"

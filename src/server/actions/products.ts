@@ -4,9 +4,12 @@ import { getAllCategories } from "@/server/requests/categoryRequests";
 import {
   addProduct,
   addStock,
+  deleteProduct,
   updateProduct,
 } from "@/server/requests/productRequests";
+import { revalidateTag } from "next/cache";
 import { z } from "zod";
+import { QueryKeys } from "../requests/queryKeys";
 
 const getCategoryIdLiterals = async () =>
   getAllCategories().then(
@@ -56,9 +59,10 @@ export async function addProductAction(
 
   try {
     const newProduct = await addProduct(validatedData.data);
+    revalidateTag(QueryKeys.products);
     return {
       success: true,
-      barcode: newProduct.barcode,
+      newProduct: newProduct,
       error: null,
     };
   } catch (error) {
@@ -106,6 +110,7 @@ export async function editProductAction(
 
   try {
     await updateProduct(validatedData.data);
+    revalidateTag(QueryKeys.products);
     return { success: true, error: null };
   } catch (error) {
     console.error(error);
@@ -149,10 +154,22 @@ export async function buyInProductAction(
   }
 
   try {
-    await addStock(validatedData.data);
-    return { success: true, error: null };
+    const newStock = await addStock(validatedData.data);
+    revalidateTag(QueryKeys.products);
+    return { success: true, newStock: newStock, error: null };
   } catch (error) {
     console.error(error);
     return { success: false, error: "Failed to add stock" };
+  }
+}
+
+export async function DeleteProductAction(barcode: string) {
+  "use server";
+  try {
+    await deleteProduct(barcode);
+    revalidateTag(QueryKeys.products);
+  } catch (error) {
+    console.error(error);
+    throw new Error("Failed to delete product");
   }
 }

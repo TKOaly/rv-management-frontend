@@ -88,6 +88,23 @@ export default function UserFilters() {
             USER2
           </label>
         </div>
+        <div className="flex items-center gap-x-2">
+          <Checkbox
+            id="filter_inactive"
+            checked={filters.role.inactive}
+            onClick={() =>
+              setFilters({
+                role: { ...filters.role, inactive: !filters.role.inactive },
+              })
+            }
+          />
+          <label
+            htmlFor="filter_inactive"
+            className="cursor-pointer select-none text-sm"
+          >
+            INACTIVE
+          </label>
+        </div>
       </div>
       <div className="flex items-center gap-x-2 rounded-lg border p-4">
         <Checkbox

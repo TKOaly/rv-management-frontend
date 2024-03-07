@@ -8,8 +8,6 @@ import { useToast } from "@/components/ui/use-toast";
 import { nextFieldOnEnter } from "@/lib/utils";
 import { editProductAction } from "@/server/actions/products";
 import { Product } from "@/server/requests/productRequests";
-import { QueryKey } from "@/server/requests/queryKeys";
-import { useQueryClient } from "@tanstack/react-query";
 import { RotateCcw } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -59,13 +57,11 @@ export const ProductEditForm = ({
     return calculatedMargin.toFixed(0) !== (defaultMargin * 100).toFixed(0);
   });
 
-  const queryClient = useQueryClient();
   const router = useRouter();
   const { toast } = useToast();
 
   useEffect(() => {
     if (state.success) {
-      queryClient.invalidateQueries({ queryKey: [QueryKey.products] });
       toast({ title: "Product updated", duration: 5_000 });
       router.push(`/admin/products/${product.barcode}`);
     } else if (state.error) {
