@@ -24,10 +24,10 @@ export const changeMargin = async (newMargin: number) => {
   return await authenticated<MarginResponse>(
     `${process.env.RV_BACKEND_URL}/${targetUrl}`,
     {
-      method: "PUT",
+      method: "PATCH",
     },
     {
-      margin: newMargin,
+      value: newMargin,
     },
   ).then((data) => data.preference.value);
 };

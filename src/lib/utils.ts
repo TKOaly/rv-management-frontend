@@ -51,3 +51,20 @@ export const nextFieldOnEnter: KeyboardEventHandler<HTMLDivElement> = (e) => {
     }
   }
 };
+
+/**
+ * TypeScript utility to narrow type based on Object key
+ */
+export function hasOwnProperty<X extends object, Y extends PropertyKey>(
+  obj: X,
+  prop: Y,
+): obj is X & Record<Y, unknown> {
+  return Object.prototype.hasOwnProperty.call(obj, prop);
+}
+
+/**
+ * TypeScript utility to narrow to string
+ */
+export function isString(value: unknown): value is string {
+  return typeof value === "string" || value instanceof String;
+}

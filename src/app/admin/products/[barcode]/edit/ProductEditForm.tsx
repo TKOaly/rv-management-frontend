@@ -84,7 +84,8 @@ export const ProductEditForm = ({
             data-next="stock"
             name="name"
             type="text"
-            className="w-[90%] text-2xl font-semibold"
+            containerClassName="w-[90%]"
+            className="text-2xl font-semibold"
             value={name}
             onChange={({ target }) => setName(target.value)}
           />
@@ -117,7 +118,8 @@ export const ProductEditForm = ({
               placeholder="Stock"
               data-next="categoryId"
               step={1}
-              className="w-[10ch] [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+              containerClassName="w-[10ch]"
+              className="[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
             />
             <div
               onClick={resetStock}
@@ -160,7 +162,8 @@ export const ProductEditForm = ({
               placeholder="Buy Price"
               data-next="sellPrice"
               step={0.01}
-              className="w-[10ch] [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+              containerClassName="w-[10ch]"
+              className="[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
               value={buyPrice}
               onChange={({ target }) => {
                 setBuyPrice(target.value);
@@ -192,7 +195,8 @@ export const ProductEditForm = ({
                 setCustomMargin(true);
                 setSellPrice(target.value);
               }}
-              className="w-[10ch] [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+              containerClassName="w-[10ch]"
+              className="[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
             />
           </div>
 
