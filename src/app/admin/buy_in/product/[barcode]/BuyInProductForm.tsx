@@ -59,6 +59,7 @@ export default function BuyInProductForm({ product, defaultMargin }: OwnProps) {
         </div>
         <Barcode barcode={barcode} width={3} height={60} />
         <Input
+          containerClassName="hidden"
           id="barcode"
           name="barcode"
           type="hidden"
