@@ -26,3 +26,12 @@ body {
     text-wrap: balance;
   }
 }
+
+/* Utility class to remove arrows from number inputs */
+.input-spin-button-none {
+  appearance: textfield;
+}
+.input-spin-button-none::-webkit-outer-spin-button,
+.input-spin-button-none::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}

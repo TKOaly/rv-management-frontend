@@ -83,22 +83,19 @@ function UserTable({ users }: { users: User[] }) {
               <div className="place-self-center self-center">
                 <p
                   className={
-                    user.role === UserRole.USER1
-                      ? "text-stone-500"
-                      : "text-purple-600"
+                    user.role === UserRole.ADMIN
+                      ? "text-purple-600"
+                      : "text-stone-500"
                   }
                 >
                   {user.role}
                 </p>
               </div>
               <div className="flex flex-col items-end">
-                <p className="text-lg text-stone-500">
-                  <span
-                    className={`font-semibold ${user.moneyBalance < 0 ? "text-red-500" : "text-black"}`}
-                  >
-                    {(user.moneyBalance / 100).toFixed(2)}
-                  </span>{" "}
-                  €
+                <p
+                  className={`font-semibold ${user.moneyBalance < 0 ? "text-red-500" : "text-black"}`}
+                >
+                  {(user.moneyBalance / 100).toFixed(2)} €
                 </p>
                 <p className="text-lg text-stone-500">{user.email}</p>
               </div>

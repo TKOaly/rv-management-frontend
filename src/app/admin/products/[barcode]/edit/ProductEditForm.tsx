@@ -90,7 +90,7 @@ export const ProductEditForm = ({
           />
           <div
             onClick={resetName}
-            className="ml-2 h-fit cursor-pointer rounded-md p-3 hover:bg-stone-100"
+            className="ml-2 h-fit cursor-pointer rounded-md border p-3 hover:bg-stone-100"
           >
             <RotateCcw className="h-4 w-4" />
           </div>
@@ -121,7 +121,7 @@ export const ProductEditForm = ({
             />
             <div
               onClick={resetStock}
-              className="ml-2 h-fit cursor-pointer rounded-md p-3 hover:bg-stone-100"
+              className="ml-2 h-fit cursor-pointer rounded-md border p-3 hover:bg-stone-100"
             >
               <RotateCcw className="h-4 w-4" />
             </div>
@@ -141,7 +141,7 @@ export const ProductEditForm = ({
             />
             <div
               onClick={resetCategory}
-              className="ml-2 h-fit cursor-pointer rounded-md p-3 hover:bg-stone-100"
+              className="ml-2 h-fit cursor-pointer rounded-md border p-3 hover:bg-stone-100"
             >
               <RotateCcw className="h-4 w-4" />
             </div>
@@ -203,7 +203,7 @@ export const ProductEditForm = ({
             <Button
               id="resetPrices"
               variant="ghost"
-              className="flex w-full"
+              className="flex w-full rounded-md border"
               onClick={() => {
                 resetBuyPrice();
                 resetSellPrice();
@@ -224,15 +224,14 @@ export const ProductEditForm = ({
               : "(Default Margin: " + (defaultMargin * 100).toFixed(0) + "%)"}
           </span>
         </div>
-
-        <div className="flex w-full flex-row-reverse justify-between gap-x-4">
-          <SubmitButton formAction={updateProduct}>Update Product</SubmitButton>
-          <Link href={`/admin/products`}>
-            <Button tabIndex={-1} variant="outline">
-              Back
-            </Button>
-          </Link>
-        </div>
+      </div>
+      <div className="flex w-full flex-row-reverse justify-between gap-x-4">
+        <SubmitButton formAction={updateProduct}>Update Product</SubmitButton>
+        <Link href={`/admin/products`}>
+          <Button tabIndex={-1} variant="outline">
+            Back
+          </Button>
+        </Link>
       </div>
     </form>
   );
