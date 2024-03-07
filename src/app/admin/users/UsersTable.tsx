@@ -60,7 +60,7 @@ function UserTable({ users }: { users: User[] }) {
 
   return (
     <div
-      className={`${/\/users\/\d+/g.test(path) ? "hidden md:flex" : "flex"} h-full w-full overflow-y-auto rounded-lg border shadow-lg`}
+      className={`${/\/users\/\d+/g.test(path) ? "hidden xl:flex" : "flex"} h-full w-full overflow-y-auto rounded-lg border shadow-lg`}
     >
       <div className="w-full">
         {
