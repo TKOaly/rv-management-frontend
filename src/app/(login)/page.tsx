@@ -1,7 +1,7 @@
 "use client";
 
-import { SubmitButton } from "@/components/ui/submit-button";
 import { Input } from "@/components/ui/input";
+import { SubmitButton } from "@/components/ui/submit-button";
 import { nextFieldOnEnter } from "@/lib/utils";
 import { AlertTriangle } from "lucide-react";
 import { useFormState } from "react-dom";
@@ -36,7 +36,7 @@ export default function Login() {
           required
         />
       </div>
-      <SubmitButton id="loginSubmit" className="mt-3">
+      <SubmitButton id="loginSubmit" name="login" className="mt-3">
         Log in
       </SubmitButton>
       {errorMessage && (
