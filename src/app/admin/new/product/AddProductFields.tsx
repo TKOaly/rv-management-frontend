@@ -8,11 +8,10 @@ import { nextFieldOnEnter } from "@/lib/utils";
 import { addProductAction } from "@/server/actions/products";
 import { QueryKey } from "@/server/requests/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
-import { Loader } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useFormState, useFormStatus } from "react-dom";
+import { useFormState } from "react-dom";
 
 function AddProductFields() {
   const searchParams = useSearchParams();
@@ -34,8 +33,6 @@ function AddProductFields() {
         : router.push(`/admin/products/${state.barcode}`);
     }
   }, [state.success, state.barcode]);
-
-  const { pending } = useFormStatus();
 
   return (
     <>
@@ -81,23 +78,8 @@ function AddProductFields() {
             type="number"
             min={0}
             placeholder="CategoryId"
-            data-next="weight"
-            className="[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-          />
-        </div>
-        <div>
-          <label htmlFor="weight" className="text-sm text-stone-500">
-            Weight (g)
-          </label>
-          <Input
-            id="weight"
-            name="weight"
-            type="number"
-            placeholder="Weight"
             data-next="buyPrice"
-            min={0}
-            step={1}
-            className="[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+            className="input-spin-button-none"
           />
         </div>
       </div>

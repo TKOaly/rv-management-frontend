@@ -2,8 +2,8 @@
 
 import Barcode from "@/components/Barcode";
 import {
-  AlertDialogHeader,
   AlertDialogFooter,
+  AlertDialogHeader,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
@@ -11,12 +11,12 @@ import { Product, deleteProduct } from "@/server/requests/productRequests";
 import { QueryKey } from "@/server/requests/queryKeys";
 import {
   AlertDialog,
-  AlertDialogTrigger,
-  AlertDialogContent,
-  AlertDialogTitle,
-  AlertDialogDescription,
-  AlertDialogCancel,
   AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogTitle,
+  AlertDialogTrigger,
 } from "@radix-ui/react-alert-dialog";
 import { useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
@@ -31,12 +31,6 @@ export const ProductView = ({ product }: { product: Product }) => {
     <div className="flex h-full w-full flex-col justify-between gap-y-4">
       <div className="flex w-full flex-col gap-y-4">
         <h1 className="text-2xl font-semibold">{product.name}</h1>
-        <div className="flex flex-col gap-y-2">
-          <label htmlFor="weight" className="text-sm text-stone-500">
-            Weight
-          </label>
-          <p id="weight">{product.weight} g</p>
-        </div>
         <div className="flex flex-col gap-y-2">
           <label htmlFor="stock" className="text-sm text-stone-500">
             Stock
