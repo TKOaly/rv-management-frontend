@@ -1,6 +1,5 @@
 "use server";
 
-import { getAllCategories } from "@/server/requests/categoryRequests";
 import {
   addProduct,
   addStock,
@@ -10,18 +9,7 @@ import {
 import { revalidateTag } from "next/cache";
 import { z } from "zod";
 import { QueryKeys } from "../requests/queryKeys";
-
-const getCategoryIdLiterals = async () =>
-  getAllCategories().then(
-    (categories) =>
-      categories.map((category) =>
-        z.literal(category.categoryId),
-      ) as unknown as readonly [
-        z.ZodLiteral<number>,
-        z.ZodLiteral<number>,
-        ...z.ZodLiteral<number>[],
-      ],
-  );
+import { getCategoryIdLiterals } from "./category";
 
 export async function addProductAction(
   _prevState: unknown,
