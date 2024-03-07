@@ -26,15 +26,12 @@ export async function addProductAction(
 ) {
   "use server";
 
-  const { barcode, name, categoryId, weight } = Object.fromEntries(
-    formData.entries(),
-  );
+  const { barcode, name, categoryId } = Object.fromEntries(formData.entries());
 
   const rawData = {
     barcode,
     name,
     categoryId: parseInt(categoryId as string),
-    weight: parseInt(weight as string),
     buyPrice: 0,
     sellPrice: 0,
     stock: 0,
@@ -45,7 +42,6 @@ export async function addProductAction(
       barcode: z.string().min(1).max(14),
       name: z.string().min(1),
       categoryId: z.union(await getCategoryIdLiterals()),
-      weight: z.number().min(0),
       buyPrice: z.number().int(),
       sellPrice: z.number().int(),
       stock: z.number().int(),

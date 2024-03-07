@@ -11,7 +11,6 @@ export type Product = {
     categoryId: number;
     description: string;
   };
-  weight: number;
   sellPrice: number;
   stock: number;
   buyPrice: number;
@@ -92,12 +91,7 @@ type addStockRequest = {
   count: number;
 };
 
-type addStockResponse = {
-  barcode: string;
-  stock: number;
-  buyPrice: number;
-  sellPrice: number;
-};
+type addStockResponse = Omit<Product, "category" | "name">;
 
 export const addStock = (product: addStockRequest) => {
   return authenticated<addStockResponse>(
