@@ -2,7 +2,6 @@ import { clsx, type ClassValue } from "clsx";
 import { WritableAtom, atom, useSetAtom } from "jotai";
 import { KeyboardEventHandler } from "react";
 import { twMerge } from "tailwind-merge";
-import { z } from "zod";
 
 /**
  * Merge tailwind classes together removing duplicates
