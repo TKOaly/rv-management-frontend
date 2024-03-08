@@ -6,22 +6,22 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { getAllCategories } from "@/server/requests/categoryRequests";
+import { Category } from "@/server/requests/categoryRequests";
 import { ComponentProps } from "react";
 
 interface CategorySelectProps extends ComponentProps<typeof SelectTrigger> {
+  categories: Category[];
   value?: string;
   onValueChange?: (value: string) => void;
 }
 
-export async function CategorySelect({
+export function CategorySelect({
+  categories,
   value,
   onValueChange,
   name,
   ...props
 }: CategorySelectProps) {
-  const categories = await getAllCategories();
-
   return (
     <Select name={name} value={value} onValueChange={onValueChange}>
       <SelectTrigger className="w-full" {...props}>
