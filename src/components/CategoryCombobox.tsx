@@ -29,6 +29,7 @@ export function CategoryCombobox({
   value,
   onValueChange,
   className,
+  name,
   ...props
 }: CategoryComboboxProps) {
   const [open, setOpen] = useState(false);
@@ -67,6 +68,7 @@ export function CategoryCombobox({
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
+      <input type="hidden" name={name} value={Number(internalValue)} />
       <PopoverContent align="start" className="p-0">
         <Command
           filter={(value, search) => {
@@ -96,6 +98,7 @@ export function CategoryCombobox({
               <CommandItem
                 key={categoryId.toString()}
                 value={categoryId.toString()}
+                aria-label={title}
                 onSelect={(currentValue) => {
                   if (currentValue === internalValue) {
                     return;
