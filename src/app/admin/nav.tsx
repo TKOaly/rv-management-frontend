@@ -1,4 +1,5 @@
 import { signOut } from "@/auth";
+import { SubmitButton } from "@/components/ui/submit-button";
 import {
   BookUser,
   FileClock,
@@ -54,10 +55,13 @@ export default function AdminNavigation() {
           await signOut();
         }}
       >
-        <button className="flex w-full space-x-2 rounded-lg border-2 border-transparent p-3  hover:border-black">
-          <LogOut />
-          <p>Logout</p>
-        </button>
+        <SubmitButton
+          icon={<LogOut />}
+          variant="ghost"
+          className="flex h-auto w-full justify-start gap-x-2 rounded-lg border-2 border-transparent p-3  hover:border-black"
+        >
+          Log out
+        </SubmitButton>
       </form>
     </nav>
   );

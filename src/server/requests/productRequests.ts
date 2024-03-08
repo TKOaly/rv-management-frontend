@@ -95,7 +95,7 @@ type addStockRequest = {
   count: number;
 };
 
-type addStockResponse = Omit<Product, "category" | "name">;
+export type addStockResponse = Omit<Product, "category" | "name">;
 
 export const addStock = (product: addStockRequest) => {
   return authenticated<addStockResponse>(
