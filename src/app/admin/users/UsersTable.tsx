@@ -1,13 +1,11 @@
 "use client";
 
-import { QueryKeys } from "@/server/requests/queryKeys";
 import { UserRole } from "@/server/requests/types";
-import { User, getAllUsers } from "@/server/requests/userRequests";
-import { useQuery } from "@tanstack/react-query";
+import { User } from "@/server/requests/userRequests";
 import { useAtomValue } from "jotai";
 import { atomWithReset } from "jotai/utils";
-import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 // Make filters state accessable from the filters page
 export const userFiltersAtom = atomWithReset({
@@ -23,17 +21,10 @@ export const userFiltersAtom = atomWithReset({
 });
 
 function UserTable({ users }: { users: User[] }) {
-  // Make User data refetchable and cacheable
-  const { data: userData } = useQuery({
-    queryKey: [QueryKeys.users],
-    queryFn: () => getAllUsers(),
-    initialData: users,
-  });
-
   const filters = useAtomValue(userFiltersAtom);
 
   // Filter users based on set filters
-  const filteredUsers = userData
+  const filteredUsers = users
     .filter((user) =>
       filters.username && filters.username.length > 0
         ? user.username.toLowerCase().includes(filters.username.toLowerCase())

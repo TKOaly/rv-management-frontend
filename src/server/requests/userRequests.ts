@@ -26,6 +26,9 @@ export async function getAllUsers() {
     `${process.env.RV_BACKEND_URL}/${targetUrl}`,
     {
       method: "GET",
+      next: {
+        tags: [QueryKeys.users],
+      },
     },
   ).then((data) => data.users);
 }
