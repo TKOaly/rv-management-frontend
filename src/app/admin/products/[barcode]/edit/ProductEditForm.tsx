@@ -208,17 +208,15 @@ export const ProductEditForm = ({
             <label htmlFor="resetPrices" className="text-sm text-stone-500">
               Reset prices
             </label>
-            <Button
-              id="resetPrices"
-              variant="ghost"
-              className="flex w-full rounded-md border"
+            <div
+              className="ml-2 flex h-fit cursor-pointer items-center justify-center rounded-md border p-3 hover:bg-stone-100"
               onClick={() => {
                 resetBuyPrice();
                 resetSellPrice();
               }}
             >
               <RotateCcw className="h-4 w-4" />
-            </Button>
+            </div>
           </div>
 
           <span className="col-span-2 justify-self-center text-sm text-stone-500">
