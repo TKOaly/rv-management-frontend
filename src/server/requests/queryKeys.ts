@@ -3,5 +3,6 @@ export enum QueryKeys {
   products = "products",
   users = "users",
   deposits = "deposits",
+  purchases = "purchases",
   categories = "categories",
 }

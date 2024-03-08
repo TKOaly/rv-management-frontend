@@ -4,13 +4,21 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { usePartialSetAtom } from "@/lib/utils";
 import { useAtomValue } from "jotai";
-import { useResetAtom } from "jotai/utils";
-import { depositFiltersAtom } from "./DepositsTable";
+import { atomWithReset, useHydrateAtoms, useResetAtom } from "jotai/utils";
 
-export default function DepositFilters() {
-  const setFilters = usePartialSetAtom(depositFiltersAtom);
-  const resetFilters = useResetAtom(depositFiltersAtom);
-  const filters = useAtomValue(depositFiltersAtom);
+const filtersAtom = atomWithReset({});
+export default function Filter({
+  filtersAtom: filtersAtomFromServer,
+}: {
+  filtersAtom: ReturnType<
+    typeof atomWithReset<{ username: string; fullName: string }>
+  >;
+}) {
+  useHydrateAtoms([[filtersAtom, filtersAtomFromServer]]);
+
+  const setFilters = usePartialSetAtom(filtersAtomFromServer);
+  const resetFilters = useResetAtom(filtersAtomFromServer);
+  const filters = useAtomValue(filtersAtomFromServer);
 
   return (
     <div className="flex w-1/4 flex-col gap-y-4">
