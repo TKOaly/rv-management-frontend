@@ -18,17 +18,22 @@ const Barcode = ({ barcode, displayInvalid = false, ...rest }: OwnProps) => {
     return null;
 
   return (
-    <ReactBarcode
-      value={barcode}
-      format={
-        barcode.length === 13 && isEAN(barcode)
-          ? "EAN13"
-          : barcode.length === 8 && isEAN(barcode)
-            ? ("EAN8" as "EAN13")
-            : undefined
-      }
-      {...rest}
-    />
+    <>
+      <ReactBarcode
+        value={barcode}
+        format={
+          barcode.length === 13 && isEAN(barcode)
+            ? "EAN13"
+            : barcode.length === 8 && isEAN(barcode)
+              ? ("EAN8" as "EAN13")
+              : undefined
+        }
+        {...rest}
+      />
+      <span className="sr-only" aria-label="Barcode">
+        {barcode}
+      </span>
+    </>
   );
 };
 
