@@ -64,8 +64,8 @@ export default function AdminNavigation() {
           </div>
         </Link>
         {routes.map((route) => (
-          <NavButton key={route.title} href={route.href} title={route.title}>
-            {route.icon}
+          <NavButton key={route.title} icon={route.icon} href={route.href}>
+            {route.title}
           </NavButton>
         ))}
       </div>
