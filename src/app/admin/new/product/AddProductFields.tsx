@@ -2,7 +2,7 @@
 
 import Barcode from "@/components/Barcode";
 import { Button } from "@/components/ui/button";
-import { CategorySelect } from "@/components/ui/category-select";
+import { CategoryCombobox } from "@/components/CategoryCombobox";
 import { Input } from "@/components/ui/input";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { useToast } from "@/components/ui/use-toast";
@@ -79,7 +79,7 @@ function AddProductFields({ categories }: { categories: Category[] }) {
           <label htmlFor="category" className="text-sm text-stone-500">
             Category
           </label>
-          <CategorySelect
+          <CategoryCombobox
             categories={categories}
             id="categoryId"
             name="categoryId"
