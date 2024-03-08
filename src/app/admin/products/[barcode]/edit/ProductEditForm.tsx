@@ -7,6 +7,7 @@ import { SubmitButton } from "@/components/ui/submit-button";
 import { useToast } from "@/components/ui/use-toast";
 import { nextFieldOnEnter } from "@/lib/utils";
 import { editProductAction } from "@/server/actions/products";
+import { Category } from "@/server/requests/categoryRequests";
 import { Product } from "@/server/requests/productRequests";
 import { RotateCcw } from "lucide-react";
 import Link from "next/link";
@@ -17,6 +18,7 @@ import { useFormState } from "react-dom";
 type ProductEditFormProps = {
   product: Product;
   defaultMargin: number;
+  categories: Category[];
 };
 
 function useResettableState<T>(
@@ -32,6 +34,7 @@ const toDecimalPlaces = (value: number) => (value / 100).toFixed(2);
 export const ProductEditForm = ({
   product,
   defaultMargin,
+  categories,
 }: ProductEditFormProps) => {
   const [state, updateProduct] = useFormState<
     { success: boolean; error?: unknown },
@@ -138,6 +141,7 @@ export const ProductEditForm = ({
             <CategorySelect
               value={category}
               onValueChange={setCategory}
+              categories={categories}
               id="categoryId"
               name="categoryId"
             />

@@ -8,13 +8,14 @@ import { SubmitButton } from "@/components/ui/submit-button";
 import { useToast } from "@/components/ui/use-toast";
 import { nextFieldOnEnter } from "@/lib/utils";
 import { addProductAction } from "@/server/actions/products";
+import { Category } from "@/server/requests/categoryRequests";
 import { Product } from "@/server/requests/productRequests";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useFormState } from "react-dom";
 
-function AddProductFields() {
+function AddProductFields({ categories }: { categories: Category[] }) {
   const searchParams = useSearchParams();
   const [barcode, setBarcode] = useState(searchParams.get("barcode") ?? "");
 
@@ -78,7 +79,11 @@ function AddProductFields() {
           <label htmlFor="category" className="text-sm text-stone-500">
             Category
           </label>
-          <CategorySelect id="categoryId" name="categoryId" />
+          <CategorySelect
+            categories={categories}
+            id="categoryId"
+            name="categoryId"
+          />
         </div>
       </div>
       <div className="flex w-full flex-row-reverse justify-between gap-x-4">
