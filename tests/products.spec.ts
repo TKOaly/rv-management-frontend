@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { login } from "./fixtures/login";
+import { getRandomBarcode } from "./utils/random";
 
 test.beforeEach(async ({ page }) => {
   await login(page);
@@ -11,17 +12,25 @@ test("User can list products", async ({ page }) => {
 });
 
 test("User can add a product", async ({ page }) => {
+  const randomBarcode = await getRandomBarcode();
+
   await page.getByRole("link", { name: "New Product" }).click();
-  await page.getByPlaceholder("Barcode").fill("7340011340041");
+  await page.getByPlaceholder("Barcode").fill(randomBarcode);
   await page.getByPlaceholder("Barcode").press("Enter");
   await page.getByPlaceholder("Name").fill("Testipavut");
   await page.getByText("Select a category").click();
   await page.getByLabel("Food, other (meat pies etc.)").click();
   await page.getByRole("button", { name: "Create Product" }).click();
 
+  await page.waitForURL(`/admin/products/${randomBarcode}`);
+
   await expect(
     page.locator("h1").filter({ hasText: "Testipavut" }),
   ).toBeVisible();
+  await expect(page.locator("#category")).toHaveText(
+    "Food, other (meat pies etc.)",
+  );
+  await expect(page.getByLabel("Barcode")).toHaveText(randomBarcode);
 });
 
 test("User can edit a product", async ({ page }) => {
