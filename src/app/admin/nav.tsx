@@ -1,4 +1,5 @@
 import { signOut } from "@/auth";
+import { NavButton } from "@/components/NavButton";
 import { SubmitButton } from "@/components/ui/submit-button";
 import {
   BookUser,
@@ -11,6 +12,39 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+
+const routes = [
+  {
+    href: "/admin/buy_in",
+    title: "Buy In",
+    icon: <PackagePlus />,
+  },
+  {
+    href: "/admin/products",
+    title: "Products",
+    icon: <PackageSearch />,
+  },
+  {
+    href: "/admin/users",
+    title: "Users",
+    icon: <BookUser />,
+  },
+  {
+    href: "/admin/history",
+    title: "History",
+    icon: <FileClock />,
+  },
+  {
+    href: "/admin/categories",
+    title: "Categories",
+    icon: <Tags />,
+  },
+  {
+    href: "/admin/configuration",
+    title: "Config",
+    icon: <Settings2 />,
+  },
+];
 
 export default function AdminNavigation() {
   return (
@@ -29,24 +63,11 @@ export default function AdminNavigation() {
             <h1 className="text-2xl font-semibold">Ruokavälitys</h1>
           </div>
         </Link>
-        <NavButton href={"/admin/buy_in"} title="Buy In">
-          <PackagePlus />
-        </NavButton>
-        <NavButton href={"/admin/products"} title="Products">
-          <PackageSearch />
-        </NavButton>
-        <NavButton href={"/admin/users"} title="Users">
-          <BookUser />
-        </NavButton>
-        <NavButton href={"/admin/history"} title="History">
-          <FileClock />
-        </NavButton>
-        <NavButton href={"/admin/categories"} title="Categories">
-          <Tags />
-        </NavButton>
-        <NavButton href={"/admin/configuration"} title="Config">
-          <Settings2 />
-        </NavButton>
+        {routes.map((route) => (
+          <NavButton key={route.title} href={route.href} title={route.title}>
+            {route.icon}
+          </NavButton>
+        ))}
       </div>
 
       <form
@@ -58,31 +79,11 @@ export default function AdminNavigation() {
         <SubmitButton
           icon={<LogOut />}
           variant="ghost"
-          className="flex h-auto w-full justify-start gap-x-2 rounded-lg border-2 border-transparent p-3  hover:border-black"
+          className="flex h-auto w-full justify-start gap-x-2 rounded-lg border-2 border-transparent p-3  hover:bg-stone-200 focus-visible:bg-stone-200 focus-visible:outline-none"
         >
           Log out
         </SubmitButton>
       </form>
     </nav>
-  );
-}
-
-function NavButton({
-  href,
-  title,
-  children,
-}: {
-  href: string;
-  title: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <Link
-      href={href}
-      className="flex w-full justify-start space-x-2 rounded-lg border-2 border-transparent p-3  hover:border-black"
-    >
-      {children}
-      <p>{title}</p>
-    </Link>
   );
 }
