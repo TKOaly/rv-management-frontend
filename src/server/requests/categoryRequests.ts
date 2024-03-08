@@ -2,6 +2,7 @@
 
 import { authenticated } from "../wrappers";
 import { Product } from "./productRequests";
+import { QueryKeys } from "./queryKeys";
 
 const targetUrl = "api/v1/categories";
 const targetAdminUrl = "api/v1/admin/categories";
@@ -20,6 +21,9 @@ export async function getAllCategories() {
     `${process.env.RV_BACKEND_URL}/${targetUrl}`,
     {
       method: "GET",
+      next: {
+        tags: [QueryKeys.categories],
+      },
     },
   ).then((data) => data.categories);
 }

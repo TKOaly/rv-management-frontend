@@ -7,8 +7,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { getAllCategories } from "@/server/requests/categoryRequests";
-import { QueryKeys } from "@/server/requests/queryKeys";
-import { useQuery } from "@tanstack/react-query";
 import { ComponentProps } from "react";
 
 interface CategorySelectProps extends ComponentProps<typeof SelectTrigger> {
@@ -16,16 +14,13 @@ interface CategorySelectProps extends ComponentProps<typeof SelectTrigger> {
   onValueChange?: (value: string) => void;
 }
 
-export function CategorySelect({
+export async function CategorySelect({
   value,
   onValueChange,
   name,
   ...props
 }: CategorySelectProps) {
-  const { data: categories } = useQuery({
-    queryKey: [QueryKeys.categories],
-    queryFn: () => getAllCategories(),
-  });
+  const categories = await getAllCategories();
 
   return (
     <Select name={name} value={value} onValueChange={onValueChange}>
