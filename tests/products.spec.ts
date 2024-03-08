@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { login } from "./login";
+import { login } from "./fixtures/login";
 
 test("User can list products", async ({ page }) => {
   await login(page);
