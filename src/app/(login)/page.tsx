@@ -36,7 +36,7 @@ export default function Login() {
           required
         />
       </div>
-      <SubmitButton id="loginSubmit" name="login" className="mt-3">
+      <SubmitButton id="loginSubmit" className="mt-3">
         Log in
       </SubmitButton>
       {errorMessage && (
