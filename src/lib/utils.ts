@@ -52,6 +52,32 @@ export const nextFieldOnEnter: KeyboardEventHandler<HTMLDivElement> = (e) => {
   }
 };
 
+export const moveWithArrowKeys: KeyboardEventHandler<HTMLDivElement> = (e) => {
+  const previous = () => {
+    const currentId = document.activeElement?.id;
+    if (currentId) {
+      document
+        .querySelector<HTMLElement>(`[data-next="${currentId}"]`)
+        ?.focus();
+    }
+  };
+  const next = () => {
+    const next = document.activeElement?.getAttribute("data-next");
+    if (next) {
+      document.getElementById(next)?.focus();
+    }
+  };
+
+  if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key)) {
+    e.preventDefault();
+
+    if (e.key === "ArrowLeft") return previous();
+    if (e.key === "ArrowRight") return next();
+    if (e.key === "ArrowUp") return previous();
+    if (e.key === "ArrowDown") return next();
+  }
+};
+
 /**
  * TypeScript utility to narrow type based on Object key
  */
