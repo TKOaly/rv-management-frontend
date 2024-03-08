@@ -11,12 +11,12 @@ export const SubmitButton = (
     icon?: ReactNode;
   },
 ) => {
-  const { icon, children, className, ...native } = props;
+  const { disabled, icon, children, className, ...native } = props;
   const { pending } = useFormStatus();
 
   return (
     <Button
-      disabled={pending}
+      disabled={disabled || pending}
       type="submit"
       className={merge("flex items-center gap-x-2", className)}
       {...native}

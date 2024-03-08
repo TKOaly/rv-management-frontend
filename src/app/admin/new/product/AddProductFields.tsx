@@ -58,7 +58,7 @@ function AddProductFields() {
             data-next="name"
             defaultValue={barcode}
             autoFocus={!searchParams.has("barcode")}
-            className="mb-2"
+            containerClassName="mb-2"
           />
         </div>
         <Barcode barcode={barcode} width={3} height={50} displayInvalid />
