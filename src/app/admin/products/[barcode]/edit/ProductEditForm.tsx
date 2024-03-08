@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { CategorySelect } from "@/components/ui/category-select";
+import { CategoryCombobox } from "@/components/CategoryCombobox";
 import { Input } from "@/components/ui/input";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { useToast } from "@/components/ui/use-toast";
@@ -43,7 +43,7 @@ export const ProductEditForm = ({
 
   const [name, setName, resetName] = useResettableState(product.name);
   const [category, setCategory, resetCategory] = useResettableState(
-    product.category.categoryId.toString(),
+    product.category.categoryId,
   );
   const [stock, setStock, resetStock] = useResettableState(
     product.stock.toString(),
@@ -138,7 +138,7 @@ export const ProductEditForm = ({
             Category
           </label>
           <div className="flex">
-            <CategorySelect
+            <CategoryCombobox
               value={category}
               onValueChange={setCategory}
               categories={categories}
