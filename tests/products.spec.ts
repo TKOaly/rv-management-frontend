@@ -26,9 +26,9 @@ test.describe.serial("CRUD", () => {
 
     await page.getByPlaceholder("Barcode").fill(randomBarcode);
     await page.getByPlaceholder("Barcode").press("Enter");
-    await page.getByPlaceholder("Name").fill(randomName);
-    await page.getByText("Select a category").click();
-    await page.getByLabel("Food, other (meat pies etc.)").click();
+    await page.getByPlaceholder("Name").fill("Testipavut");
+    await page.getByText("Select category").click();
+    await page.getByLabel("Food, other").click();
     await page.getByRole("button", { name: "Create Product" }).click();
 
     await page.waitForURL(`/admin/products/${randomBarcode}`);
