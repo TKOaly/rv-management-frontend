@@ -18,7 +18,10 @@ export const SubmitButton = (
     <Button
       disabled={disabled || pending}
       type="submit"
-      className={merge("flex items-center gap-x-2", className)}
+      className={merge(
+        "flex items-center gap-x-2 transition-opacity duration-200",
+        className,
+      )}
       {...native}
     >
       {pending ? <Loader className="animate-spin" /> : icon}

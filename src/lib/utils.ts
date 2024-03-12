@@ -42,7 +42,7 @@ export const usePartialSetAtom = <T>(
   atom: WritableAtom<T, [T & Partial<T>], unknown>,
 ) => useSetAtom(partialSetAtom(atom));
 
-export const nextFieldOnEnter: KeyboardEventHandler<HTMLDivElement> = (e) => {
+export const nextFieldOnEnter: KeyboardEventHandler<HTMLElement> = (e) => {
   if (e.key === "Enter") {
     const next = document.activeElement?.getAttribute("data-next");
     if (next) {

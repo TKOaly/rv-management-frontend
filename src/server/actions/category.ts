@@ -2,6 +2,7 @@
 
 import {
   Category,
+  createCategory,
   deleteCategory,
   getAllCategories,
   updateCategory,
@@ -75,5 +76,48 @@ export async function deleteCategoryAction(categoryId: number) {
   } catch (error) {
     console.error(error);
     throw new Error("Failed to delete category");
+  }
+}
+
+export async function createCategoryAction(
+  _prevState: unknown,
+  formData: FormData,
+): Promise<{
+  success: boolean;
+  createdCategory?: Category;
+  error?: null | string | { [key: string]: string[] };
+}> {
+  const { description } = Object.fromEntries(formData.entries());
+
+  const rawData = {
+    description,
+  };
+
+  const validatedData = z
+    .object({
+      description: z.string().min(1),
+    })
+    .required()
+    .safeParse(rawData);
+
+  if (!validatedData.success) {
+    console.error(validatedData.error);
+    return { success: false, error: validatedData.error.flatten().fieldErrors };
+  }
+
+  try {
+    const createdCategory = await createCategory(validatedData.data);
+    revalidateTag(QueryKeys.categories);
+    return {
+      success: true,
+      createdCategory: createdCategory,
+      error: null,
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      success: false,
+      error: "Failed to create category",
+    };
   }
 }
