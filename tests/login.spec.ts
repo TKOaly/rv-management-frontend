@@ -3,7 +3,7 @@ import { login } from "./fixtures/login";
 
 test("User can login", async ({ page }) => {
   await login(page);
-  await expect(page.getByText("dash")).toBeVisible();
+  await expect(page.getByText("Dashboard")).toBeVisible();
 });
 
 test("User can logout", async ({ page }) => {

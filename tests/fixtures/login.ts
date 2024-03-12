@@ -11,4 +11,5 @@ export const login = async (
   await page.getByLabel("Username").press("Tab");
   await page.getByLabel("Password").fill(password);
   await page.getByRole("button", { name: "Log in" }).click();
+  await page.waitForURL("/admin");
 };
