@@ -22,11 +22,7 @@ import {
   ShoppingBasket,
   Skull,
 } from "lucide-react";
-
-const currencyFormatter = Intl.NumberFormat("fi-FI", {
-  style: "currency",
-  currency: "EUR",
-});
+import { currencyFormatter } from "@/lib/moneyFormatter";
 
 export default async function AdminDashboard() {
   const products = await getAllProducts();
