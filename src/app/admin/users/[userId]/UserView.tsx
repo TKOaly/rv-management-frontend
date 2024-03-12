@@ -1,21 +1,14 @@
 "use client";
 
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useToast } from "@/components/ui/use-toast";
 import { currencyFormatter } from "@/lib/moneyFormatter";
+import { isDeposit, isPurchase } from "@/lib/transactions";
 import { merge } from "@/lib/utils";
 import { Deposit, Purchase } from "@/server/requests/historyRequests";
 import { User } from "@/server/requests/userRequests";
 import { Copy } from "lucide-react";
+import Link from "next/link";
 import { useMemo, useState } from "react";
-
-const initials = (name: string) => {
-  return name
-    .split(" ")
-    .map((n) => n[0])
-    .slice(0, 2)
-    .join("");
-};
 
 export const UserView = ({
   user,
@@ -42,15 +35,13 @@ export const UserView = ({
 
   return (
     <div className="flex h-full w-full flex-col gap-y-4">
-      <div className="grid h-full w-full grid-cols-[max-content_auto] gap-4 divide-x">
-        <div className="flex h-full flex-col gap-4">
+      <div className="flex h-full w-full gap-4 divide-x">
+        <div className="flex h-full min-w-48 flex-col gap-4">
           <div className="flex gap-4">
-            <Avatar className="h-14 w-14">
-              <AvatarFallback>{initials(user.fullName)}</AvatarFallback>
-            </Avatar>
-
             <div className="flex flex-col">
-              <h1 className="text-2xl font-semibold">{user.fullName}</h1>
+              <h1 className="max-w-[15ch] text-2xl font-semibold">
+                {user.fullName}
+              </h1>
               <p className="text-stone-500">{user.username}</p>
             </div>
           </div>
@@ -92,7 +83,7 @@ export const UserView = ({
           </div>
         </div>
 
-        <div className="px-4">
+        <div className="flex h-full w-full flex-col overflow-clip px-4">
           <div className="mb-2 flex gap-4 text-xl font-semibold">
             <h2
               className={merge(
@@ -126,14 +117,46 @@ export const UserView = ({
             </h2>
           </div>
 
-          {transactions.map((transaction) => (
-            <div className="grid grid-cols-3 gap-y-2 text-right">
-              <p className="text-left">
-                {new Date(transaction.time).toLocaleDateString("fi-FI")}
-              </p>
-              <p>{currencyFormatter.format(transaction.balanceAfter)}</p>
-            </div>
-          ))}
+          <div
+            className={merge(
+              "grid h-full auto-rows-max gap-x-4 gap-y-1 overflow-y-scroll pr-4",
+              view === "deposits"
+                ? "grid-cols-[max-content_max-content_min-content_max-content_max-content]"
+                : "grid-cols-[max-content_max-content_auto_max-content_max-content]",
+            )}
+          >
+            {transactions.map((transaction) => (
+              <>
+                <p className="text-left">
+                  {new Date(transaction.time).toLocaleDateString("fi-FI")}
+                </p>
+                {isPurchase(transaction) && (
+                  <>
+                    <p>Bought</p>
+                    <Link
+                      href={`/admin/products/${transaction.product.barcode}`}
+                    >
+                      {transaction.product.name}
+                    </Link>
+                    <p className="font-mono text-red-600">-</p>
+                    <p className="text-right font-mono text-red-600">
+                      {currencyFormatter.format(transaction.price)}
+                    </p>
+                  </>
+                )}
+                {isDeposit(transaction) && (
+                  <>
+                    <p>Deposited</p>
+                    <p></p>
+                    <p className="font-mono text-green-700">+</p>
+                    <p className="text-right font-mono text-green-700">
+                      {currencyFormatter.format(transaction.amount)}
+                    </p>
+                  </>
+                )}
+              </>
+            ))}
+          </div>
         </div>
       </div>
     </div>
