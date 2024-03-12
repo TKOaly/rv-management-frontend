@@ -17,6 +17,8 @@ type categoriesRequest = {
 };
 
 export async function getAllCategories() {
+  "use server";
+
   return await authenticated<categoriesRequest>(
     `${process.env.RV_BACKEND_URL}/${targetUrl}`,
     {
@@ -34,6 +36,8 @@ type updateCategoryResponse = {
 };
 
 export async function updateCategory(category: updateCategoryRequest) {
+  "use server";
+
   return await authenticated<updateCategoryResponse>(
     `${process.env.RV_BACKEND_URL}/${targetAdminUrl}/${category.categoryId}`,
     {
@@ -49,10 +53,32 @@ type deleteCategoryResponse = {
 };
 
 export async function deleteCategory(categoryId: number) {
+  "use server";
+
   return await authenticated<deleteCategoryResponse>(
     `${process.env.RV_BACKEND_URL}/${targetAdminUrl}/${categoryId}`,
     {
       method: "DELETE",
     },
   );
+}
+
+type createCategoryRequest = {
+  description: string;
+};
+
+type createCategoryResponse = {
+  category: Category;
+};
+
+export async function createCategory(category: createCategoryRequest) {
+  "use server";
+
+  return await authenticated<createCategoryResponse>(
+    `${process.env.RV_BACKEND_URL}/${targetAdminUrl}`,
+    {
+      method: "POST",
+      body: JSON.stringify(category),
+    },
+  ).then((data) => data.category);
 }
