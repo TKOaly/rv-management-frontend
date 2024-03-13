@@ -33,6 +33,13 @@ function ProductTable({ products }: { products: Product[] }) {
       return true;
     });
 
+  const sortedProducts = filteredProducts.sort((a, b) => {
+    const [nameA, nameB] = [a.name.toLowerCase(), b.name.toLowerCase()];
+    if (nameA > nameB) return 1;
+    if (nameA < nameB) return -1;
+    return 0;
+  });
+
   const path = usePathname();
 
   return (
@@ -42,13 +49,13 @@ function ProductTable({ products }: { products: Product[] }) {
       <div className="w-full">
         {
           // Show a message if no products are found
-          filteredProducts.length === 0 && (
+          sortedProducts.length === 0 && (
             <div className="flex h-64 items-center justify-center">
               <p className="text-stone-500">No products found</p>
             </div>
           )
         }
-        {filteredProducts.map((product) => {
+        {sortedProducts.map((product) => {
           return (
             <Link
               tabIndex={-1}
