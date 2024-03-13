@@ -1,9 +1,5 @@
 "use client";
 
-import { ComponentProps, useEffect, useMemo, useState } from "react";
-import { Category } from "@/server/requests/categoryRequests";
-import { ChevronsUpDown } from "lucide-react";
-import { merge } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -17,6 +13,10 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { merge } from "@/lib/utils";
+import { Category } from "@/server/requests/categoryRequests";
+import { ChevronsUpDown } from "lucide-react";
+import { ComponentProps, useEffect, useMemo, useState } from "react";
 
 interface CategoryComboboxProps extends ComponentProps<typeof Button> {
   categories: Category[];
@@ -55,7 +55,7 @@ export function CategoryCombobox({
       <PopoverTrigger asChild>
         <Button
           variant="outline"
-          className={merge("flex", className)}
+          className={merge("flex w-full justify-between", className)}
           {...props}
           role="combobox"
           aria-expanded={open}
@@ -93,7 +93,7 @@ export function CategoryCombobox({
         >
           <CommandInput placeholder="Search categories..." />
           <CommandEmpty>No category found.</CommandEmpty>
-          <CommandGroup className="max-h-60 overflow-y-scroll">
+          <CommandGroup className="max-h-80 overflow-y-scroll">
             {enhancedCategories.map(({ categoryId, title, description }) => (
               <CommandItem
                 key={categoryId.toString()}

@@ -1,9 +1,9 @@
+import { TableAndFilter } from "@/components/HistoryTable/TableAndFilter";
 import { HeaderTab } from "@/components/ui/header-tab";
 import {
   getAllDeposits,
   getAllPurchases,
 } from "@/server/requests/historyRequests";
-import { TableAndFilter } from "@/components/HistoryTable/TableAndFilter";
 import { historyTabs } from "./layout";
 
 export default async function HistoryPage() {
@@ -17,7 +17,7 @@ export default async function HistoryPage() {
   return (
     <>
       <HeaderTab tabs={historyTabs} selectedTab="Overview" />
-      <div className="flex h-full w-full flex-row justify-between gap-x-8 pb-4">
+      <div className="flex h-full min-h-0 w-full flex-row justify-between gap-x-8">
         <TableAndFilter initialData={combinedData} />
       </div>
     </>

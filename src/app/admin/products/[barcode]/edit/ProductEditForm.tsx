@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { CategoryCombobox } from "@/components/CategoryCombobox";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { useToast } from "@/components/ui/use-toast";
@@ -74,7 +74,7 @@ export const ProductEditForm = ({
 
   return (
     <form
-      className="flex h-full w-full flex-col justify-between gap-y-4"
+      className="mb-8 flex h-full w-full flex-col justify-between gap-y-4"
       autoComplete="off"
     >
       <div
@@ -107,33 +107,112 @@ export const ProductEditForm = ({
           value={product.barcode}
         />
 
-        <div className="flex flex-col gap-y-2">
-          <label htmlFor="stock" className="text-sm text-stone-500">
-            Stock
-          </label>
-          <div className="inline-flex items-center">
-            <Input
-              id="stock"
-              name="stock"
-              type="number"
-              value={stock}
-              onChange={({ target }) => setStock(target.value)}
-              placeholder="Stock"
-              data-next="categoryId"
-              step={1}
-              containerClassName="w-[10ch]"
-              className="[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-            />
-            <div
-              onClick={resetStock}
-              className="ml-2 h-fit cursor-pointer rounded-md border p-3 hover:bg-stone-100"
-            >
-              <RotateCcw className="h-4 w-4" />
+        <div className="flex gap-x-8">
+          <div className="flex flex-col gap-y-2">
+            <label htmlFor="stock" className="text-sm text-stone-500">
+              Stock
+            </label>
+            <div className="inline-flex items-center">
+              <Input
+                id="stock"
+                name="stock"
+                type="number"
+                value={stock}
+                onChange={({ target }) => setStock(target.value)}
+                placeholder="Stock"
+                data-next="categoryId"
+                step={1}
+                containerClassName="w-[10ch]"
+                className="[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+              />
+              <div
+                onClick={resetStock}
+                className="ml-2 h-fit cursor-pointer rounded-md border p-3 hover:bg-stone-100"
+              >
+                <RotateCcw className="h-4 w-4" />
+              </div>
             </div>
+          </div>
+
+          <div className="grid grid-cols-[max-content_max-content_max-content] grid-rows-[max-content_max-content] gap-x-2 gap-y-2">
+            <div className="flex flex-col gap-y-2">
+              <label htmlFor="buyPrice" className="text-sm text-stone-500">
+                Buy Price (€)
+              </label>
+              <Input
+                id="buyPrice"
+                name="buyPrice"
+                type="number"
+                placeholder="Buy Price"
+                data-next="sellPrice"
+                step={0.01}
+                containerClassName="w-[10ch]"
+                className="[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                value={buyPrice}
+                onChange={({ target }) => {
+                  setBuyPrice(target.value);
+                  if (sellPrice === "") {
+                    setCustomMargin(false);
+                  }
+                  if (!customMargin) {
+                    setSellPrice(
+                      (Number(target.value) * (1 + defaultMargin)).toFixed(2),
+                    );
+                  }
+                }}
+              />
+            </div>
+
+            <div className="flex flex-col gap-y-2">
+              <label htmlFor="sellPrice" className="text-sm text-stone-500">
+                Sell Price (€)
+              </label>
+              <Input
+                id="sellPrice"
+                name="sellPrice"
+                type="number"
+                placeholder="Sell Price"
+                data-next="buyInSubmit"
+                step={0.01}
+                value={sellPrice}
+                onChange={({ target }) => {
+                  setCustomMargin(true);
+                  setSellPrice(target.value);
+                }}
+                containerClassName="w-[10ch]"
+                className="[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+              />
+            </div>
+
+            <div className="flex flex-col gap-y-2">
+              <label htmlFor="resetPrices" className="text-sm text-stone-500">
+                Reset prices
+              </label>
+              <div
+                className="flex h-fit cursor-pointer items-center justify-center rounded-md border p-3 hover:bg-stone-100"
+                onClick={() => {
+                  resetBuyPrice();
+                  resetSellPrice();
+                }}
+              >
+                <RotateCcw className="h-4 w-4" />
+              </div>
+            </div>
+
+            <span className="col-span-2 justify-self-center text-sm text-stone-500">
+              {customMargin
+                ? "(Custom Margin: " +
+                  (
+                    (parseFloat(sellPrice) / parseFloat(buyPrice)) * 100 -
+                    100
+                  ).toFixed(0) +
+                  "%)"
+                : "(Default Margin: " + (defaultMargin * 100).toFixed(0) + "%)"}
+            </span>
           </div>
         </div>
 
-        <div className="flex flex-col gap-y-2">
+        <div className="-mt-4 flex w-full flex-col gap-y-2">
           <label htmlFor="category" className="text-sm text-stone-500">
             Category
           </label>
@@ -144,6 +223,7 @@ export const ProductEditForm = ({
               categories={categories}
               id="categoryId"
               name="categoryId"
+              className="h-full"
             />
             <div
               onClick={resetCategory}
@@ -153,87 +233,10 @@ export const ProductEditForm = ({
             </div>
           </div>
         </div>
-
-        <div className="grid grid-cols-[max-content_max-content_max-content] grid-rows-2 gap-x-4 gap-y-2">
-          <div>
-            <label htmlFor="buyPrice" className="text-sm text-stone-500">
-              Buy Price (€)
-            </label>
-            <Input
-              id="buyPrice"
-              name="buyPrice"
-              type="number"
-              placeholder="Buy Price"
-              data-next="sellPrice"
-              step={0.01}
-              containerClassName="w-[10ch]"
-              className="[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-              value={buyPrice}
-              onChange={({ target }) => {
-                setBuyPrice(target.value);
-                if (sellPrice === "") {
-                  setCustomMargin(false);
-                }
-                if (!customMargin) {
-                  setSellPrice(
-                    (Number(target.value) * (1 + defaultMargin)).toFixed(2),
-                  );
-                }
-              }}
-            />
-          </div>
-
-          <div>
-            <label htmlFor="sellPrice" className="text-sm text-stone-500">
-              Sell Price (€)
-            </label>
-            <Input
-              id="sellPrice"
-              name="sellPrice"
-              type="number"
-              placeholder="Sell Price"
-              data-next="buyInSubmit"
-              step={0.01}
-              value={sellPrice}
-              onChange={({ target }) => {
-                setCustomMargin(true);
-                setSellPrice(target.value);
-              }}
-              containerClassName="w-[10ch]"
-              className="[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-            />
-          </div>
-
-          <div>
-            <label htmlFor="resetPrices" className="text-sm text-stone-500">
-              Reset prices
-            </label>
-            <div
-              className="ml-2 flex h-fit cursor-pointer items-center justify-center rounded-md border p-3 hover:bg-stone-100"
-              onClick={() => {
-                resetBuyPrice();
-                resetSellPrice();
-              }}
-            >
-              <RotateCcw className="h-4 w-4" />
-            </div>
-          </div>
-
-          <span className="col-span-2 justify-self-center text-sm text-stone-500">
-            {customMargin
-              ? "(Custom Margin: " +
-                (
-                  (parseFloat(sellPrice) / parseFloat(buyPrice)) * 100 -
-                  100
-                ).toFixed(0) +
-                "%)"
-              : "(Default Margin: " + (defaultMargin * 100).toFixed(0) + "%)"}
-          </span>
-        </div>
       </div>
-      <div className="flex w-full flex-row-reverse justify-between gap-x-4">
+      <div className="flex w-full flex-row-reverse justify-start gap-x-4">
         <SubmitButton formAction={updateProduct}>Update Product</SubmitButton>
-        <Link href={`/admin/products`}>
+        <Link href={`/admin/products/${product.barcode}`}>
           <Button tabIndex={-1} variant="outline">
             Back
           </Button>
