@@ -4,6 +4,7 @@ import Barcode from "@/components/Barcode";
 import Label from "@/components/WithLabel";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
+import { currencyFormatter } from "@/lib/moneyFormatter";
 import { Box } from "@/server/requests/boxRequests";
 import { Product } from "@/server/requests/productRequests";
 import Link from "next/link";
@@ -31,10 +32,14 @@ export const ProductView = ({ product, boxes }: OwnProps) => {
                 </p>
               </Label>
               <Label label="Buy Price">
-                <p id="buyPrice">{(product.buyPrice / 100).toFixed(2)} €</p>
+                <p id="buyPrice">
+                  {currencyFormatter.format(product.buyPrice / 100)}
+                </p>
               </Label>
               <Label label="Sell Price">
-                <p id="sellPrice">{(product.sellPrice / 100).toFixed(2)} €</p>
+                <p id="sellPrice">
+                  {currencyFormatter.format(product.sellPrice / 100)}
+                </p>
               </Label>
             </div>
             <Label label="Category">

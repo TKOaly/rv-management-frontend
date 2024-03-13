@@ -1,5 +1,6 @@
 "use client";
 
+import { currencyFormatter } from "@/lib/moneyFormatter";
 import { Product } from "@/server/requests/productRequests";
 import { useAtomValue } from "jotai";
 import { atomWithReset } from "jotai/utils";
@@ -33,12 +34,9 @@ function ProductTable({ products }: { products: Product[] }) {
       return true;
     });
 
-  const sortedProducts = filteredProducts.sort((a, b) => {
-    const [nameA, nameB] = [a.name.toLowerCase(), b.name.toLowerCase()];
-    if (nameA > nameB) return 1;
-    if (nameA < nameB) return -1;
-    return 0;
-  });
+  const sortedProducts = filteredProducts.sort((a, b) =>
+    new Intl.Collator("fi", { sensitivity: "base" }).compare(a.name, b.name),
+  );
 
   const path = usePathname();
 
@@ -82,9 +80,9 @@ function ProductTable({ products }: { products: Product[] }) {
                     pcs
                   </p>
                   <p className="text-lg text-stone-500">
-                    {(product.buyPrice / 100).toFixed(2)} € →{" "}
+                    {currencyFormatter.format(product.buyPrice / 100)} →{" "}
                     <span className="font-semibold text-black">
-                      {(product.sellPrice / 100).toFixed(2)} €
+                      {currencyFormatter.format(product.sellPrice / 100)}
                     </span>
                   </p>
                 </div>

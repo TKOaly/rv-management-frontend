@@ -1,4 +1,4 @@
-"use const";
+"use client";
 
 import Barcode from "@/components/Barcode";
 import { Button } from "@/components/ui/button";
@@ -21,9 +21,9 @@ const AttachedBoxesList = ({ boxes, barcode }: OwnProps) => {
           {boxes.length === 0 && (
             <p className="text-center text-stone-500">No boxes attached</p>
           )}
-          {boxes.map((box, idx) => (
+          {boxes.map((box) => (
             <div
-              key={idx}
+              key={box.boxBarcode}
               className="mr-3 flex items-start justify-between rounded-lg border py-2 pl-4 transition-all hover:bg-stone-100"
             >
               <div className="flex w-full items-center">
