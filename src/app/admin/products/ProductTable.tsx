@@ -55,7 +55,7 @@ function ProductTable({ products }: { products: Product[] }) {
               href={`/admin/products/${product.barcode}`}
               key={product.barcode}
             >
-              <div className="flex cursor-pointer items-center justify-between border-b border-gray-200 p-4 transition-all hover:bg-stone-100">
+              <div className="flex cursor-pointer items-center justify-between border-b border-gray-200 px-4 py-3 transition-all hover:bg-stone-100">
                 <div className="w-1/3 whitespace-nowrap">
                   <h3 className="text-lg font-semibold">{product.name}</h3>
                   <p className="text-sm text-stone-500">{product.barcode}</p>
