@@ -63,7 +63,7 @@ export const ProductView = ({ product, boxes }: OwnProps) => {
             />
           </div>
         </div>
-        <hr />
+        <hr className="-mx-8" />
         <div className="flex h-full min-h-0 gap-x-2">
           <div className="flex h-full w-5/12 min-w-0 flex-col gap-y-2">
             <h3 className="text-lg font-semibold">Attached Boxes</h3>
