@@ -26,7 +26,7 @@ export const UserView = ({
   const transactions = useMemo(() => {
     if (view === "combined") {
       return [...depositHistory, ...purchaseHistory].toSorted(
-        (a, b) => new Date(a.time).getTime() - new Date(b.time).getTime(),
+        (a, b) => new Date(b.time).getTime() - new Date(a.time).getTime(),
       );
     }
 
