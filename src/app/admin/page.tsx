@@ -38,13 +38,15 @@ export default async function AdminDashboard() {
   /**
    * Calculate total stock value, which is the sum of
    * - a product's stock multiplied by min(buyPrice, sellPrice)
+   * Since the stock is in cents, we divide the sum by 100 to get the value in euros
    */
-  const totalStockValue = products.reduce((acc, product) => {
-    const stockValue =
-      Math.max(product.stock, 0) *
-      Math.min(product.buyPrice, product.sellPrice);
-    return acc + stockValue;
-  }, 0);
+  const totalStockValue =
+    products.reduce((acc, product) => {
+      const stockValue =
+        Math.max(product.stock, 0) *
+        Math.min(product.buyPrice, product.sellPrice);
+      return acc + stockValue;
+    }, 0) / 100;
 
   /**
    * Find lowest 10 stock counts, excluding products with stock less than 0
