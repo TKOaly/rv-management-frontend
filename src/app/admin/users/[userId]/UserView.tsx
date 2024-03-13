@@ -141,7 +141,7 @@ export const UserView = ({
           >
             {transactions.map((transaction) => (
               <>
-                <p className="text-left">
+                <p className="text-right">
                   {new Date(transaction.time).toLocaleDateString("fi-FI")}
                 </p>
                 {isPurchase(transaction) && transaction.price > 0 && (
