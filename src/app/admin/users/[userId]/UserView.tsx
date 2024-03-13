@@ -81,6 +81,20 @@ export const UserView = ({
               {(user.moneyBalance / 100).toFixed(2)} €
             </p>
           </div>
+
+          <div className="flex flex-col">
+            <label htmlFor="balance" className="text-sm text-stone-500">
+              Total spent
+            </label>
+            <p id="total-spent">
+              {currencyFormatter.format(
+                purchaseHistory.reduce((acc, purchase) => {
+                  if (purchase.price <= 0) return acc;
+                  return acc + purchase.price;
+                }, 0) / 100,
+              )}
+            </p>
+          </div>
         </div>
 
         <div className="flex h-full w-full flex-col overflow-clip px-4">
@@ -140,7 +154,7 @@ export const UserView = ({
                     </Link>
                     <p className="font-mono text-red-600">-</p>
                     <p className="text-right font-mono text-red-600">
-                      {currencyFormatter.format(transaction.price)}
+                      {currencyFormatter.format(transaction.price / 100)}
                     </p>
                   </>
                 )}
@@ -150,7 +164,7 @@ export const UserView = ({
                     <p></p>
                     <p className="font-mono text-green-700">+</p>
                     <p className="text-right font-mono text-green-700">
-                      {currencyFormatter.format(transaction.amount)}
+                      {currencyFormatter.format(transaction.amount / 100)}
                     </p>
                   </>
                 )}
