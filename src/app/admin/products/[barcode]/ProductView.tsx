@@ -4,11 +4,15 @@ import Barcode from "@/components/Barcode";
 import Label from "@/components/WithLabel";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
+import { Box } from "@/server/requests/boxRequests";
 import { Product } from "@/server/requests/productRequests";
 import Link from "next/link";
+import AttachedBoxesList from "./AttachedBoxesList";
 import ProductDeleteButton from "./ProductDeleteForm";
 
-export const ProductView = ({ product }: { product: Product }) => {
+type OwnProps = { product: Product; boxes: Box[] };
+
+export const ProductView = ({ product, boxes }: OwnProps) => {
   const { toast } = useToast();
 
   return (
@@ -56,6 +60,7 @@ export const ProductView = ({ product }: { product: Product }) => {
         </div>
         <hr />
         <h3 className="text-lg font-semibold">Attached boxes</h3>
+        <AttachedBoxesList boxes={boxes} />
       </div>
       <div className="flex gap-x-4">
         <Button asChild>
