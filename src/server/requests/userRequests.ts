@@ -67,7 +67,7 @@ export async function getUserDepositHistory(userId: number) {
 export async function getUserPurchaseHistory(userId: number) {
   "user server";
 
-  return await authenticated<{ deposits: Omit<Purchase, "user">[] }>(
+  return await authenticated<{ purchases: Omit<Purchase, "user">[] }>(
     `${process.env.RV_BACKEND_URL}/${targetUrl}/${userId}/purchaseHistory`,
     {
       method: "GET",
