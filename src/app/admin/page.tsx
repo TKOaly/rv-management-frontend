@@ -41,7 +41,8 @@ export default async function AdminDashboard() {
    */
   const totalStockValue = products.reduce((acc, product) => {
     const stockValue =
-      product.stock * Math.min(product.buyPrice, product.sellPrice);
+      Math.max(product.stock, 0) *
+      Math.min(product.buyPrice, product.sellPrice);
     return acc + stockValue;
   }, 0);
 
