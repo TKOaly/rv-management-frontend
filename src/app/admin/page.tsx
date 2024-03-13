@@ -1,4 +1,3 @@
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   Card,
   CardContent,
@@ -19,6 +18,7 @@ import {
   BadgeEuro,
   ChevronDown,
   ChevronsDown,
+  Recycle,
   ShoppingBasket,
   Skull,
 } from "lucide-react";
@@ -79,14 +79,13 @@ export default async function AdminDashboard() {
       return acc;
     }
 
-    if (acc.has(user.userId)) {
-      acc.set(user.userId, acc.get(user.userId)! + purchase.price);
-    } else {
-      acc.set(user.userId, purchase.price + user.moneyBalance);
-    }
-
+    acc.set(
+      user.userId,
+      (acc.get(user.userId) ?? user.moneyBalance) + purchase.price,
+    );
     return acc;
   }, new Map<number, number>());
+
   // Top 10 users by total purchase euros
   const topUsers = Array.from(userSpending)
     .sort((a, b) => b[1] - a[1])
@@ -94,6 +93,40 @@ export default async function AdminDashboard() {
     .map(([userId, cents]) => ({
       user: users.find((u) => u.userId === userId)!,
       spent: cents / 100,
+    }));
+
+  // Top 10 users by amount of can/bottle returns
+  const canHeroes = purchases.reduce((acc, purchase) => {
+    const user = purchase.user;
+
+    if (![80, 81].includes(purchase.product.category.categoryId)) {
+      return acc;
+    }
+    const isCanReturn = purchase.product.category.categoryId === 81;
+
+    if (acc.has(user.userId)) {
+      const current = acc.get(user.userId)!;
+      acc.set(user.userId, {
+        cans: current.cans + (isCanReturn ? 1 : 0),
+        bottles: current.bottles + (isCanReturn ? 0 : 1),
+      });
+    } else {
+      acc.set(user.userId, {
+        cans: isCanReturn ? 1 : 0,
+        bottles: isCanReturn ? 0 : 1,
+      });
+    }
+
+    return acc;
+  }, new Map<number, { cans: number; bottles: number }>());
+  const topCanHeroes = Array.from(canHeroes)
+    .sort((a, b) => b[1].cans + b[1].bottles - (a[1].cans + a[1].bottles))
+    .slice(0, 10)
+    .map(([userId, { cans, bottles }]) => ({
+      user: users.find((u) => u.userId === userId)!,
+      cans,
+      bottles,
+      total: cans + bottles,
     }));
 
   return (
@@ -209,7 +242,8 @@ export default async function AdminDashboard() {
             </CardContent>
           </Card>
         </div>
-        <div>
+
+        <div className="grid grid-cols-subgrid gap-4">
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -219,30 +253,56 @@ export default async function AdminDashboard() {
                 Top 10 users by total spent (all time) (spent + balance)
               </CardDescription>
             </CardHeader>
-            <CardContent className="flex flex-col gap-y-2">
+            <CardContent className="grid grid-cols-[max-content_max-content] items-center gap-x-2">
               {topUsers.map(({ user, spent }) => {
                 return (
-                  <div key={user.userId} className="flex gap-4">
-                    <Avatar className="h-12 w-12">
-                      <AvatarFallback>
-                        {user.fullName
-                          .split(" ")
-                          .map((name) => name[0])
-                          .join("")}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div className="flex flex-col">
-                      <span>{user.fullName}</span>
-                      <span className="text-stone-500 dark:text-stone-400">
-                        {currencyFormatter.format(spent)} in{" "}
-                        {numberFormatter.format(
-                          purchases.filter((p) => p.user.userId === user.userId)
-                            .length,
-                        )}{" "}
-                        purchases
-                      </span>
-                    </div>
-                  </div>
+                  <Fragment key={user.userId}>
+                    <span className="text-right text-sm text-stone-500 dark:text-stone-400">
+                      {currencyFormatter.format(spent)}
+                    </span>
+                    <span>{user.fullName}</span>
+                  </Fragment>
+                );
+              })}
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Recycle /> Palpa pros
+              </CardTitle>
+              <CardDescription>
+                Top 10 users by can/bottle returns (all time)
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="grid grid-cols-[max-content_max-content_1fr_1fr] items-center gap-x-2">
+              <span className="font-semibold text-stone-500 dark:text-stone-400">
+                Total
+              </span>
+              <span className="font-semibold text-stone-500 dark:text-stone-400">
+                User
+              </span>
+              <span className="text-right font-semibold text-stone-500 dark:text-stone-400">
+                Cans
+              </span>
+              <span className="text-right font-semibold text-stone-500 dark:text-stone-400">
+                Bottles
+              </span>
+              {topCanHeroes.map(({ user, cans, bottles, total }) => {
+                return (
+                  <Fragment key={user.userId}>
+                    <span className="text-right text-sm text-stone-500 dark:text-stone-400">
+                      {total}
+                    </span>
+                    <span>{user.fullName}</span>
+                    <span className="text-right text-sm text-stone-500 dark:text-stone-400">
+                      {cans}
+                    </span>
+                    <span className="text-right text-sm text-stone-500 dark:text-stone-400">
+                      {bottles}
+                    </span>
+                  </Fragment>
                 );
               })}
             </CardContent>
