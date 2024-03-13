@@ -22,11 +22,13 @@ import {
   ShoppingBasket,
   Skull,
 } from "lucide-react";
+import { Fragment } from "react";
 
 const currencyFormatter = Intl.NumberFormat("fi-FI", {
   style: "currency",
   currency: "EUR",
 });
+const numberFormatter = Intl.NumberFormat("fi-FI");
 
 export default async function AdminDashboard() {
   const products = await getAllProducts();
@@ -49,7 +51,7 @@ export default async function AdminDashboard() {
   const lowestStockProducts = products
     .filter((product) => product.stock > 0)
     .sort((a, b) => a.stock - b.stock)
-    .slice(0, 10);
+    .slice(0, 20);
 
   const groupedProductSales = purchases.reduce((acc, purchase) => {
     const product = purchase.product;
@@ -71,20 +73,26 @@ export default async function AdminDashboard() {
   // Sort users by total purchase euros
   const userSpending = purchases.reduce((acc, purchase) => {
     const user = purchase.user;
+
+    if (purchase.price <= 0) {
+      return acc;
+    }
+
     if (acc.has(user.userId)) {
       acc.set(user.userId, acc.get(user.userId)! + purchase.price);
     } else {
       acc.set(user.userId, purchase.price + user.moneyBalance);
     }
+
     return acc;
   }, new Map<number, number>());
   // Top 10 users by total purchase euros
   const topUsers = Array.from(userSpending)
     .sort((a, b) => b[1] - a[1])
     .slice(0, 10)
-    .map(([userId, euros]) => ({
+    .map(([userId, cents]) => ({
       user: users.find((u) => u.userId === userId)!,
-      spent: euros,
+      spent: cents / 100,
     }));
 
   return (
@@ -113,8 +121,8 @@ export default async function AdminDashboard() {
         </DropdownMenu>
       </h1>
       <div className="grid grid-cols-3 gap-4">
-        <div className="grid grid-cols-subgrid gap-4">
-          <Card>
+        <div className="grid auto-rows-max grid-cols-subgrid gap-4">
+          <Card className="h-max">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <BadgeEuro /> Stock value
@@ -136,20 +144,18 @@ export default async function AdminDashboard() {
                 <ChevronsDown /> Low stock
               </CardTitle>
               <CardDescription>
-                Bottom 10 items by stock value &gt; 0
+                Bottom 20 items by stock value &gt; 0
               </CardDescription>
             </CardHeader>
-            <CardContent>
-              <ul className="space-y-2">
-                {lowestStockProducts.map((product) => (
-                  <li key={product.barcode}>
-                    <span className="text-stone-500 dark:text-stone-400">
-                      {product.stock}x
-                    </span>
-                    <span>{product.name}</span>
-                  </li>
-                ))}
-              </ul>
+            <CardContent className="grid grid-cols-[max-content_max-content] items-center gap-x-2">
+              {lowestStockProducts.map((product) => (
+                <Fragment key={product.barcode}>
+                  <span className="text-right text-sm text-stone-500 dark:text-stone-400">
+                    {numberFormatter.format(product.stock)}
+                  </span>
+                  <span>{product.name}</span>
+                </Fragment>
+              ))}
             </CardContent>
           </Card>
         </div>
@@ -163,20 +169,18 @@ export default async function AdminDashboard() {
                 Top 10 products by sales (all time)
               </CardDescription>
             </CardHeader>
-            <CardContent>
-              <ul className="space-y-2">
-                {mostSoldProducts.map(([barcode, count]) => {
-                  const product = products.find((p) => p.barcode === barcode);
-                  return (
-                    <li key={barcode}>
-                      <span className="text-stone-500 dark:text-stone-400">
-                        {count}x
-                      </span>
-                      <span>{product?.name}</span>
-                    </li>
-                  );
-                })}
-              </ul>
+            <CardContent className="grid grid-cols-[max-content_max-content] items-center gap-x-2">
+              {mostSoldProducts.map(([barcode, count]) => {
+                const product = products.find((p) => p.barcode === barcode);
+                return (
+                  <Fragment key={barcode}>
+                    <span className="text-right text-sm text-stone-500 dark:text-stone-400">
+                      {numberFormatter.format(count)}
+                    </span>
+                    <span>{product?.name}</span>
+                  </Fragment>
+                );
+              })}
             </CardContent>
           </Card>
 
@@ -189,20 +193,18 @@ export default async function AdminDashboard() {
                 Bottom 10 products by sales (all time)
               </CardDescription>
             </CardHeader>
-            <CardContent>
-              <ul className="space-y-2">
-                {leastSoldProducts.map(([barcode, count]) => {
-                  const product = products.find((p) => p.barcode === barcode);
-                  return (
-                    <li key={barcode}>
-                      <span className="text-stone-500 dark:text-stone-400">
-                        {count}x
-                      </span>
-                      <span>{product?.name}</span>
-                    </li>
-                  );
-                })}
-              </ul>
+            <CardContent className="grid grid-cols-[max-content_max-content] items-center gap-x-2">
+              {leastSoldProducts.map(([barcode, count]) => {
+                const product = products.find((p) => p.barcode === barcode);
+                return (
+                  <Fragment key={barcode}>
+                    <span className="text-right text-sm text-stone-500 dark:text-stone-400">
+                      {numberFormatter.format(count)}
+                    </span>
+                    <span>{product?.name}</span>
+                  </Fragment>
+                );
+              })}
             </CardContent>
           </Card>
         </div>
@@ -216,7 +218,7 @@ export default async function AdminDashboard() {
                 Top 10 users by total spent (all time) (spent + balance)
               </CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="flex flex-col gap-y-2">
               {topUsers.map(({ user, spent }) => {
                 return (
                   <div key={user.userId} className="flex gap-4">
@@ -231,7 +233,12 @@ export default async function AdminDashboard() {
                     <div className="flex flex-col">
                       <span>{user.fullName}</span>
                       <span className="text-stone-500 dark:text-stone-400">
-                        {currencyFormatter.format(spent)}
+                        {currencyFormatter.format(spent)} in{" "}
+                        {numberFormatter.format(
+                          purchases.filter((p) => p.user.userId === user.userId)
+                            .length,
+                        )}{" "}
+                        purchases
                       </span>
                     </div>
                   </div>
