@@ -1,4 +1,8 @@
-import { getUser } from "@/server/requests/userRequests";
+import {
+  getUser,
+  getUserDepositHistory,
+  getUserPurchaseHistory,
+} from "@/server/requests/userRequests";
 import { UserView } from "./UserView";
 
 export default async function Product({
@@ -7,5 +11,14 @@ export default async function Product({
   params: { userId: string };
 }) {
   const user = await getUser(params.userId);
-  return <UserView user={user} />;
+  const depositHistory = await getUserDepositHistory(user.userId);
+  const purchaseHistory = await getUserPurchaseHistory(user.userId);
+
+  return (
+    <UserView
+      user={user}
+      depositHistory={depositHistory}
+      purchaseHistory={purchaseHistory}
+    />
+  );
 }

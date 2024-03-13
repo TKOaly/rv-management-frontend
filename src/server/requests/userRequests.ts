@@ -1,6 +1,7 @@
 "use server";
 
 import { authenticated } from "../wrappers";
+import { Deposit, Purchase } from "./historyRequests";
 import { QueryKeys } from "./queryKeys";
 import { UserRole } from "./types";
 
@@ -22,6 +23,8 @@ export type getAllUsersResponse = {
 export type User = getAllUsersResponse["users"][number];
 
 export async function getAllUsers() {
+  "use server";
+
   return await authenticated<getAllUsersResponse>(
     `${process.env.RV_BACKEND_URL}/${targetUrl}`,
     {
@@ -34,6 +37,8 @@ export async function getAllUsers() {
 }
 
 export async function getUser(userId: string) {
+  "use server";
+
   return await authenticated<{ user: User }>(
     `${process.env.RV_BACKEND_URL}/${targetUrl}/${userId}`,
     {
@@ -43,4 +48,32 @@ export async function getUser(userId: string) {
       },
     },
   ).then((data) => data.user);
+}
+
+export async function getUserDepositHistory(userId: number) {
+  "use server";
+
+  return await authenticated<{ deposits: Omit<Deposit, "user">[] }>(
+    `${process.env.RV_BACKEND_URL}/${targetUrl}/${userId}/depositHistory`,
+    {
+      method: "GET",
+      next: {
+        tags: [QueryKeys.deposits],
+      },
+    },
+  ).then((data) => data.deposits);
+}
+
+export async function getUserPurchaseHistory(userId: number) {
+  "user server";
+
+  return await authenticated<{ purchases: Omit<Purchase, "user">[] }>(
+    `${process.env.RV_BACKEND_URL}/${targetUrl}/${userId}/purchaseHistory`,
+    {
+      method: "GET",
+      next: {
+        tags: [QueryKeys.purchases],
+      },
+    },
+  ).then((data) => data.purchases);
 }

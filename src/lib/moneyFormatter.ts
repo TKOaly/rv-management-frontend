@@ -34,4 +34,13 @@ const applyMarginPercent = (money: number, marginPercent: number) => {
   return Math.round(money * ((100 + marginPercent) / 100));
 };
 
-export default { stringToCents, centsToString, applyMarginPercent };
+export const currencyFormatter = Intl.NumberFormat("fi-FI", {
+  style: "currency",
+  currency: "EUR",
+});
+
+export default {
+  stringToCents,
+  centsToString,
+  applyMarginPercent,
+};
