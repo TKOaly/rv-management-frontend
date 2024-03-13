@@ -60,4 +60,4 @@ export async function getAllPurchases() {
   ).then((data) => data.purchases);
 }
 
-export type Transaction = Deposit | Purchase;
+export type Transaction = Partial<Deposit> | Partial<Purchase>;

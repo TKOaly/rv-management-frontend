@@ -23,11 +23,7 @@ import {
   Skull,
 } from "lucide-react";
 import { Fragment } from "react";
-
-const currencyFormatter = Intl.NumberFormat("fi-FI", {
-  style: "currency",
-  currency: "EUR",
-});
+import { currencyFormatter } from "@/lib/moneyFormatter";
 const numberFormatter = Intl.NumberFormat("fi-FI");
 
 export default async function AdminDashboard() {

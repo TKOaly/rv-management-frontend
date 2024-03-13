@@ -1,14 +1,11 @@
 "use client";
 
 import { PurchaseRow } from "@/components/HistoryTable/PurchaseRow";
-import {
-  Deposit,
-  Purchase,
-  Transaction,
-} from "@/server/requests/historyRequests";
+import { Transaction } from "@/server/requests/historyRequests";
 import { useAtomValue } from "jotai";
 import { atomWithReset, useHydrateAtoms } from "jotai/utils";
 import { DepositRow } from "./DepositRow";
+import { isPurchase, isDeposit } from "@/lib/transactions";
 
 const filtersAtom = atomWithReset({});
 
@@ -28,14 +25,14 @@ function HistoryTable({
   const filteredData = initialData
     .filter((transaction) =>
       filters.username && filters.username.length > 0
-        ? transaction.user.username
+        ? transaction.user?.username
             .toLowerCase()
             .includes(filters.username.toLowerCase())
         : true,
     )
     .filter((transaction) =>
       filters.fullName && filters.fullName.length > 0
-        ? transaction.user.fullName
+        ? transaction.user?.fullName
             .toLowerCase()
             .includes(filters.fullName.toLowerCase())
         : true,
@@ -63,12 +60,5 @@ function HistoryTable({
     </div>
   );
 }
-
-const isPurchase = (transaction: Transaction): transaction is Purchase => {
-  return (transaction as Purchase).purchaseId !== undefined;
-};
-const isDeposit = (transaction: Transaction): transaction is Deposit => {
-  return (transaction as Deposit).depositId !== undefined;
-};
 
 export default HistoryTable;
