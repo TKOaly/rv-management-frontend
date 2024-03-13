@@ -44,7 +44,7 @@ function ProductTable({ products }: { products: Product[] }) {
 
   return (
     <div
-      className={`${/\/products\/\d+/g.test(path) ? "hidden xl:flex" : "flex"} h-full w-full overflow-y-auto rounded-lg border shadow-lg`}
+      className={`${/\/products\/\d+/g.test(path) ? "hidden w-3/5 xl:flex" : "flex w-full"} h-full overflow-y-auto rounded-lg border shadow-lg`}
     >
       <div className="w-full">
         {
@@ -62,8 +62,8 @@ function ProductTable({ products }: { products: Product[] }) {
               href={`/admin/products/${product.barcode}`}
               key={product.barcode}
             >
-              <div className="flex cursor-pointer items-center justify-between border-b border-gray-200 px-4 py-3 transition-all hover:bg-stone-100">
-                <div className="w-1/3 whitespace-nowrap">
+              <div className="flex cursor-pointer justify-between border-b border-gray-200 px-4 py-3 transition-all hover:bg-stone-100">
+                <div className="flex min-h-full w-1/3 flex-col justify-between whitespace-nowrap">
                   <h3 className="text-lg font-semibold">{product.name}</h3>
                   <p className="text-sm text-stone-500">{product.barcode}</p>
                 </div>

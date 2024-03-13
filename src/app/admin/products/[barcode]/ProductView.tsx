@@ -17,7 +17,7 @@ export const ProductView = ({ product, boxes }: OwnProps) => {
 
   return (
     <div className="flex h-full w-full flex-col justify-between gap-y-4">
-      <div className="flex w-full flex-col gap-y-4">
+      <div className="flex h-full min-h-0 w-full flex-col gap-y-4">
         <h1 className="text-2xl font-semibold">{product.name}</h1>
         <div className="flex justify-between">
           <div className="flex w-full flex-col gap-y-4">
@@ -59,14 +59,28 @@ export const ProductView = ({ product, boxes }: OwnProps) => {
           </div>
         </div>
         <hr />
-        <h3 className="text-lg font-semibold">Attached boxes</h3>
-        <AttachedBoxesList boxes={boxes} />
-      </div>
-      <div className="flex gap-x-4">
-        <Button asChild>
-          <Link href={`/admin/products/${product.barcode}/edit`}>Edit</Link>
-        </Button>
-        <ProductDeleteButton product={product} />
+        <div className="flex h-full min-h-0 gap-x-2">
+          <div className="flex h-full w-5/12 min-w-0 flex-col gap-y-2">
+            <h3 className="text-lg font-semibold">Attached Boxes</h3>
+            <AttachedBoxesList boxes={boxes} barcode={product.barcode} />
+          </div>
+          <div className="flex h-full w-7/12 min-w-0 flex-col justify-between gap-y-4 pb-8">
+            <div className="flex h-full min-h-0 flex-col gap-y-2">
+              <h3 className="text-lg font-semibold">Popularity Graph</h3>
+              <div className="flex h-full items-center justify-center rounded-lg border p-2">
+                <p>Placeholder</p>
+              </div>
+            </div>
+            <div className="flex justify-end gap-x-4">
+              <Button asChild>
+                <Link href={`/admin/products/${product.barcode}/edit`}>
+                  Edit Product Details
+                </Link>
+              </Button>
+              <ProductDeleteButton product={product} />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

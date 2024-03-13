@@ -74,7 +74,7 @@ export const ProductEditForm = ({
 
   return (
     <form
-      className="flex h-full w-full flex-col justify-between gap-y-4"
+      className="mb-8 flex h-full w-full flex-col justify-between gap-y-4"
       autoComplete="off"
     >
       <div
@@ -234,7 +234,7 @@ export const ProductEditForm = ({
           </div>
         </div>
       </div>
-      <div className="flex w-full flex-row-reverse justify-between gap-x-4">
+      <div className="flex w-full flex-row-reverse justify-start gap-x-4">
         <SubmitButton formAction={updateProduct}>Update Product</SubmitButton>
         <Link href={`/admin/products/${product.barcode}`}>
           <Button tabIndex={-1} variant="outline">

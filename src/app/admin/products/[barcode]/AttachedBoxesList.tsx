@@ -1,27 +1,49 @@
 "use const";
 
 import Barcode from "@/components/Barcode";
+import { Button } from "@/components/ui/button";
 import { Box } from "@/server/requests/boxRequests";
+import Link from "next/link";
 
 type OwnProps = {
   boxes: Box[];
+  barcode: string;
 };
 
-const AttachedBoxesList = ({ boxes }: OwnProps) => {
+const AttachedBoxesList = ({ boxes, barcode }: OwnProps) => {
   return (
-    <div className="relative h-full max-h-32 overflow-y-auto overscroll-none rounded-lg border shadow-lg">
-      <div>
-        {boxes.map((box, idx) => (
-          <div key={idx} className="flex gap-x-2 p-2">
-            <Barcode
-              barcode={box.boxBarcode}
-              width={3}
-              height={30}
-              displayInvalid
-            />
-            <p>{box.itemsPerBox}</p>
-          </div>
-        ))}
+    <div className="flex h-full min-h-0 flex-col">
+      <Button asChild variant="outline" className="z-10 mr-3 bg-white">
+        <Link href={`/admin/new/box?barcode=${barcode}`}>Attach Box</Link>
+      </Button>
+      <div className="-mt-2 h-full min-h-0 overflow-y-auto overscroll-none ">
+        <div className="flex flex-col gap-y-4 pb-8 pt-6">
+          {boxes.length === 0 && (
+            <p className="text-center text-stone-500">No boxes attached</p>
+          )}
+          {boxes.map((box, idx) => (
+            <div
+              key={idx}
+              className="mr-3 flex items-start justify-between rounded-lg border py-2 pl-4 transition-all hover:bg-stone-100"
+            >
+              <div className="flex w-full items-center">
+                <p className="text-lg font-semibold">
+                  {box.itemsPerBox}
+                  <span className="text-sm text-stone-500"> pcs</span>
+                </p>
+              </div>
+              <div className="-m-2 scale-90">
+                <Barcode
+                  barcode={box.boxBarcode}
+                  width={2}
+                  height={40}
+                  displayInvalid
+                  background="transparent"
+                />
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
