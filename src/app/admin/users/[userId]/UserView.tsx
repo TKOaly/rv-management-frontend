@@ -144,7 +144,7 @@ export const UserView = ({
                 <p className="text-left">
                   {new Date(transaction.time).toLocaleDateString("fi-FI")}
                 </p>
-                {isPurchase(transaction) && (
+                {isPurchase(transaction) && transaction.price > 0 && (
                   <>
                     <p>Bought</p>
                     <Link
@@ -155,6 +155,22 @@ export const UserView = ({
                     <p className="font-mono text-red-600">-</p>
                     <p className="text-right font-mono text-red-600">
                       {currencyFormatter.format(transaction.price / 100)}
+                    </p>
+                  </>
+                )}
+                {isPurchase(transaction) && transaction.price <= 0 && (
+                  <>
+                    <p>Returned</p>
+                    <Link
+                      href={`/admin/products/${transaction.product.barcode}`}
+                    >
+                      {transaction.product.name}
+                    </Link>
+                    <p className="font-mono text-green-700">+</p>
+                    <p className="text-right font-mono text-green-700">
+                      {currencyFormatter.format(
+                        Math.abs(transaction.price) / 100,
+                      )}
                     </p>
                   </>
                 )}
