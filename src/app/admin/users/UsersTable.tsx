@@ -1,5 +1,6 @@
 "use client";
 
+import { useCompactMode } from "@/lib/localSettings";
 import { UserRole } from "@/server/requests/types";
 import { User } from "@/server/requests/userRequests";
 import { useAtomValue } from "jotai";
@@ -48,10 +49,11 @@ function UserTable({ users }: { users: User[] }) {
     );
 
   const path = usePathname();
+  const compactMode = useCompactMode();
 
   return (
     <div
-      className={`${/\/users\/\d+/g.test(path) ? "hidden xl:flex" : "flex"} h-full w-full overflow-y-auto rounded-lg border shadow-lg`}
+      className={`${/\/users\/\d+/g.test(path) ? "hidden xl:flex" : "flex"} h-full w-full overflow-y-auto ${!compactMode && "rounded-lg border-y"} border-x shadow-lg`}
     >
       <div className="w-full">
         {
@@ -62,40 +64,68 @@ function UserTable({ users }: { users: User[] }) {
             </div>
           )
         }
-        {filteredUsers.map((user) => (
-          <Link
-            href={`/admin/users/${user.userId}`}
-            key={user.userId}
-            className="inline-grid w-full cursor-pointer grid-cols-3 border-b border-gray-200 px-4 py-3 transition-all hover:bg-stone-100"
-          >
-            <div className="whitespace-nowrap">
-              <h3 className="text-lg font-semibold">{user.username}</h3>
-              <p className="text-sm text-stone-500">{user.fullName}</p>
-            </div>
-            <div className="place-self-center self-center">
-              <p
-                className={
-                  user.role === UserRole.ADMIN
-                    ? "text-purple-600"
-                    : "text-stone-500"
-                }
-              >
-                {user.role}
-              </p>
-            </div>
-            <div className="flex flex-col items-end">
-              <p
-                className={`font-semibold ${user.moneyBalance < 0 ? "text-red-500" : "text-black"}`}
-              >
-                {(user.moneyBalance / 100).toFixed(2)} €
-              </p>
-              <p className="text-lg text-stone-500">{user.email}</p>
-            </div>
-          </Link>
-        ))}
+        {filteredUsers.map((user) =>
+          compactMode ? (
+            <CompactUser user={user} key={user.userId} />
+          ) : (
+            <NormalUser user={user} key={user.userId} />
+          ),
+        )}
       </div>
     </div>
   );
 }
 
 export default UserTable;
+
+const NormalUser = ({ user }: { user: User }) => (
+  <Link
+    href={`/admin/users/${user.userId}`}
+    key={user.userId}
+    className="inline-grid w-full cursor-pointer grid-cols-3 border-b border-gray-200 px-4 py-3 transition-all hover:bg-stone-100"
+  >
+    <div className="whitespace-nowrap">
+      <h3 className="text-lg font-semibold">{user.username}</h3>
+      <p className="text-base text-stone-500">{user.fullName}</p>
+    </div>
+    <div className="place-self-center self-center">
+      <p
+        className={`${
+          user.role === UserRole.ADMIN ? "text-purple-600" : "text-stone-500"
+        } text-lg`}
+      >
+        {user.role}
+      </p>
+    </div>
+    <div className="flex flex-col items-end">
+      <p
+        className={`font-semibold ${user.moneyBalance < 0 ? "text-red-500" : "text-black"} text-lg`}
+      >
+        {(user.moneyBalance / 100).toFixed(2)} €
+      </p>
+      <p className="text-base text-stone-500">{user.email}</p>
+    </div>
+  </Link>
+);
+
+const CompactUser = ({ user }: { user: User }) => (
+  <Link
+    href={`/admin/users/${user.userId}`}
+    key={user.userId}
+    className="grid w-full cursor-pointer grid-cols-5 items-center border-b border-gray-200 px-1 py-0.5 transition-all hover:bg-stone-100"
+  >
+    <h3 className="text-base font-semibold">{user.username}</h3>
+    <p className="text-base text-stone-500">{user.fullName}</p>
+    <p className="justify-self-end text-base text-stone-500">{user.email}</p>
+    <p
+      className={`${user.role === UserRole.ADMIN ? "text-purple-600" : "text-stone-500"} justify-self-end text-base`}
+    >
+      {user.role}
+    </p>
+    <p
+      className={`font-semibold ${user.moneyBalance < 0 ? "text-red-500" : "text-black"} justify-self-end text-base`}
+    >
+      {(user.moneyBalance / 100).toFixed(2)} €
+    </p>
+  </Link>
+);

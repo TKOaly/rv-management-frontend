@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
+import { useCompactMode } from "@/lib/localSettings";
 import { usePartialSetAtom } from "@/lib/utils";
 import { useAtomValue } from "jotai";
 import { useResetAtom } from "jotai/utils";
@@ -13,9 +14,10 @@ export default function ProductFilters() {
   const setFilters = usePartialSetAtom(productFiltersAtom);
   const resetFilters = useResetAtom(productFiltersAtom);
   const filters = useAtomValue(productFiltersAtom);
+  const compactMode = useCompactMode();
 
   return (
-    <div className="flex w-1/4 flex-col gap-y-4">
+    <div className={`flex w-1/4 flex-col gap-y-4 ${compactMode && "pt-10"}`}>
       <Button asChild variant="green" className="w-full">
         <Link href="/admin/new/product">New Product</Link>
       </Button>

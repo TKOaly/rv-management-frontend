@@ -1,5 +1,6 @@
 "use client";
 
+import { useCompactMode } from "@/lib/localSettings";
 import { currencyFormatter } from "@/lib/moneyFormatter";
 import { Product } from "@/server/requests/productRequests";
 import { useAtomValue } from "jotai";
@@ -15,6 +16,7 @@ export const productFiltersAtom = atomWithReset({
 
 function ProductTable({ products }: { products: Product[] }) {
   const filters = useAtomValue(productFiltersAtom);
+  const compactMode = useCompactMode();
 
   // Filter products based on set filters
   const filteredProducts = products
@@ -42,7 +44,7 @@ function ProductTable({ products }: { products: Product[] }) {
 
   return (
     <div
-      className={`${/\/products\/\d+/g.test(path) ? "hidden w-3/5 xl:flex" : "flex w-full"} h-full overflow-y-auto rounded-lg border shadow-lg`}
+      className={`${/\/products\/\d+/g.test(path) ? "hidden w-3/5 xl:flex" : "flex w-full"} h-full overflow-y-auto ${!compactMode && "rounded-lg border-y"} border-x shadow-lg`}
     >
       <div className="w-full">
         {
@@ -53,46 +55,85 @@ function ProductTable({ products }: { products: Product[] }) {
             </div>
           )
         }
-        {sortedProducts.map((product) => {
-          return (
-            <Link
-              tabIndex={-1}
-              href={`/admin/products/${product.barcode}`}
-              key={product.barcode}
-            >
-              <div className="flex cursor-pointer justify-between border-b border-gray-200 px-4 py-3 transition-all hover:bg-stone-100">
-                <div className="flex min-h-full w-1/3 flex-col justify-between whitespace-nowrap">
-                  <h3 className="text-lg font-semibold">{product.name}</h3>
-                  <p className="text-sm text-stone-500">{product.barcode}</p>
-                </div>
-                {/*<div className="hidden w-1/3 flex-col items-end truncate xl:flex">
-                  <p className=" text-stone-500">
-                    {product.category.description}
-                  </p>
-                </div>*/}
-                <div className="flex flex-col items-end">
-                  <p className="text-lg text-stone-500">
-                    <span
-                      className={`font-semibold ${product.stock < 0 ? "text-red-500" : "text-black"}`}
-                    >
-                      {product.stock}
-                    </span>{" "}
-                    pcs
-                  </p>
-                  <p className="text-lg text-stone-500">
-                    {currencyFormatter.format(product.buyPrice / 100)} →{" "}
-                    <span className="font-semibold text-black">
-                      {currencyFormatter.format(product.sellPrice / 100)}
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </Link>
-          );
-        })}
+        {sortedProducts.map((product) =>
+          compactMode ? (
+            <CompactProduct product={product} key={product.barcode} />
+          ) : (
+            <NormalProduct product={product} key={product.barcode} />
+          ),
+        )}
       </div>
     </div>
   );
 }
 
 export default ProductTable;
+
+const NormalProduct = ({ product }: { product: Product }) => {
+  return (
+    <Link tabIndex={-1} href={`/admin/products/${product.barcode}`}>
+      <div className="flex cursor-pointer justify-between border-b border-gray-200 px-4 py-3 transition-all hover:bg-stone-100">
+        <div className="flex min-h-full w-1/3 flex-col justify-between whitespace-nowrap">
+          <h3 className="text-lg font-semibold">{product.name}</h3>
+          <p className="text-sm text-stone-500">{product.barcode}</p>
+        </div>
+        {/*<div className="hidden w-1/3 flex-col items-end truncate xl:flex">
+                  <p className=" text-stone-500">
+                    {product.category.description}
+                  </p>
+                </div>*/}
+        <div className="flex flex-col items-end">
+          <p className="text-lg text-stone-500">
+            <span
+              className={`font-semibold ${product.stock < 0 ? "text-red-500" : "text-black"}`}
+            >
+              {product.stock}
+            </span>{" "}
+            pcs
+          </p>
+          <p className="text-lg text-stone-500">
+            {currencyFormatter.format(product.buyPrice / 100)} →{" "}
+            <span className="font-semibold text-black">
+              {currencyFormatter.format(product.sellPrice / 100)}
+            </span>
+          </p>
+        </div>
+      </div>
+    </Link>
+  );
+};
+
+const CompactProduct = ({ product }: { product: Product }) => {
+  const path = usePathname();
+
+  return (
+    <Link tabIndex={-1} href={`/admin/products/${product.barcode}`}>
+      <div
+        className={`grid cursor-pointer ${/\/products\/\d+/g.test(path) ? "grid-cols-3" : "grid-cols-5"} grid-rows-1 items-center border-b border-gray-200 px-1 py-0.5 transition-all hover:bg-stone-100`}
+      >
+        <h3
+          className={`${!/\/products\/\d+/g.test(path) && "col-span-2"} text-base font-semibold`}
+        >
+          {product.name}
+        </h3>
+        {!/\/products\/\d+/g.test(path) && (
+          <p className="text-base text-stone-500">{product.barcode}</p>
+        )}
+        <p className="justify-self-end text-base text-stone-500">
+          <span
+            className={`font-semibold ${product.stock < 0 ? "text-red-500" : "text-black"}`}
+          >
+            {product.stock}
+          </span>{" "}
+          pcs
+        </p>
+        <p className="justify-self-end whitespace-nowrap text-nowrap text-base text-stone-500">
+          {currencyFormatter.format(product.buyPrice / 100)} →{" "}
+          <span className="font-semibold text-black">
+            {currencyFormatter.format(product.sellPrice / 100)}
+          </span>
+        </p>
+      </div>
+    </Link>
+  );
+};

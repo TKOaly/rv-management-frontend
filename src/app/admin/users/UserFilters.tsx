@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
+import { useCompactMode } from "@/lib/localSettings";
 import { usePartialSetAtom } from "@/lib/utils";
 import { useAtomValue } from "jotai";
 import { useResetAtom } from "jotai/utils";
@@ -12,9 +13,10 @@ export default function UserFilters() {
   const setFilters = usePartialSetAtom(userFiltersAtom);
   const resetFilters = useResetAtom(userFiltersAtom);
   const filters = useAtomValue(userFiltersAtom);
+  const compactMode = useCompactMode();
 
   return (
-    <div className="flex w-1/4 flex-col gap-y-4">
+    <div className={`flex w-1/4 flex-col gap-y-4 ${compactMode && "pt-6"}`}>
       <label className="-mb-2 text-sm text-stone-500">Filters</label>
       <Button
         onClick={() => {

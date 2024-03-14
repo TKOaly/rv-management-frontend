@@ -35,7 +35,7 @@ export const UserView = ({
 
   return (
     <div className="flex h-full w-full flex-col gap-y-4">
-      <div className="flex h-full w-full gap-4 divide-x">
+      <div className="flex h-full w-full gap-4">
         <div className="flex h-full min-w-48 flex-col gap-4">
           <div className="flex gap-4">
             <div className="flex flex-col">
@@ -96,6 +96,8 @@ export const UserView = ({
             </p>
           </div>
         </div>
+
+        <div className="-my-8 border-l" />
 
         <div className="flex h-full w-full flex-col overflow-clip px-4">
           <div className="mb-2 flex gap-4 text-xl font-semibold">

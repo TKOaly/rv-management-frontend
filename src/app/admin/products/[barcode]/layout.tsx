@@ -1,9 +1,10 @@
+import ViewContainer from "@/components/ViewContainer";
 import { X } from "lucide-react";
 import Link from "next/link";
 
 async function ProductLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex h-full w-full flex-col items-start justify-start gap-y-4 rounded-lg border p-8 pb-0 shadow-lg">
+    <ViewContainer className="items-start justify-start border p-8 pb-0 shadow-lg">
       <div className="relative flex h-full w-full flex-col gap-y-4">
         <Link
           href={"/admin/products"}
@@ -13,7 +14,7 @@ async function ProductLayout({ children }: { children: React.ReactNode }) {
         </Link>
         {children}
       </div>
-    </div>
+    </ViewContainer>
   );
 }
 
