@@ -86,7 +86,7 @@ const NormalUser = ({ user }: { user: User }) => (
   >
     <div className="whitespace-nowrap">
       <h3 className="text-lg font-semibold">{user.username}</h3>
-      <p className="text-lg text-stone-500">{user.fullName}</p>
+      <p className="text-base text-stone-500">{user.fullName}</p>
     </div>
     <div className="place-self-center self-center">
       <p
@@ -103,7 +103,7 @@ const NormalUser = ({ user }: { user: User }) => (
       >
         {(user.moneyBalance / 100).toFixed(2)} €
       </p>
-      <p className="text-lg text-stone-500">{user.email}</p>
+      <p className="text-base text-stone-500">{user.email}</p>
     </div>
   </Link>
 );
@@ -112,18 +112,18 @@ const CompactUser = ({ user }: { user: User }) => (
   <Link
     href={`/admin/users/${user.userId}`}
     key={user.userId}
-    className="grid w-full cursor-pointer grid-cols-5 items-center border-b border-gray-200 px-2 py-1 transition-all hover:bg-stone-100"
+    className="grid w-full cursor-pointer grid-cols-5 items-center border-b border-gray-200 px-1 py-0.5 transition-all hover:bg-stone-100"
   >
-    <h3 className="text-lg font-semibold">{user.username}</h3>
-    <p className="text-lg text-stone-500">{user.fullName}</p>
-    <p className="justify-self-end text-lg text-stone-500">{user.email}</p>
+    <h3 className="text-base font-semibold">{user.username}</h3>
+    <p className="text-base text-stone-500">{user.fullName}</p>
+    <p className="justify-self-end text-base text-stone-500">{user.email}</p>
     <p
-      className={`${user.role === UserRole.ADMIN ? "text-purple-600" : "text-stone-500"} justify-self-end text-lg`}
+      className={`${user.role === UserRole.ADMIN ? "text-purple-600" : "text-stone-500"} justify-self-end text-base`}
     >
       {user.role}
     </p>
     <p
-      className={`font-semibold ${user.moneyBalance < 0 ? "text-red-500" : "text-black"} justify-self-end text-lg`}
+      className={`font-semibold ${user.moneyBalance < 0 ? "text-red-500" : "text-black"} justify-self-end text-base`}
     >
       {(user.moneyBalance / 100).toFixed(2)} €
     </p>

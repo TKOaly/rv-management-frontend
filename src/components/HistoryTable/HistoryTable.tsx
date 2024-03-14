@@ -1,11 +1,11 @@
 "use client";
 
 import { PurchaseRow } from "@/components/HistoryTable/PurchaseRow";
+import { isDeposit, isPurchase } from "@/lib/transactions";
 import { Transaction } from "@/server/requests/historyRequests";
 import { useAtomValue } from "jotai";
 import { atomWithReset, useHydrateAtoms } from "jotai/utils";
 import { DepositRow } from "./DepositRow";
-import { isPurchase, isDeposit } from "@/lib/transactions";
 
 const filtersAtom = atomWithReset({});
 
@@ -39,7 +39,7 @@ function HistoryTable({
     );
 
   return (
-    <div className="hidden h-full w-full overflow-y-auto rounded-lg border shadow-lg xl:flex">
+    <div className="h-full w-full overflow-y-auto rounded-lg border shadow-lg">
       <div className="w-full">
         {
           // Show a message if no products are found

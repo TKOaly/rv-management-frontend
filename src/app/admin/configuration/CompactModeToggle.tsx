@@ -20,7 +20,7 @@ export const CompactModeToggle = () => {
         <CardHeader>
           <CardTitle>
             Compact Mode{" "}
-            <span className="text-md font-normal text-stone-400">
+            <span className="text-base font-normal text-stone-400">
               - local setting
             </span>
           </CardTitle>

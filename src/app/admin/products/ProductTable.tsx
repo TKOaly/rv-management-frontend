@@ -109,17 +109,17 @@ const CompactProduct = ({ product }: { product: Product }) => {
   return (
     <Link tabIndex={-1} href={`/admin/products/${product.barcode}`}>
       <div
-        className={`grid cursor-pointer ${/\/products\/\d+/g.test(path) ? "grid-cols-3" : "grid-cols-5"} grid-rows-1 items-center border-b border-gray-200 px-2 py-1 transition-all hover:bg-stone-100`}
+        className={`grid cursor-pointer ${/\/products\/\d+/g.test(path) ? "grid-cols-3" : "grid-cols-5"} grid-rows-1 items-center border-b border-gray-200 px-1 py-0.5 transition-all hover:bg-stone-100`}
       >
         <h3
-          className={`${!/\/products\/\d+/g.test(path) && "col-span-2"} text-lg font-semibold`}
+          className={`${!/\/products\/\d+/g.test(path) && "col-span-2"} text-base font-semibold`}
         >
           {product.name}
         </h3>
         {!/\/products\/\d+/g.test(path) && (
-          <p className="text-sm text-stone-500">{product.barcode}</p>
+          <p className="text-base text-stone-500">{product.barcode}</p>
         )}
-        <p className="justify-self-end text-lg text-stone-500">
+        <p className="justify-self-end text-base text-stone-500">
           <span
             className={`font-semibold ${product.stock < 0 ? "text-red-500" : "text-black"}`}
           >
@@ -127,7 +127,7 @@ const CompactProduct = ({ product }: { product: Product }) => {
           </span>{" "}
           pcs
         </p>
-        <p className="justify-self-end text-lg text-stone-500">
+        <p className="justify-self-end whitespace-nowrap text-nowrap text-base text-stone-500">
           {currencyFormatter.format(product.buyPrice / 100)} →{" "}
           <span className="font-semibold text-black">
             {currencyFormatter.format(product.sellPrice / 100)}

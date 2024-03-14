@@ -48,7 +48,7 @@ const routes = [
 
 export default function AdminNavigation() {
   return (
-    <nav className="flex max-h-screen w-64 flex-col justify-between overflow-y-auto p-8">
+    <nav className="flex max-h-screen w-64 min-w-52 flex-col justify-between overflow-y-auto p-8">
       <div className="flex flex-col items-start gap-y-2">
         <Link href={"/admin"}>
           <div className="mb-4 flex flex-col gap-y-2">
