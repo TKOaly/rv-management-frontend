@@ -2,13 +2,12 @@
 
 import { PurchaseRow } from "@/components/HistoryTable/PurchaseRow";
 import { ReturnedRow } from "@/components/HistoryTable/ReturnedRow";
-import { Transaction } from "@/server/requests/historyRequests";
+import { isDeposit, isPurchase } from "@/lib/transactions";
+import { Purchase, Transaction } from "@/server/requests/historyRequests";
 import { useAtomValue } from "jotai";
 import { atomWithReset, useHydrateAtoms } from "jotai/utils";
-import { DepositRow } from "./DepositRow";
-import { isPurchase, isDeposit } from "@/lib/transactions";
 import { usePathname } from 'next/navigation';
-import { Purchase } from "@/server/requests/historyRequests";
+import { DepositRow } from "./DepositRow";
 
 const filtersAtom = atomWithReset({});
 
@@ -73,9 +72,10 @@ function HistoryTable({
 		.filter((transaction) => {
 			if (filters.search && filters.search.length > 0) {
 				const searchLower = filters.search.toLowerCase();
+        console.log(transaction.user)
 				return (
 					transaction.user?.username.toLowerCase().includes(searchLower) ||
-					transaction.user?.fullName.toLowerCase().includes(searchLower)
+					transaction.user?.fullName?.toLowerCase().includes(searchLower)
 				);
 			}
 			return true;

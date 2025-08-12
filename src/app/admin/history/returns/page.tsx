@@ -1,6 +1,8 @@
 import { TableAndFilter } from "@/components/HistoryTable/TableAndFilter";
 import { HeaderTab } from "@/components/ui/header-tab";
 import { getPagedPurchases } from "@/server/requests/historyRequests";
+import { ArrowLeft, ArrowRight } from "lucide-react";
+import Link from "next/link";
 import { historyTabs } from "../layout";
 
 
@@ -21,23 +23,15 @@ export default async function ReturnsPage({ searchParams }: { searchParams: { pa
         <TableAndFilter initialData={returns} />
       </div>
       <div className="flex justify-between mt-4">
-      {page != 1 && (
-        <a
-          href={`?page=${page > 1 ? page - 1 : 1}`}
-          className={`btn ${page === 1 ? "btn-disabled" : ""}`}
-        >
-          Previous
-        </a>
-        )}
-        <>page:{page}</>
-        {!isLastPage && (
-          <a
-            href={`?page=${page + 1}`}
-            className="btn"
-          >
-            Next
-          </a>
-        )}
+        {page != 1 && <Link href={`?page=${page > 1 ? page - 1 : 1}`}>
+        <ArrowLeft />
+        <span>page: {page}</span>
+        </Link>}
+        {!isLastPage && 
+                <Link  href={`?page=${page + 1}`}>
+        <ArrowRight />
+        </Link>
+}
       </div>
     </>
   );

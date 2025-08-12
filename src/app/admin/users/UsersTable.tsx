@@ -39,7 +39,7 @@ function UserTable({ users }) {
 				const searchLower = filters.search.toLowerCase();
 				return (
 					user.username.toLowerCase().includes(searchLower) ||
-					user.fullName.toLowerCase().includes(searchLower)
+					user.fullName?.toLowerCase().includes(searchLower)
 				);
 			}
 			return true;
